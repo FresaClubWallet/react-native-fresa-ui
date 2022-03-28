@@ -142,7 +142,7 @@ const Tabs = () => {
                 }}
             />
            <Tab.Screen
-                name="User"
+                name="Storefront"
                 component={Home}
                 options={{
                     tabBarIcon: ({ focused }) => (
@@ -164,7 +164,7 @@ const Tabs = () => {
                 }}
             />
             <Tab.Screen
-                name="Search"
+                name="MyProducts"
                 component={Home}
                 options={{
                     tabBarIcon: ({ focused }) => (
@@ -187,7 +187,7 @@ const Tabs = () => {
             />
 
             <Tab.Screen
-                name="Like"
+                name="Favourites"
                 component={Home}
                 options={{
                     tabBarIcon: ({ focused }) => (

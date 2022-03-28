@@ -103,10 +103,6 @@ const Home = ({ navigation }) => {
                 latitude: 1.5347282806345879,
                 longitude: 110.35632207358996,
             },
-            courier: {
-                avatar: images.avatar_1,
-                name: "Amy"
-            },
             menu: [
                 {
                     menuId: 1,
@@ -131,10 +127,6 @@ const Home = ({ navigation }) => {
                 latitude: 1.5347282806345879,
                 longitude: 110.35632207358996,
             },
-            courier: {
-                avatar: images.avatar_1,
-                name: "Amy"
-            },
             menu: [
                 {
                     menuId: 1,
@@ -158,10 +150,6 @@ const Home = ({ navigation }) => {
             location: {
                 latitude: 1.5347282806345879,
                 longitude: 110.35632207358996,
-            },
-            courier: {
-                avatar: images.avatar_1,
-                name: "Amy"
             },
             menu: [
                 {
@@ -189,16 +177,11 @@ const Home = ({ navigation }) => {
             rating: 4.8,
             categories: [5, 7],
             priceRating: affordable,
-            photo: images.burger_restaurant_1,
             image: "https://i.ibb.co/dJRxXmM/060fedb37f864637a7287b2e818c24a4.png",
             duration: "30 - 45 min",
             location: {
                 latitude: 1.5347282806345879,
                 longitude: 110.35632207358996,
-            },
-            courier: {
-                avatar: images.avatar_1,
-                name: "Amy"
             },
             menu: [
                 {
