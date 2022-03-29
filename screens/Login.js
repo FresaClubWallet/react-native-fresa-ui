@@ -9,10 +9,16 @@ import {
     FlatList,
     Pressable
 } from "react-native";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
 const Login = ({ navigation }) => {
+    const connector = useWalletConnect();
+
+    const connectWallet = React.useCallback(() => {
+      return connector.connect();
+    }, [connector]);
 
     function renderBody() {
         
@@ -29,7 +35,8 @@ const Login = ({ navigation }) => {
                     <Text style={{...FONTS.h5, marginTop: SIZES.marginTop2}}>Simply connect to your wallet to get started</Text>
                 </View>
                 <View style={{alignItems: 'center'}}>
-                <Pressable style={styles.button}>
+                <Pressable style={styles.button} 
+                    onPress={() => connectWallet()}>
                     <Text style={{color: 'white', ...FONTS.h3}}>Connect</Text>
                 </Pressable>
                 </View>
