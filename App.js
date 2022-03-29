@@ -1,15 +1,11 @@
 import React from 'react';
-import { Platform } from "react-native";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font';
 import { Restaurant, OrderDelivery, Login } from './screens'
 import Tabs from './navigation/tabs'
-import WalletConnectProvider, { useWalletConnect } from '@walletconnect/react-native-dapp';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import "@ethersproject/shims";
-const { scheme } = require('expo');
+import { useWalletConnect } from '@walletconnect/react-native-dapp';
 
 const Stack = createStackNavigator();
 
@@ -28,14 +24,6 @@ const App = () => {
     }
     
       return (
-        <WalletConnectProvider
-            clientMeta={{
-                name: 'FresaWallet',
-            }}
-            redirectUrl={Platform.OS === 'web' ? window.location.origin : `${scheme}://`}
-            storageOptions= {{
-                asyncStorage: AsyncStorage,
-            }}>
             <NavigationContainer>
                 <Stack.Navigator
                     screenOptions={{
@@ -52,7 +40,6 @@ const App = () => {
                         </>)}
                 </Stack.Navigator>
             </NavigationContainer>
-        </WalletConnectProvider>
       )
     
 }

@@ -6,8 +6,6 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    FlatList,
-    Pressable
 } from "react-native";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
@@ -15,7 +13,6 @@ import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
 const Login = ({ navigation }) => {
     const connector = useWalletConnect();
-
     const connectWallet = React.useCallback(() => {
       return connector.connect();
     }, [connector]);
@@ -29,16 +26,18 @@ const Login = ({ navigation }) => {
                     <Image source={images.iconLogo} style={styles.logo}/>
                 </View>
                 <View style={{alignItems: 'center', marginTop: 50}}>
-                    <Text style={{...FONTS.h1}}>Welcome to <span style={{color: COLORS.blue}}>Fresa</span></Text>
+                    <Text style={{...FONTS.h1}}>Welcome to <Text style={{color: COLORS.blue}}>Fresa</Text></Text>
                     <Text style={{marginTop: SIZES.marginTop1}}>Your are just a few steps away from starting</Text>
                     <Text>Your culinary adventure</Text>
                     <Text style={{...FONTS.h5, marginTop: SIZES.marginTop2}}>Simply connect to your wallet to get started</Text>
                 </View>
                 <View style={{alignItems: 'center'}}>
-                <Pressable style={styles.button} 
-                    onPress={() => connectWallet()}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => connectWallet()}
+                    >
                     <Text style={{color: 'white', ...FONTS.h3}}>Connect</Text>
-                </Pressable>
+                </TouchableOpacity>
                 </View>
             </View>
         )
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         elevation: 3,
         backgroundColor: COLORS.pink,
-        marginTop: 150
+        marginTop: 40
     },
     text: {
         fontSize: 16,
