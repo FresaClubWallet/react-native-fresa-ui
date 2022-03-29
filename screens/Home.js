@@ -300,7 +300,7 @@ const Home = ({ navigation }) => {
             return (
                 <TouchableOpacity style={{ backgroundColor: COLORS.white, borderRadius: SIZES.radius,marginBottom: 10 }}>
                     <View style={{ padding: SIZES.padding * 2, flexDirection: 'row', flexWrap: 'wrap'  }}>
-                        <View width='40' style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: '10px' }}>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: 10, width:40}}>
                             <Image
                                 source={images.berrynice}
                                 resizeMode="contain"

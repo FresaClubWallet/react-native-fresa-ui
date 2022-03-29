@@ -120,7 +120,7 @@ const Restaurant = ({ route, navigation }) => {
                             
                         }}
                     >
-                        <Text style={{ ...FONTS.h3,                        color: "white" }}>{restaurant?.name}</Text>
+                        <Text style={{ ...FONTS.h3, color: "white" }}>{restaurant?.name}</Text>
                     </View>
                 </View>
             </View>
