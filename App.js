@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native'
@@ -22,7 +22,7 @@ const App = () => {
     if(!loaded){
       return null;
     }
-    
+
       return (
             <NavigationContainer>
                 <Stack.Navigator

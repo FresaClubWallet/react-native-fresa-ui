@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
     SafeAreaView,
     View,
@@ -8,10 +8,53 @@ import {
     Image,
     FlatList
 } from "react-native";
-
+import { useWalletConnect } from '@walletconnect/react-native-dapp';
+import { ethers } from "ethers";
+import { Fresa__factory } from "../types";
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
+const NETWORK = 'https://alfajores-forno.celo-testnet.org'; //test net
+const cUSD_ADDRESS = "0x874069fa1eb16d44d622f2e0ca25eea172369bc1";
+const CONTRACT_ADDRESS = "0xba2C8354c22F1C8033DF24669a6a0920869157B8";
+
+const shortenAddress = (address) => {
+    return `${address.slice(0, 6)}...${address.slice(
+      address.length - 4,
+      address.length
+    )}`;
+  }
+
 const Home = ({ navigation }) => {
+    const connector = useWalletConnect();
+    const [balance, setBalance] = useState("Loading ...")
+
+    const provider = useMemo(
+        () => new ethers.providers.JsonRpcProvider(NETWORK),
+        []
+    );
+
+    const contract = useMemo(
+        () => new Fresa__factory().attach(CONTRACT_ADDRESS).connect(provider),
+        [provider]
+    );
+    
+
+    useEffect(async ()=>{
+        const none = await provider.getBalance(cUSD_ADDRESS)
+        let q = await ethers.utils.formatEther(none)
+        setBalance( (+q).toFixed(2))
+        callMethod();
+    })
+
+    const callMethod = async () => {
+        try {    
+          const readStoreFront = await contract.readStoreFront("0xd15c1e42c589b3800119bc5bf3d627ec20fb7cd5")
+          console.log(readStoreFront)
+        } catch (e) {
+          console.error(e);
+        }
+      };
+    
 
     // Dummy Datas
 
@@ -300,16 +343,16 @@ const Home = ({ navigation }) => {
     function renderSubNav() {
         return (
             <View style={{ width: "100%", height: "50px", backgroundColor: "#D9D5D5", flexDirection: 'row', flexWrap: 'wrap' }}>
-                <View style={{ height: "30px", width: "100px", borderRadius: "20px", backgroundColor: COLORS.primary, marginVertical: "10px", left: "10px" }}>
+                <View style={{ height: "30px", width: 150, borderRadius: "20px", backgroundColor: COLORS.primary, marginVertical: "10px", left: "10px" }}>
                     <Image
                         source={icons.cutlery}
                         resizeMode="contain"
                         height="25px"
                         width="25px"
                     />
-                    <Text style={{ color: "white", fontWeight: "bolder", paddingTop: "10px", paddingLeft: "10px", fontSize: "15px" }}>$19.00</Text>
+                    <Text style={{ color: "white", fontWeight: "bolder", paddingTop: 6, paddingLeft: "10px", fontSize: "15px" }}>{balance} cUSD</Text>
                 </View>
-                <Text style={{ marginTop: "20px", marginLeft: "20px", color: "#767070" }}>0x9f3DD64c084C88e8E456e9...</Text>
+                <Text style={{ marginTop: "20px", marginLeft: "20px", color: "#767070" }}>{shortenAddress(connector.accounts[0])}</Text>
             </View>
         )
     }
