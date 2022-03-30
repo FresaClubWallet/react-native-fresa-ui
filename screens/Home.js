@@ -10,11 +10,12 @@ import {
 } from "react-native";
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { ethers } from "ethers";
-
+import { Fresa__factory } from "../types";
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
 const NETWORK = 'https://alfajores-forno.celo-testnet.org'; //test net
 const cUSD_ADDRESS = "0x874069fa1eb16d44d622f2e0ca25eea172369bc1";
+const CONTRACT_ADDRESS = "0xba2C8354c22F1C8033DF24669a6a0920869157B8";
 
 const shortenAddress = (address) => {
     return `${address.slice(0, 6)}...${address.slice(
@@ -26,16 +27,34 @@ const shortenAddress = (address) => {
 const Home = ({ navigation }) => {
     const connector = useWalletConnect();
     const [balance, setBalance] = useState("Loading ...")
+
     const provider = useMemo(
         () => new ethers.providers.JsonRpcProvider(NETWORK),
         []
-      );
+    );
+
+    const contract = useMemo(
+        () => new Fresa__factory().attach(CONTRACT_ADDRESS).connect(provider),
+        [provider]
+    );
+    
 
     useEffect(async ()=>{
         const none = await provider.getBalance(cUSD_ADDRESS)
         let q = await ethers.utils.formatEther(none)
         setBalance( (+q).toFixed(2))
+        callMethod();
     })
+
+    const callMethod = async () => {
+        try {    
+          const readStoreFront = await contract.readStoreFront("0xd15c1e42c589b3800119bc5bf3d627ec20fb7cd5")
+          console.log(readStoreFront)
+        } catch (e) {
+          console.error(e);
+        }
+      };
+    
 
     // Dummy Datas
 
