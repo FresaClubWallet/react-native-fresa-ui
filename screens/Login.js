@@ -32,12 +32,12 @@ const Login = ({ navigation }) => {
                     <Text style={{...FONTS.h5, marginTop: SIZES.marginTop2}}>Simply connect to your wallet to get started</Text>
                 </View>
                 <View style={{alignItems: 'center'}}>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => connectWallet()}
-                    >
-                    <Text style={{color: 'white', ...FONTS.h3}}>Connect</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => connectWallet()}
+                        >
+                        <Text style={{color: 'white', ...FONTS.h3}}>Connect</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         )
