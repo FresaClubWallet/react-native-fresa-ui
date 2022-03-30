@@ -23,7 +23,6 @@ const App = () => {
       return null;
     }
 
-    // connector.killSession()
       return (
             <NavigationContainer>
                 <Stack.Navigator
@@ -32,7 +31,7 @@ const App = () => {
                     }}
                     initialRouteName={'Login'}
                 >
-                    {connector.connected ? (
+                    {!connector.connected ? (
                         <Stack.Screen name="Login" component={Login} />
                     ) :(<>
                         <Stack.Screen name="Home" component={Tabs} />
