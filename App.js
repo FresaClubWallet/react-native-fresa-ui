@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native'
@@ -22,7 +22,8 @@ const App = () => {
     if(!loaded){
       return null;
     }
-    
+
+    // connector.killSession()
       return (
             <NavigationContainer>
                 <Stack.Navigator
@@ -31,7 +32,7 @@ const App = () => {
                     }}
                     initialRouteName={'Login'}
                 >
-                    {!connector.connected ? (
+                    {connector.connected ? (
                         <Stack.Screen name="Login" component={Login} />
                     ) :(<>
                         <Stack.Screen name="Home" component={Tabs} />
