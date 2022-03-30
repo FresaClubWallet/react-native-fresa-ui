@@ -298,9 +298,9 @@ const Home = ({ navigation }) => {
     function renderOrderList() {
         const renderItem = ({ item }) => {
             return (
-                <TouchableOpacity style={{ backgroundColor: COLORS.white, borderRadius: SIZES.radius,marginBottom: 10 }}>
-                    <View style={{ padding: SIZES.padding * 2, flexDirection: 'row', flexWrap: 'wrap'  }}>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: 10, width:40}}>
+                <TouchableOpacity style={{ backgroundColor: COLORS.white, borderRadius: SIZES.radius, marginBottom: 10 }}>
+                    <View style={{ padding: SIZES.padding * 2, flexDirection: 'row', flexWrap: 'wrap' }}>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: 10, width: 40 }}>
                             <Image
                                 source={images.berrynice}
                                 resizeMode="contain"
@@ -335,9 +335,28 @@ const Home = ({ navigation }) => {
         )
     }
 
+    // Used to display balance & wallet address.
+    function renderSubNav() {
+        return (
+            <View style={{ width: "100%", height: "50px", backgroundColor: "#D9D5D5", flexDirection: 'row', flexWrap: 'wrap' }}>
+                <View style={{ height: "30px", width: "100px", borderRadius: "20px", backgroundColor: COLORS.primary, marginVertical: "10px", left: "10px" }}>
+                    <Image
+                        source={icons.cutlery}
+                        resizeMode="contain"
+                        height="25px"
+                        width="25px"
+                    />
+                    <Text style={{ color: "white", fontWeight: "bolder", paddingTop: "10px", paddingLeft: "10px", fontSize: "15px" }}>$19.00</Text>
+                </View>
+                <Text style={{ marginTop: "20px", marginLeft: "20px", color: "#767070" }}>0x9f3DD64c084C88e8E456e9...</Text>
+            </View>
+        )
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             {renderHeader()}
+            {renderSubNav()}
             {renderFavourites()}
             {renderOrderList()}
         </SafeAreaView>
