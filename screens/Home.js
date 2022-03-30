@@ -61,7 +61,7 @@ const Home = ({ navigation }) => {
             isVendorTx: false
         },
         {
-            id: 4,
+            id: 5,
             address: "",
             image: "https://i.ibb.co/dJRxXmM/060fedb37f864637a7287b2e818c24a4.png",
             vendor_title: "Berry Nice Strawberries",
@@ -70,7 +70,7 @@ const Home = ({ navigation }) => {
             isVendorTx: false
         },
         {
-            id: 4,
+            id: 6,
             address: "",
             image: "https://i.ibb.co/dJRxXmM/060fedb37f864637a7287b2e818c24a4.png",
             vendor_title: "Berry Nice Strawberries",
@@ -79,7 +79,7 @@ const Home = ({ navigation }) => {
             isVendorTx: false
         },
         {
-            id: 4,
+            id: 7,
             address: "",
             image: "https://i.ibb.co/dJRxXmM/060fedb37f864637a7287b2e818c24a4.png",
             vendor_title: "Berry Nice Strawberries",
@@ -214,14 +214,15 @@ const Home = ({ navigation }) => {
 
     function renderHeader() {
         return (
-            <View style={{ flexDirection: 'row', height: 80 }}>
-
-
+            <View style={{ flexDirection: 'row', height: 50 }}>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: "#e71963", paddingBottom: 10, paddingTop: 10 }}>
-
+                    <View style={{ height: 34, width: 250, background: "#14131336" }}>
+                        <Text style={{ padding: 10, color: "white" }}>0x9f3DD64c084C88e8E456e9...</Text>
+                    </View>
+                    <View>
+                        <Image width="50px" height="50px" source={icons.qr}></Image>
+                    </View>
                 </View>
-
-
             </View>
         )
     }
@@ -234,7 +235,7 @@ const Home = ({ navigation }) => {
                         padding: SIZES.padding,
                         paddingBottom: SIZES.padding * 2,
                         backgroundColor: COLORS.white,
-                        borderRadius: SIZES.radius,
+                        boxShadow: "3px 3px 18px -15px",
                         alignItems: "center",
                         justifyContent: "center",
                         marginRight: SIZES.padding,
@@ -245,42 +246,42 @@ const Home = ({ navigation }) => {
                         currentLocation
                     })}
                 >
-                    <View
-                        style={{
-                            width: 100,
-                            height: 100,
-                            borderRadius: 25,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: COLORS.lightGray
-                        }}
-                    >
-                        <Image
-                            source={images.berrynice}
-                            resizeMode="contain"
-                            style={{
-                                width: 90,
-                                height: 90
-                            }}
-                        />
+
+                    <View>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                            <Image
+                                source={images.strawberry_picking}
+                                resizeMode="cover"
+                                style={{
+                                    width: 100,
+                                    height: 100,
+                                }}
+                            />
+                            <View style={{ flexWrap: 'wrap', flexDirection: 'col', width: "150px" }}>
+                                <Text style={{ ...FONTS.h5, paddingLeft: "10px" }}><Text>$10</Text> - Basket.</Text>
+                                <Text style={{ paddingLeft: "10px" }}>Basket of fresh strawberries</Text>
+                                <View style={{ height: '10px', margin: '10px', flexDirection: 'row', flexWrap: 'wrap' }}>
+                                    <View style={{ width: "50%", height: "50px" }}>
+                                        <Text style={{...FONTS.h5}}>Stock</Text>
+                                        <Text>20</Text>
+                                    </View>
+                                    <View style={{ width: "50%", height: "50px" }}>
+                                        <Text style={{...FONTS.h5}}>Sold</Text>
+                                        <Text>20</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
                     </View>
 
-                    <Text
-                        style={{
-                            marginTop: SIZES.padding,
-                            color: COLORS.black,
-                            ...FONTS.body5
-                        }}
-                    >
-                        {item.name}
-                    </Text>
+
                 </TouchableOpacity>
             )
         }
 
         return (
             <View style={{ padding: SIZES.padding * 2 }}>
-                <Text style={{ ...FONTS.h3 }}>My favourites</Text>
+                <Text style={{ ...FONTS.h3 }}>My Products</Text>
                 <TouchableOpacity>
                     <FlatList
                         data={categories}
@@ -291,46 +292,6 @@ const Home = ({ navigation }) => {
                         contentContainerStyle={{ paddingVertical: SIZES.padding * 2 }}
                     />
                 </TouchableOpacity>
-            </View>
-        )
-    }
-
-    function renderOrderList() {
-        const renderItem = ({ item }) => {
-            return (
-                <TouchableOpacity style={{ backgroundColor: COLORS.white, borderRadius: SIZES.radius, marginBottom: 10 }}>
-                    <View style={{ padding: SIZES.padding * 2, flexDirection: 'row', flexWrap: 'wrap' }}>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: 10, width: 40 }}>
-                            <Image
-                                source={images.berrynice}
-                                resizeMode="contain"
-                                style={{
-                                    width: 40,
-                                    height: 40
-                                }}
-                            />
-                        </View>
-                        <View>
-                            <Text style={{ ...FONTS.h4 }}>{item.vendor_title}</Text>
-                            <Text style={{ ...FONTS.p }}>{item.vendor_description} - ${item.total_price}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            )
-        }
-
-        return (
-            <View style={{ padding: SIZES.padding * 2 }}>
-                <Text style={{ ...FONTS.h3 }}>Recent Orders</Text>
-
-                <FlatList
-                    data={orders}
-                    showsHorizontalScrollIndicator={false}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={item => `${item.id}`}
-                    renderItem={renderItem}
-                    contentContainerStyle={{ paddingVertical: SIZES.padding * 2 }}
-                />
             </View>
         )
     }
@@ -358,7 +319,6 @@ const Home = ({ navigation }) => {
             {renderHeader()}
             {renderSubNav()}
             {renderFavourites()}
-            {renderOrderList()}
         </SafeAreaView>
     )
 }
