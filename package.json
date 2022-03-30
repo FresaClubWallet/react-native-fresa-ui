@@ -51,7 +51,8 @@
   "name": "fresa-wallet",
   "devDependencies": {
     "@babel/core": "~7.13.0",
-    "@babel/preset-env": "^7.1.6"
+    "@babel/preset-env": "^7.1.6",
+    "@types/react-native": "~0.64.12"
   },
   "private": true
 }
