@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font';
-import { Restaurant, Login } from './screens'
+import { Restaurant, Login, Vendor } from './screens'
 import Tabs from './navigation/tabs'
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 
@@ -22,7 +22,7 @@ const App = () => {
     if(!loaded){
       return null;
     }
-
+    
       return (
             <NavigationContainer>
                 <Stack.Navigator
@@ -35,6 +35,7 @@ const App = () => {
                         <Stack.Screen name="Login" component={Login} />
                     ) :(<>
                         <Stack.Screen name="Home" component={Tabs} />
+                        <Stack.Screen name="Vendor" component={Tabs} />
                         <Stack.Screen name="Restaurant" component={Restaurant} />
                         </>)}
                 </Stack.Navigator>

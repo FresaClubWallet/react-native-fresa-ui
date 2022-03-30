@@ -44,7 +44,7 @@ const Home = ({ navigation }) => {
         let q = await ethers.utils.formatEther(none)
         setBalance( (+q).toFixed(2))
         callMethod();
-    })
+    }, [balance])
 
     const callMethod = async () => {
         try {    
