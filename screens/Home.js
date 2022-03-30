@@ -16,6 +16,7 @@ import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 import SubNav from "../components/SubNav";
 import Header from "../components/Header";
 import MyProductsSlider from "../components/dashboard/MyProductsSlider"
+import MyOrders from "../components/dashboard/MyOrders";
 
 const NETWORK = 'https://alfajores-forno.celo-testnet.org'; //test net
 const cUSD_ADDRESS = "0x874069fa1eb16d44d622f2e0ca25eea172369bc1";
@@ -104,6 +105,63 @@ const Home = ({ navigation }) => {
                     price: 1
                 }
             ]
+        },
+        {
+            id: 2,
+            name: "Berry Nicee Strawberries",
+            image: "https://i.ibb.co/dJRxXmM/0160fedb37f864637a7287b2e818c24a4.png",
+            location: {
+                latitude: 1.5347282806345879,
+                longitude: 110.35632207358996,
+            },
+            menu: [
+                {
+                    menuId: 1,
+                    name: "1 Basket of fresh strawberries.",
+                    photo: images.strawberry_picking,
+                    description: "A Basket of fresh strawberries picked for our fresaclub members.",
+                    calories: 100,
+                    price: 1
+                }
+            ]
+        },
+        {
+            id: 3,
+            name: "Berry Nicee Strawberries",
+            image: "https://i.ibb.co/dJRxXmM/0160fedb37f864637a7287b2e818c24a4.png",
+            location: {
+                latitude: 1.5347282806345879,
+                longitude: 110.35632207358996,
+            },
+            menu: [
+                {
+                    menuId: 1,
+                    name: "1 Basket of fresh strawberries.",
+                    photo: images.strawberry_picking,
+                    description: "A Basket of fresh strawberries picked for our fresaclub members.",
+                    calories: 100,
+                    price: 1
+                }
+            ]
+        },
+        {
+            id: 4,
+            name: "Berry Nicee Strawberries",
+            image: "https://i.ibb.co/dJRxXmM/0160fedb37f864637a7287b2e818c24a4.png",
+            location: {
+                latitude: 1.5347282806345879,
+                longitude: 110.35632207358996,
+            },
+            menu: [
+                {
+                    menuId: 1,
+                    name: "1 Basket of fresh strawberries.",
+                    photo: images.strawberry_picking,
+                    description: "A Basket of fresh strawberries picked for our fresaclub members.",
+                    calories: 100,
+                    price: 1
+                }
+            ]
         }
     ]
 
@@ -118,7 +176,9 @@ const Home = ({ navigation }) => {
     function renderProducts() {
         getProducts("0x9f3DD64c084C88e8E456e9BAdbc1ebbC624941be");
         return (
-            <MyProductsSlider products={products}></MyProductsSlider>
+            <View>
+                <MyProductsSlider products={categories}></MyProductsSlider>
+            </View>
         )
     }
 
@@ -134,6 +194,7 @@ const Home = ({ navigation }) => {
             {renderHeader()}
             {renderSubNav()}
             {renderProducts()}
+            <MyOrders products={categories}></MyOrders>
         </SafeAreaView>
     )
 }
