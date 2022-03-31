@@ -3,7 +3,7 @@ import React, { useEffect, useContext, useMemo, useState } from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font';
-import { Restaurant, Login, Vendor } from './screens'
+import { Restaurant, Login } from './screens'
 import Tabs from './navigation/tabs'
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import AppContext from './components/AppContext'; 
@@ -49,8 +49,8 @@ const App = () => {
     if(!loaded){
       return null;
     }
-    // disConnectWallet()
-      return (
+
+    return (
         <AppContext.Provider value={{
           ...appContext,
           balance: balance
