@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState, useContext } from "react";
 import {
     SafeAreaView,
     View,
@@ -10,24 +10,14 @@ import {
     TextInput,
 } from "react-native";
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
-import { ethers } from "ethers";
-import { Fresa__factory } from "../types";
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
+import AppContext from '../components/AppContext'; 
+import SubNav from "../components/SubNav";
 
-const NETWORK = 'https://alfajores-forno.celo-testnet.org'; //test net
-const cUSD_ADDRESS = "0x874069fa1eb16d44d622f2e0ca25eea172369bc1";
-const CONTRACT_ADDRESS = "0xba2C8354c22F1C8033DF24669a6a0920869157B8";
-
-const shortenAddress = (address) => {
-    return `${address.slice(0, 6)}...${address.slice(
-      address.length - 4,
-      address.length
-    )}`;
-  }
 
 const Vendor = ({ navigation }) => {
     const connector = useWalletConnect();
-    const [balance, setBalance] = useState("Loading ...")
+    const appContext = useContext(AppContext);
     const [messageVendor, setMessageVendor] = useState("");
     const [storeName, setStoreName] = useState(null);
     const [storeImage, setStoreImage] = useState(null);
@@ -35,29 +25,11 @@ const Vendor = ({ navigation }) => {
     const [storeLat, setStoreLat] = useState(null);
     const [storeLong, setStoreLong] = useState(null);
 
-    const provider = useMemo(
-        () => new ethers.providers.JsonRpcProvider(NETWORK),
-        []
-    );
-
-    const contract = useMemo(
-        () => new Fresa__factory().attach(CONTRACT_ADDRESS).connect(provider),
-        [provider]
-    );
-    
-
-    useEffect(async ()=>{
-        const none = await provider.getBalance(cUSD_ADDRESS)
-        let q = await ethers.utils.formatEther(none)
-        setBalance((+q).toFixed(2))
-        readStoreFront();
-    },[balance])
-
     const readStoreFront = async () => {
         try {    
-            const readStoreFront = await contract.readStoreFront(connector.accounts[0])
+            const readStoreFront = await appContext.contract.readStoreFront(appContext.address)
             // check store front if null address , vendor not add
-            if (readStoreFront[0].toLowerCase() !== connector.accounts[0].toLowerCase()){
+            if (readStoreFront[0].toLowerCase() !== appContext.address.toLowerCase()){
                 setMessageVendor("You don't have store front yet!")
             } else {
                 setMessageVendor("")
@@ -74,9 +46,9 @@ const Vendor = ({ navigation }) => {
 
     const writeStoreFront = async () => {
         try {
-            const signed = await contract.populateTransaction["writeStoreFront"](
+            const signed = await appContext.contract.populateTransaction["writeStoreFront"](
                 storeName, storeImage, storeDescription, storeLat, storeLong, {
-                    from: connector.accounts[0]
+                    from: appContext.address
                 });
         
               console.log({ signed });
@@ -97,7 +69,7 @@ const Vendor = ({ navigation }) => {
 
     function renderHeader() {
         return (
-            <View style={{ flexDirection: 'row', height: 80 }}>
+            <View style={{ flexDirection: 'row', height: 50 }}>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: "#e71963", paddingBottom: 10, paddingTop: 10 }}>
                 </View>
             </View>
@@ -107,18 +79,7 @@ const Vendor = ({ navigation }) => {
     // Used to display balance & wallet address.
     function renderSubNav() {
         return (
-            <View style={{ width: "100%", height: "50px", backgroundColor: "#D9D5D5", flexDirection: 'row', flexWrap: 'wrap' }}>
-                <View style={{ height: "30px", width: 150, borderRadius: "20px", backgroundColor: COLORS.primary, marginVertical: "10px", left: "10px" }}>
-                    <Image
-                        source={icons.cutlery}
-                        resizeMode="contain"
-                        height="25px"
-                        width="25px"
-                    />
-                    <Text style={{ color: "white", fontWeight: "bolder", paddingTop: 6, paddingLeft: "10px", fontSize: "15px" }}>{balance} cUSD</Text>
-                </View>
-                <Text style={{ marginTop: "20px", marginLeft: "20px", color: "#767070" }}>{shortenAddress(connector.accounts[0])}</Text>
-            </View>
+            <SubNav balance={appContext.balance} address={appContext.address}></SubNav>
         )
     }
 
