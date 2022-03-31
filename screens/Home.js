@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useContext } from "react";
 import {
     SafeAreaView,
     View,
@@ -17,6 +17,7 @@ import SubNav from "../components/SubNav";
 import Header from "../components/Header";
 import MyProductsSlider from "../components/dashboard/MyProductsSlider"
 import MyOrders from "../components/dashboard/MyOrders";
+import AppContext from '../components/AppContext'; 
 
 const NETWORK = 'https://alfajores-forno.celo-testnet.org'; //test net
 const cUSD_ADDRESS = "0x874069fa1eb16d44d622f2e0ca25eea172369bc1";
@@ -33,6 +34,7 @@ const shortenAddress = (address) => {
 const Home = ({ navigation }) => {
     const connector = useWalletConnect();
     const [balance, setBalance] = useState("Loading ...")
+    const appContext = useContext(AppContext);
 
     const provider = useMemo(
         () => new ethers.providers.JsonRpcProvider(NETWORK),
@@ -188,7 +190,7 @@ const Home = ({ navigation }) => {
             <SubNav balance={balance} address={connector.accounts[0]}></SubNav>
         )
     }
-
+    console.log(appContext)
     return (
         <SafeAreaView style={styles.container}>
             {renderHeader()}

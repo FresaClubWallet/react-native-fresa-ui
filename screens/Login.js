@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import {
     SafeAreaView,
     View,
@@ -8,14 +8,25 @@ import {
     Image,
 } from "react-native";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
-
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
+import AppContext from '../components/AppContext'; 
 
 const Login = ({ navigation }) => {
     const connector = useWalletConnect();
+    const appContext = useContext(AppContext);
+
     const connectWallet = React.useCallback(() => {
-      return connector.connect();
-    }, [connector]);
+        return connector.connect();
+    })
+    const disConnectWallet = React.useCallback(() => {
+        return connector.killSession();
+    })
+    useEffect(() => {
+        if (connector.connect())
+            if (connector.chainId != appContext.chainId) {
+                return disConnectWallet();
+            }
+    }, [connector])    
 
     function renderBody() {
         
