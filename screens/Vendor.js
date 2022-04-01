@@ -1,9 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
     SafeAreaView,
     View,
     Text,
     StyleSheet,
+    Animated,
     TouchableOpacity,
     Image,
     FlatList,
@@ -18,12 +19,60 @@ import SubNav from "../components/SubNav";
 const Vendor = ({ navigation }) => {
     const connector = useWalletConnect();
     const appContext = useContext(AppContext);
+    const moveText = useRef(new Animated.Value(0)).current;
+
     const [messageVendor, setMessageVendor] = useState("");
     const [storeName, setStoreName] = useState(null);
     const [storeImage, setStoreImage] = useState(null);
     const [storeDescription, setStoreDescription] = useState(null);
     const [storeLat, setStoreLat] = useState(null);
     const [storeLong, setStoreLong] = useState(null);
+    const [labelSubmit, setLabelSubmit] = useState("");
+
+    useEffect(()=>{
+        readStoreFront();
+    },[connector])
+
+    const onFocusHandler = (value) => {
+        if (value !== "") {
+          moveTextTop();
+        }
+      };
+    
+    const onBlurHandler = (value) => {
+    if (value === "") {
+        moveTextBottom();
+    }
+    };
+
+    const moveTextTop = () => {
+    Animated.timing(moveText, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+    }).start();
+    };
+
+    const moveTextBottom = () => {
+        Animated.timing(moveText, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }).start();
+      };
+
+    const yVal = moveText.interpolate({
+        inputRange: [0, 1],
+        outputRange: [4, -20],
+      });
+    
+      const animStyle = {
+        transform: [
+          {
+            translateY: yVal,
+          },
+        ],
+      };
 
     const readStoreFront = async () => {
         try {    
@@ -31,8 +80,10 @@ const Vendor = ({ navigation }) => {
             // check store front if null address , vendor not add
             if (readStoreFront[0].toLowerCase() !== appContext.address.toLowerCase()){
                 setMessageVendor("You don't have store front yet!")
+                setLabelSubmit("Create")
             } else {
                 setMessageVendor("")
+                setLabelSubmit("Update")
                 setStoreName(readStoreFront[1])
                 setStoreImage(readStoreFront[2])
                 setStoreDescription(readStoreFront[3])
@@ -87,49 +138,126 @@ const Vendor = ({ navigation }) => {
     function renderStoreFront() {
         return (
             <>
-                <View style={{ width: "100%", height: 30, textAlign: 'center' }}>
+                <View style={{ width: "100%", height: 20, textAlign: 'center' }}>
                     <Text style={{ marginTop: 10, color: "#767070", alignItems: "center" }}>{messageVendor}</Text>
                 </View>
                 <View>
+                <View style={styles.container_input}>
+                    <Animated.View style={[styles.animatedStyle, animStyle]}>
+                        <Text style={styles.label}>Your store name</Text>
+                    </Animated.View>
                     <TextInput
+                        autoCapitalize={"none"}
                         style={styles.input}
-                        onChangeText={setStoreName}
                         value={storeName}
-                        placeholder="Store name"
+                        onChangeText={setStoreName}
+                        editable={true}
+                        onFocus={onFocusHandler(storeName)}
+                        onBlur={onBlurHandler(storeName)}
+                        blurOnSubmit
                     />
+                </View>
+
+                <View style={styles.container_input}>
+                    <Animated.View style={[styles.animatedStyle, animStyle]}>
+                        <Text style={styles.label}>Image Url</Text>
+                    </Animated.View>
                     <TextInput
+                        autoCapitalize={"none"}
                         style={styles.input}
-                        onChangeText={setStoreImage}
                         value={storeImage}
-                        placeholder="Image url"
+                        onChangeText={setStoreImage}
+                        editable={true}
+                        onFocus={onFocusHandler(storeImage)}
+                        onBlur={onBlurHandler(storeImage)}
+                        blurOnSubmit
                     />
+                </View>
+
+                <View style={styles.container_input}>
+                    <Animated.View style={[styles.animatedStyle, animStyle]}>
+                        <Text style={styles.label}>Store description</Text>
+                    </Animated.View>
                     <TextInput
+                        autoCapitalize={"none"}
                         style={styles.input}
-                        onChangeText={setStoreDescription}
                         value={storeDescription}
-                        placeholder="Store description"
+                        onChangeText={setStoreDescription}
+                        editable={true}
+                        onFocus={onFocusHandler(storeDescription)}
+                        onBlur={onBlurHandler(storeDescription)}
+                        blurOnSubmit
                     />
+                </View>
+
+                <View style={styles.container_input}>
+                    <Animated.View style={[styles.animatedStyle, animStyle]}>
+                        <Text style={styles.label}>Store latitude</Text>
+                    </Animated.View>
                     <TextInput
+                        autoCapitalize={"none"}
                         style={styles.input}
-                        onChangeText={setStoreLat}
                         value={storeLat}
-                        placeholder="Store latitude"
+                        onChangeText={setStoreLat}
+                        editable={true}
+                        onFocus={onFocusHandler(storeLat)}
+                        onBlur={onBlurHandler(storeLat)}
+                        blurOnSubmit
                     />
+                </View>
+
+                <View style={styles.container_input}>
+                    <Animated.View style={[styles.animatedStyle, animStyle]}>
+                        <Text style={styles.label}>Store longitude</Text>
+                    </Animated.View>
                     <TextInput
+                        autoCapitalize={"none"}
                         style={styles.input}
-                        onChangeText={setStoreLong}
                         value={storeLong}
-                        placeholder="Store longitude"
+                        onChangeText={setStoreLong}
+                        editable={true}
+                        onFocus={onFocusHandler(storeLong)}
+                        onBlur={onBlurHandler(storeLong)}
+                        blurOnSubmit
                     />
-                    <View style={{alignItems: 'center'}}>
+                </View>
+                {labelSubmit ?
+                (labelSubmit === "Create") ? 
+                    <View style={{alignItems: "center"}}>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={()=> writeStoreFront()}
                             >
-                            <Text style={{color: 'white', ...FONTS.h3}}>Create</Text>
+                            <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
+                        </TouchableOpacity>
+                    </View>: 
+                <><View style={styles.container_button}>
+                    <View style={{flexDirection: 'col', flexWrap: 'wrap' }}>
+                        <Text style={styles.label}>Your store Image</Text>
+                        <Image
+                            resizeMode="cover"
+                            source={storeImage}
+                            style={{
+                                width: 100,
+                                height: 100,
+                            }}
+                        />
+                    </View>
+                    <View style={{flexDirection: 'column', flexWrap: 'wrap', gap: 20}}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={()=> writeStoreFront()}
+                            >
+                            <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            >
+                            <Text style={{color: 'white', ...FONTS.h3}}>List product</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </View></> : <></>}
+            </View>
             </>
         )
     }
@@ -157,21 +285,53 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         elevation: 1,
     },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-      },
+
     button: {
         alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
+        paddingVertical: 6,
+        paddingHorizontal: 20,
         borderRadius: 4,
-        elevation: 3,
+        elevation: 1,
         backgroundColor: COLORS.pink,
-        width: 100
+    },
+    container_input: {
+        marginBottom: 10,
+        marginTop: 20,
+        backgroundColor: "#fff",
+        paddingTop: 5,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: "#bdbdbd",
+        borderRadius: 2,
+        width: "90%",
+        alignSelf: "center",
+      },
+    container_button: {
+        flexDirection: 'row', 
+        flexWrap: 'wrap', 
+        justifyContent: 'space-around', 
+        alignItems: 'center'
+    },
+    icon: {
+        width: 40,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    input: {
+        fontSize: 13,
+        height: 35,
+        outlineStyle: 'none'
+    },
+    label: {
+        color: "grey",
+        fontSize: 12,
+    },
+    animatedStyle: {
+        top: 5,
+        left: 15,
+        position: 'absolute',
+        borderRadius: 90,
+        zIndex: 10000,
     },
 })
 
