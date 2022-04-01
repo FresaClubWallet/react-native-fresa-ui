@@ -14,6 +14,7 @@ import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 import AppContext from '../components/AppContext'; 
 import SubNav from "../components/SubNav";
+import { NavigationContainer } from '@react-navigation/native';
 
 
 const Vendor = ({ navigation }) => {
@@ -252,6 +253,7 @@ const Vendor = ({ navigation }) => {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
+                            onPress={() => navigation.push('Product')}
                             >
                             <Text style={{color: 'white', ...FONTS.h3}}>List product</Text>
                         </TouchableOpacity>
