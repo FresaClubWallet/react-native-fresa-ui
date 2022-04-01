@@ -14,7 +14,6 @@ import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 import AppContext from '../components/AppContext'; 
 import SubNav from "../components/SubNav";
-// import { FloatingLabelInput } from 'react-native-floating-label-input';
 
 
 const Vendor = ({ navigation }) => {
@@ -28,6 +27,7 @@ const Vendor = ({ navigation }) => {
     const [storeDescription, setStoreDescription] = useState(null);
     const [storeLat, setStoreLat] = useState(null);
     const [storeLong, setStoreLong] = useState(null);
+    const [labelSubmit, setLabelSubmit] = useState("");
 
     useEffect(()=>{
         readStoreFront();
@@ -80,8 +80,10 @@ const Vendor = ({ navigation }) => {
             // check store front if null address , vendor not add
             if (readStoreFront[0].toLowerCase() !== appContext.address.toLowerCase()){
                 setMessageVendor("You don't have store front yet!")
+                setLabelSubmit("Create")
             } else {
                 setMessageVendor("")
+                setLabelSubmit("Update")
                 setStoreName(readStoreFront[1])
                 setStoreImage(readStoreFront[2])
                 setStoreDescription(readStoreFront[3])
@@ -219,14 +221,42 @@ const Vendor = ({ navigation }) => {
                         blurOnSubmit
                     />
                 </View>
-                <View style={{alignItems: 'center'}}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={()=> writeStoreFront()}
-                        >
-                        <Text style={{color: 'white', ...FONTS.h3}}>Create</Text>
-                    </TouchableOpacity>
-                </View>
+                {labelSubmit ?
+                (labelSubmit === "Create") ? 
+                    <View style={{alignItems: "center"}}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={()=> writeStoreFront()}
+                            >
+                            <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
+                        </TouchableOpacity>
+                    </View>: 
+                <><View style={styles.container_button}>
+                    <View style={{flexDirection: 'col', flexWrap: 'wrap' }}>
+                        <Text style={styles.label}>Your store Image</Text>
+                        <Image
+                            resizeMode="cover"
+                            source={storeImage}
+                            style={{
+                                width: 100,
+                                height: 100,
+                            }}
+                        />
+                    </View>
+                    <View style={{flexDirection: 'column', flexWrap: 'wrap', gap: 20}}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={()=> writeStoreFront()}
+                            >
+                            <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            >
+                            <Text style={{color: 'white', ...FONTS.h3}}>List product</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View></> : <></>}
             </View>
             </>
         )
@@ -258,13 +288,11 @@ const styles = StyleSheet.create({
 
     button: {
         alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
+        paddingVertical: 6,
+        paddingHorizontal: 20,
         borderRadius: 4,
-        elevation: 3,
+        elevation: 1,
         backgroundColor: COLORS.pink,
-        width: 100
     },
     container_input: {
         marginBottom: 10,
@@ -278,6 +306,12 @@ const styles = StyleSheet.create({
         width: "90%",
         alignSelf: "center",
       },
+    container_button: {
+        flexDirection: 'row', 
+        flexWrap: 'wrap', 
+        justifyContent: 'space-around', 
+        alignItems: 'center'
+    },
     icon: {
         width: 40,
         justifyContent: "center",
@@ -290,7 +324,7 @@ const styles = StyleSheet.create({
     },
     label: {
         color: "grey",
-        fontSize: 10,
+        fontSize: 12,
     },
     animatedStyle: {
         top: 5,
