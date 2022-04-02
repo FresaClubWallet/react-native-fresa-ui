@@ -8,6 +8,8 @@
 
 /* dapp-begin */
 const { Platform } = require('react-native');
+const iconLogo = require("./assets/icon.png");
+
 import "react-native-get-random-values";
 import "@ethersproject/shims";
 
@@ -34,6 +36,11 @@ const { withWalletConnect } = require('@walletconnect/react-native-dapp');
 // It also ensures that whether you load the app in the Expo client or in a native build,
 // the environment is set up appropriately
 registerRootComponent(withWalletConnect(App, {
+  clientMeta: {
+    description: 'Connect with FresaWallet',
+    icons: iconLogo,
+    name: 'FresaWallet',
+  },
   redirectUrl: Platform.OS === 'web' ? window.location.origin : `${scheme}://`,
   storageOptions: {
     asyncStorage: AsyncStorage,
