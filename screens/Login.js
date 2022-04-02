@@ -21,10 +21,10 @@ const Login = ({ navigation }) => {
     const disConnectWallet = React.useCallback(() => {
         return connector.killSession();
     })
-    useEffect(() => {
-        if (connector.connect())
+    useEffect(async() => {
+        if (connector.connected)
             if (connector.chainId != appContext.chainId) {
-                return disConnectWallet();
+                await disConnectWallet();
             }
     }, [connector])    
 
