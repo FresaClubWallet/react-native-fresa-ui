@@ -252,6 +252,7 @@ const Vendor = ({ navigation }) => {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
+                            onPress={() => navigation.push('Product')}
                             >
                             <Text style={{color: 'white', ...FONTS.h3}}>List product</Text>
                         </TouchableOpacity>

@@ -3,7 +3,7 @@ import React, { useEffect, useContext, useMemo, useState } from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font';
-import { Restaurant, Login } from './screens'
+import { Restaurant, Login, Product } from './screens'
 import Tabs from './navigation/tabs'
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import AppContext from './components/AppContext'; 
@@ -67,6 +67,7 @@ const App = () => {
                     ) :(<>
                         <Stack.Screen name="Home" component={Tabs} />
                         <Stack.Screen name="Vendor" component={Tabs} />
+                        <Stack.Screen name="Product" component={Product} />
                         <Stack.Screen name="Restaurant" component={Restaurant} />
                         </>)}
                 </Stack.Navigator>
