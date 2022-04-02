@@ -33,7 +33,6 @@ const App = () => {
       () => new Fresa__factory().attach(appContext.CONTRACT_ADDRESS).connect(provider),
       [provider]
     );
-
     useEffect(async() => {
       // if login & valid chainId then set attribute
       if (connector.connected && connector.chainId == appContext.chainId) {
