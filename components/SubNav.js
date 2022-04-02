@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     balanceChip: {
         height: "30px",
         width: 150,
-        borderRadius: "20px",
+        borderRadius: 20,
         backgroundColor: "#118ab2",
         marginVertical: "10px",
         left: "10px"
