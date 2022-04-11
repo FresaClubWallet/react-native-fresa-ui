@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, {useContext } from "react";
 import {
     SafeAreaView,
     View,
@@ -7,26 +7,11 @@ import {
     TouchableOpacity,
     Image,
 } from "react-native";
-import { useWalletConnect } from "@walletconnect/react-native-dapp";
-import { icons, images, SIZES, COLORS, FONTS } from '../constants'
+import { images, SIZES, COLORS, FONTS } from '../constants'
 import AppContext from '../components/AppContext'; 
 
 const Login = ({ navigation }) => {
-    const connector = useWalletConnect();
     const appContext = useContext(AppContext);
-
-    const connectWallet = React.useCallback(() => {
-        return connector.connect();
-    })
-    const disConnectWallet = React.useCallback(() => {
-        return connector.killSession();
-    })
-    useEffect(async() => {
-        if (connector.connected)
-            if (connector.chainId != appContext.chainId) {
-                await disConnectWallet();
-            }
-    }, [connector])    
 
     function renderBody() {
         
@@ -45,7 +30,7 @@ const Login = ({ navigation }) => {
                 <View style={{alignItems: 'center'}}>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => connectWallet()}
+                        onPress={() => appContext.connectWallet()}
                         >
                         <Text style={{color: 'white', ...FONTS.h3}}>Connect</Text>
                     </TouchableOpacity>

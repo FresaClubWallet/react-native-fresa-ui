@@ -8,7 +8,6 @@ import {
     Image,
     FlatList
 } from "react-native";
-import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
 import SubNav from "../components/SubNav";
@@ -20,7 +19,6 @@ import AppContext from '../components/AppContext';
 const products = [];
 
 const Home = ({ navigation }) => {
-    const connector = useWalletConnect();
     const appContext = useContext(AppContext);
 
     const callMethod = async () => {
