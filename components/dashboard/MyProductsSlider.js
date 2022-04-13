@@ -22,9 +22,9 @@ class MyProductsSlider extends Component {
                                     height: 100,
                                 }}
                             />
-                            <View style={{ flexWrap: 'wrap', flexDirection: 'col', width: "150px" }}>
-                                <Text style={{ ...FONTS.h5, paddingLeft: "10px" }}><Text>$10</Text> - Basket.</Text>
-                                <Text style={{ paddingLeft: "10px" }}>Basket of fresh strawberries</Text>
+                            <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: 150 }}>
+                                <Text style={{ ...FONTS.h5, paddingLeft: 10 }}><Text>$10</Text> - Basket.</Text>
+                                <Text style={{ paddingLeft: 10 }}>Basket of fresh strawberries</Text>
                                 <View style={ styles.CounterContainer }>
                                     <View style={ styles.counter }>
                                         <Text style={{...FONTS.h5}}>Stock</Text>
@@ -80,19 +80,19 @@ const styles = StyleSheet.create({
         padding: SIZES.padding,
         paddingBottom: SIZES.padding * 2,
         backgroundColor: COLORS.white,
-        boxShadow: "3px 3px 18px -15px",
+        // boxShadow: "3px 3px 18px -15px",
         alignItems: "center",
         justifyContent: "center",
         marginRight: SIZES.padding,
     },
     CounterContainer:{
-        height: '10px',
-        margin: '10px',
+        height: 10,
+        margin: 10,
         flexDirection: 'row',
         flexWrap: 'wrap'
     },
     counter: {
-        width: "50%", height: "50px"
+        width: "50%", height: 50
     }
 });
 

@@ -86,7 +86,8 @@ const Product = ({ navigation }) => {
     function renderHeader() {
         return (
             <View style={{ flexDirection: 'row', height: 50 }}>
-                <View style={{ flex: 1, alignItems: 'left', justifyContent: 'left', 
+                <View style={{ flex: 1, 
+                justifyContent: 'left', 
                     backgroundColor: "#e71963", paddingBottom: 10, paddingTop: 10 }}>
                     <View style={{height: 34, width: 85,  marginLeft: 10}}>
                         <TouchableOpacity
@@ -254,7 +255,7 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 13,
         height: 35,
-        outlineStyle: 'none'
+        // outlineStyle: 'none'
     },
     centeredView: {
         flex: 1,

@@ -44,6 +44,6 @@ registerRootComponent(withWalletConnect(App, {
   redirectUrl: Platform.OS === 'web' ? window.location.origin : `${scheme}://`,
   storageOptions: {
     asyncStorage: AsyncStorage,
-  },
+  }
 }));
 /* dapp-end */

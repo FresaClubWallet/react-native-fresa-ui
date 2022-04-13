@@ -138,8 +138,8 @@ const Vendor = ({ navigation }) => {
     function renderStoreFront() {
         return (
             <>
-                <View style={{ width: "100%", height: 20, textAlign: 'center' }}>
-                    <Text style={{ marginTop: 10, color: "#767070", alignItems: "center" }}>{messageVendor}</Text>
+                <View style={{ width: "100%", height: 30, textAlign: 'center' }}>
+                    <Text style={{ marginTop: 10, marginLeft: 20, color: "#767070", alignItems: "center" }}>{messageVendor}</Text>
                 </View>
                 <View>
                 <View style={styles.container_input}>
@@ -232,7 +232,7 @@ const Vendor = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>: 
                 <><View style={styles.container_button}>
-                    <View style={{flexDirection: 'col', flexWrap: 'wrap' }}>
+                    <View style={{flexDirection: 'column', flexWrap: 'wrap' }}>
                         <Text style={styles.label}>Your store Image</Text>
                         <Image
                             resizeMode="cover"
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 13,
         height: 35,
-        outlineStyle: 'none'
+        // outlineStyle: 'none'
     },
     label: {
         color: "grey",

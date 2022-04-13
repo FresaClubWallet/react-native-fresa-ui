@@ -113,6 +113,9 @@ const Tabs = () => {
                     elevation: 0
                 }
             }}
+            screenOptions={{
+                headerShown: false
+            }}
             tabBar={(props) => (
                 <CustomTabBar
                     props={props}

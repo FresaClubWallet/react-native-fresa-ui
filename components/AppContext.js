@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useMemo } from 'react';
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
-import { Fresa__factory } from "../types";
+import { Fresa__factory } from "../types/index";
 import { ethers } from "ethers";
 
 const AppContext = createContext({ signed: false, user: {} });

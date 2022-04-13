@@ -14,8 +14,6 @@ const Login = ({ navigation }) => {
     const appContext = useContext(AppContext);
 
     function renderBody() {
-        
-
         return (
             <View style={{ padding: SIZES.padding * 2, marginTop: SIZES.height/6 }}>
                 <View style={{alignItems: 'center'}}>
