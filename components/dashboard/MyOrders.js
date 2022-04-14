@@ -21,9 +21,9 @@ class MyOrders extends Component {
                 <TouchableOpacity style={styles.ItemTouchElement}>
                     <View >
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                            <View style={{ flexWrap: 'wrap', flexDirection: 'col' }}>
-                                <Text style={{ ...FONTS.h5, paddingLeft: "10px" }}>Order from {shortenAddress('0x9f3DD64c084C88e8E456e9BAdbc1ebbC624941be')}</Text>
-                                <Text style={{ paddingLeft: "10px" }}>12/1/1 13:11</Text>
+                            <View style={{ flexWrap: 'wrap', flexDirection: 'column' }}>
+                                <Text style={{ ...FONTS.h5, paddingLeft: 10 }}>Order from {shortenAddress('0x9f3DD64c084C88e8E456e9BAdbc1ebbC624941be')}</Text>
+                                <Text style={{ paddingLeft: 10 }}>12/1/1 13:11</Text>
                                 <View style={ styles.CounterContainer }>
                                     <View style={ styles.counter }>
                                         <Text style={{...FONTS.h4}}>Items</Text>
@@ -74,27 +74,24 @@ const styles = StyleSheet.create({
 
     },
     ListElement:{
-
+        
     },
     ItemTouchElement:{
         padding: SIZES.padding,
         paddingBottom: SIZES.padding * 2,
         backgroundColor: COLORS.white,
-        boxShadow: "3px 3px 18px -15px",
-        alignItems: "left",
-        justifyContent: "middle",
+        // boxShadow: "3px 3px 18px -15px",
+        justifyContent: 'center',
         marginRight: SIZES.padding,
         marginTop:10,
-        paddingBottom:30
     },
     CounterContainer:{
-        height: '10px',
-        margin: '10px',
+        height: 10,
+        margin: 10,
         flexDirection: 'row',
         flexWrap: 'wrap'
     },
     counter: {
-         height: "10px",
          marginRight: 10
     }
 }); 

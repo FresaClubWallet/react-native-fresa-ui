@@ -1,24 +1,23 @@
-import React from 'react';
+import useCachedResources from './hooks/useCachedResources';
+import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native'
-import { AppProvider } from './components/AppContext'; 
 import Routes from './navigation/routes';
-import { useFonts } from 'expo-font';
+import { AppProvider } from './components/AppContext'; 
+
+const Stack = createStackNavigator();
 
 export default function App() {
-    const [loaded] = useFonts({
-        "Roboto-Black" : require('./assets/fonts/Roboto-Black.ttf'),
-        "Roboto-Bold" : require('./assets/fonts/Roboto-Bold.ttf'),
-        "Roboto-Regular" : require('./assets/fonts/Roboto-Regular.ttf'),
-    })
+  const isLoadingComplete = useCachedResources();
 
-    if(!loaded){
-        return null;
-    }
+  if (!isLoadingComplete) {
+    return null;
+  } else {
     return (
-        <AppProvider>
-            <NavigationContainer>
-                <Routes />
-            </NavigationContainer>
-        </AppProvider>
+      <AppProvider>
+          <NavigationContainer>
+            <Routes />
+          </NavigationContainer>
+      </AppProvider>
     );
+  }
 }

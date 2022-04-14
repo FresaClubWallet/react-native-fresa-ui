@@ -27,29 +27,29 @@ class SubNav extends Component {
 const styles = StyleSheet.create({
     subnavContainer: {
         width: "100%",
-        height: "50px",
+        height: 50,
         backgroundColor: "#D9D5D5",
         flexDirection: "row",
         flexWrap: "wrap"
     },
     balanceChip: {
-        height: "30px",
+        height: 30,
         width: 150,
         borderRadius: 20,
         backgroundColor: "#118ab2",
-        marginVertical: "10px",
-        left: "10px"
+        marginVertical: 10,
+        left: 10
     },
     balanceText: {
         color: "white",
-        fontWeight: "bolder",
+        fontWeight: "700",
         paddingTop: 6,
-        paddingLeft: "10px",
-        fontSize: "15px"
+        paddingLeft: 10,
+        fontSize: 15
     },
     addressText: {
-        marginTop: "20px",
-        marginLeft: "20px",
+        marginTop: 20,
+        marginLeft: 20,
         color: "#767070"
     }
 });

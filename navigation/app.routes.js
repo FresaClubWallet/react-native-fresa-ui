@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Restaurant, Product } from '../screens'
+import { Restaurant, Product, Home } from '../screens'
 import Tabs from '../navigation/tabs'
 
 

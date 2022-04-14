@@ -23,10 +23,10 @@ class ProductsList extends Component {
                                         height: 100,
                                     }}
                                 />
-                                <View style={{ flexWrap: 'wrap', flexDirection: 'col', width: "60%" }}>
-                                    <Text style={{ ...FONTS.h5, paddingLeft: "10px" }}><Text>{product.price.toString()} cUSD</Text></Text>
-                                    <Text style={{ paddingLeft: "10px" }}>Name: {product.name}</Text>
-                                    <Text style={{ paddingLeft: "10px" }}>Description: {product.description}</Text>
+                                <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: "60%" }}>
+                                    <Text style={{ ...FONTS.h5, paddingLeft: 10 }}><Text>{product.price.toString()} cUSD</Text></Text>
+                                    <Text style={{ paddingLeft: 10 }}>Name: {product.name}</Text>
+                                    <Text style={{ paddingLeft: 10 }}>Description: {product.description}</Text>
                                     <View style={ styles.CounterContainer }>
                                         <View style={ styles.counter }>
                                             <Text style={{...FONTS.h5}}>Index</Text>
@@ -75,20 +75,20 @@ const styles = StyleSheet.create({
         padding: SIZES.padding,
         paddingBottom: SIZES.padding * 2,
         backgroundColor: COLORS.white,
-        boxShadow: "3px 3px 18px -15px",
+        // boxShadow: "3px 3px 18px -15px",
         alignItems: "center",
         justifyContent: "center",
         marginRight: SIZES.padding,
         marginTop: 20
     },
     CounterContainer:{
-        height: '10px',
-        margin: '10px',
+        height: 10,
+        margin: 10,
         flexDirection: 'row',
         flexWrap: 'wrap'
     },
     counter: {
-        width: "50%", height: "50px"
+        width: "50%", height: 50
     }
 });
 
