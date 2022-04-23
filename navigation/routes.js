@@ -6,7 +6,7 @@ import AppContext from '../components/AppContext'
 
 const Routes = () => {
   const { connector } = useContext(AppContext);
-
+  
   return connector.connected ? <AppRoutes /> : <AuthRoutes />
 }
 

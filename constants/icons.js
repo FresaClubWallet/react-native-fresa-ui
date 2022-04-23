@@ -25,6 +25,11 @@ export const sushi = require("../assets/icons/sushi.png");
 export const user = require("../assets/icons/user.png");
 export const qr = require("../assets/icons/qr.png");
 export const add_product = require("../assets/icons/add_product.png");
+export const home = require("../assets/icons/home.png");
+export const favourite = require("../assets/icons/favourite.png");
+export const product = require("../assets/icons/product.png");
+export const store = require("../assets/icons/store.png");
+export const vendorqr = require("../assets/icons/vendorqr.png");
 
 export default {
     back,
@@ -53,5 +58,10 @@ export default {
     sushi,
     user,
     qr,
-    add_product
+    add_product,
+    home,
+    favourite,
+    product,
+    store,
+    vendorqr
 }

@@ -1,9 +1,17 @@
 const strawberry_picking = require("../assets/images/strawberry-picking.jpg");
 const berrynice = require("../assets/images/berrynice.png");
 const iconLogo = require("../assets/icon.png");
+const loginBanner = require("../assets/images/login-banner.png");
+const loginArrow = require("../assets/images/login-arrow.png");
+const loginButton = require("../assets/images/login-button.png");
+const loginCircle = require("../assets/images/loginCircle.png");
 
 export default {
     iconLogo,
     strawberry_picking,
-    berrynice
+    berrynice,
+    loginBanner,
+    loginArrow,
+    loginButton,
+    loginCircle
 }

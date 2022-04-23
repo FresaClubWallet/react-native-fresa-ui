@@ -18,6 +18,9 @@ export default function useCachedResources() {
           "Roboto-Black" : require('../assets/fonts/Roboto-Black.ttf'),
           "Roboto-Bold" : require('../assets/fonts/Roboto-Bold.ttf'),
           "Roboto-Regular" : require('../assets/fonts/Roboto-Regular.ttf'),
+          "Cera-Pro-Black" : require('../assets/fonts/Cera-Pro-Black.ttf'),
+          "Cera-Pro-Bold" : require('../assets/fonts/Cera-Pro-Bold.ttf'),
+          "Cera-Pro-Medium" : require('../assets/fonts/Cera-Pro-Medium.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service

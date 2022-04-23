@@ -160,7 +160,7 @@ const Home = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             {renderHeader()}
-            {renderSubNav()}
+            {/* {renderSubNav()} */}
             {renderProducts()}
             <MyOrders products={categories}></MyOrders>
         </SafeAreaView>

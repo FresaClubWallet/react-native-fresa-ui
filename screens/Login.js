@@ -1,4 +1,4 @@
-import React, {useContext } from "react";
+import React, { useContext } from "react";
 import {
     SafeAreaView,
     View,
@@ -6,6 +6,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
+    ImageBackground
 } from "react-native";
 import { images, SIZES, COLORS, FONTS } from '../constants'
 import AppContext from '../components/AppContext'; 
@@ -15,63 +16,92 @@ const Login = ({ navigation }) => {
 
     function renderBody() {
         return (
-            <View style={{ padding: SIZES.padding * 2, marginTop: SIZES.height/6 }}>
+            <View style={{ marginTop: SIZES.height - SIZES.height * 0.9, alignItems: 'center', flex: 1 }}>
                 <View style={{alignItems: 'center'}}>
                     <Image source={images.iconLogo} style={styles.logo}/>
                 </View>
-                <View style={{alignItems: 'center', marginTop: 50}}>
-                    <Text style={{...FONTS.h1}}>Welcome to <Text style={{color: COLORS.blue}}>Fresa</Text></Text>
-                    <Text style={{marginTop: SIZES.marginTop1}}>Your are just a few steps away from starting</Text>
-                    <Text>Your culinary adventure</Text>
-                    <Text style={{...FONTS.h5, marginTop: SIZES.marginTop2}}>Simply connect to your wallet to get started</Text>
+                <View style={{alignItems: 'left', marginTop: 80, marginLeft: 50}}>
+                    <Text style={{...FONTS.h1}}>Welcome to Fresa</Text>
+                    <Text style={{marginTop: SIZES.marginTop1}}>You are just a few steps away</Text>
+                    <Text>from starting your culinary</Text>
+                    <Text>adventure</Text>
                 </View>
-                <View style={{alignItems: 'center'}}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => appContext.connectWallet()}
-                        >
-                        <Text style={{color: 'white', ...FONTS.h3}}>Connect</Text>
-                    </TouchableOpacity>
-                </View>
+                
             </View>
         )
     }
 
     return (
         <SafeAreaView style={styles.container}>
-            {renderBody()}
+            <ImageBackground source={images.loginBanner} resizeMode="cover" style={styles.image}>
+                {renderBody()}
+                <View style={{alignItems: 'center'}}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => appContext.connectWallet()}
+                        >
+                        <View style={{alignItems: 'right'}}>
+                            <Image source={images.loginCircle} style={styles.loginCircle}>
+                            </Image>
+                        </View>
+                        <View style={{alignItems: 'left', marginRight: 20}}>
+                            <Text style={{color: 'white', ...FONTS.h3}}>Connect Wallet</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </ImageBackground>
         </SafeAreaView>
     )
 }
 
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.lightGray4
     },
+    image: {
+        flex: 1,
+        justifyContent: "center"
+      },
     shadow: {
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 3,
         },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
+        shadowOpacity: 100,
+        shadowRadius: 5,
         elevation: 1,
     },
     logo: {
-        width: 200,
-        height: 200
-      },
+        width: 189,
+        height: 189
+    },
+    loginCircle: {
+        width: 50,
+        height: 50,
+    },
     button: {
+        flex: 2,
+        flexDirection: 'row', flexWrap: 'wrap',
+        position: "absolute",
+        bottom: 50,
+        // marginTop: SIZES.height - SIZES.height * 0.84,
         alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
+        gap: 10,
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        borderRadius: 40,
         elevation: 3,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 2,
+        shadowRadius: 2,
         backgroundColor: COLORS.pink,
-        marginTop: 40
     },
     text: {
         fontSize: 16,

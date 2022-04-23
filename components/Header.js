@@ -1,29 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
+import AppContext from './AppContext'; 
 
-class Header extends Component {
-    constructor(props) {
-        super(props);
+
+const Header = () => {
+    const appContext = useContext(AppContext);
+    const shortenAddress = (address) => {
+        return `${address.slice(0, 15)}...${address.slice(
+            address.length - 4,
+            address.length
+        )}`;
     }
-
-    render() {
-        const shortenAddress = (address) => {
-            return `${address.slice(0, 9)}...${address.slice(
-                address.length - 4,
-                address.length
-            )}`;
-        }
-        return (
-            <View style={styles.headerContainer}>
-                <View style={styles.headerContent}>
-                    <View style={styles.storeAddressBar}>
-                        <Text style={styles.storeAddressBarText}>{shortenAddress('0x9f3DD64c084C88e8E456e9BAdbc1ebbC624941be')}</Text>
-                    </View>
+    return (
+        <View style={styles.headerContainer}>
+            <View style={styles.headerContent}>
+                <Text style={styles.storeAddressBarText}>{shortenAddress(appContext.address)}</Text>
+            </View>
+            <View style={styles.headerContent}>
+                <View style={styles.storeAddressBar}>
+                    <Text style={styles.storeAddressBarText}>{shortenAddress(appContext.address)}</Text>
                 </View>
             </View>
-        );
-    }
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -35,18 +35,18 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor:'#e71963',
+        // backgroundColor:'#e71963',
         paddingBottom: 10,
         paddingTop:10
     },
     storeAddressBar:{
         height: 34,
         width:250,
-        backgroundColor: '#14131336'
+        // backgroundColor: '#14131336'
     },
     storeAddressBarText: {
         padding: 10,
-        color: "white"
+        color: COLORS.gray
     }
 
 });
