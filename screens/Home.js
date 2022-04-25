@@ -58,8 +58,8 @@ const Home = ({ navigation }) => {
     const categoryData = [
         {
             id: 1,
-            name: "Berry Nicee Strawberries",
-            image: "https://i.ibb.co/dJRxXmM/0160fedb37f864637a7287b2e818c24a4.png",
+            name: "Salad",
+            image: images.salad,
             location: {
                 latitude: 1.5347282806345879,
                 longitude: 110.35632207358996,
@@ -67,8 +67,8 @@ const Home = ({ navigation }) => {
             menu: [
                 {
                     menuId: 1,
-                    name: "1 Basket of fresh strawberries.",
-                    photo: images.strawberry_picking,
+                    name: "Salad",
+                    photo: images.salad,
                     description: "A Basket of fresh strawberries picked for our fresaclub members.",
                     calories: 100,
                     price: 1
@@ -77,8 +77,8 @@ const Home = ({ navigation }) => {
         },
         {
             id: 2,
-            name: "Berry Nicee Strawberries",
-            image: "https://i.ibb.co/dJRxXmM/0160fedb37f864637a7287b2e818c24a4.png",
+            name: "Sandwich",
+            image: images.salad,
             location: {
                 latitude: 1.5347282806345879,
                 longitude: 110.35632207358996,
@@ -87,7 +87,7 @@ const Home = ({ navigation }) => {
                 {
                     menuId: 1,
                     name: "1 Basket of fresh strawberries.",
-                    photo: images.strawberry_picking,
+                    photo: images.salad,
                     description: "A Basket of fresh strawberries picked for our fresaclub members.",
                     calories: 100,
                     price: 1
@@ -97,7 +97,7 @@ const Home = ({ navigation }) => {
         {
             id: 3,
             name: "Berry Nicee Strawberries",
-            image: "https://i.ibb.co/dJRxXmM/0160fedb37f864637a7287b2e818c24a4.png",
+            image: images.salad,
             location: {
                 latitude: 1.5347282806345879,
                 longitude: 110.35632207358996,
@@ -106,7 +106,7 @@ const Home = ({ navigation }) => {
                 {
                     menuId: 1,
                     name: "1 Basket of fresh strawberries.",
-                    photo: images.strawberry_picking,
+                    photo: images.salad,
                     description: "A Basket of fresh strawberries picked for our fresaclub members.",
                     calories: 100,
                     price: 1
@@ -116,7 +116,7 @@ const Home = ({ navigation }) => {
         {
             id: 4,
             name: "Berry Nicee Strawberries",
-            image: "https://i.ibb.co/dJRxXmM/0160fedb37f864637a7287b2e818c24a4.png",
+            image: images.salad,
             location: {
                 latitude: 1.5347282806345879,
                 longitude: 110.35632207358996,
@@ -125,7 +125,7 @@ const Home = ({ navigation }) => {
                 {
                     menuId: 1,
                     name: "1 Basket of fresh strawberries.",
-                    photo: images.strawberry_picking,
+                    photo: images.salad,
                     description: "A Basket of fresh strawberries picked for our fresaclub members.",
                     calories: 100,
                     price: 1
@@ -160,7 +160,7 @@ const Home = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             {renderHeader()}
-            {/* {renderSubNav()} */}
+            {renderSubNav()}
             {renderProducts()}
             <MyOrders products={categories}></MyOrders>
         </SafeAreaView>
@@ -170,7 +170,7 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.lightGray4
+        backgroundColor: COLORS.white
     },
     shadow: {
         shadowColor: "#000",

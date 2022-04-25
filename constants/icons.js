@@ -30,6 +30,11 @@ export const favourite = require("../assets/icons/favourite.png");
 export const product = require("../assets/icons/product.png");
 export const store = require("../assets/icons/store.png");
 export const vendorqr = require("../assets/icons/vendorqr.png");
+export const myproduct = require("../assets/icons/myproduct.png");
+export const balance = require("../assets/icons/balance.png");
+export const hide = require("../assets/icons/hide.png");
+export const arrow = require("../assets/icons/arrow.png");
+export const homePink = require("../assets/icons/homePink.png");
 
 export default {
     back,
@@ -63,5 +68,10 @@ export default {
     favourite,
     product,
     store,
-    vendorqr
+    vendorqr,
+    myproduct,
+    balance,
+    hide,
+    arrow,
+    homePink
 }

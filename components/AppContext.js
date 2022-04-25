@@ -12,7 +12,7 @@ export const AppProvider = ({ children }) => {
   const NETWORK          = 'https://alfajores-forno.celo-testnet.org'
   const chainId          = 44787;
   const [address, setAddress] = useState('NOT LOGGED IN');
-  const [balance, setBalance] = useState('Loading ....');
+  const [balance, setBalance] = useState('....');
 
   const provider = useMemo(
     () => new ethers.providers.JsonRpcProvider(NETWORK),

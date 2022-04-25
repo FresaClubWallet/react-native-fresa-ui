@@ -14,20 +14,23 @@ import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 import AppContext from '../components/AppContext'; 
 import SubNav from "../components/SubNav";
+import Header from "../components/Header";
 
 
-const Vendor = ({ navigation }) => {
+const MyStore = ({ navigation }) => {
     const connector = useWalletConnect();
     const appContext = useContext(AppContext);
     const moveText = useRef(new Animated.Value(0)).current;
 
     const [messageVendor, setMessageVendor] = useState("");
     const [storeName, setStoreName] = useState(null);
-    const [storeImage, setStoreImage] = useState(null);
+    const [storeImage, setStoreImage] = useState("https://avatars.githubusercontent.com/u/91978140?s=200&v=4");
     const [storeDescription, setStoreDescription] = useState(null);
-    const [storeLat, setStoreLat] = useState(null);
-    const [storeLong, setStoreLong] = useState(null);
+    const [storeLat, setStoreLat] = useState(1000);
+    const [storeLong, setStoreLong] = useState(2000);
     const [labelSubmit, setLabelSubmit] = useState("");
+    const [isViewProduct, setIsViewProduct] = useState(false);
+    const [storeLocation, setStoreLocation] = useState();
 
     useEffect(()=>{
         readStoreFront();
@@ -78,17 +81,15 @@ const Vendor = ({ navigation }) => {
         try {    
             const readStoreFront = await appContext.contract.readStoreFront(appContext.address)
             // check store front if null address , vendor not add
-            if (readStoreFront[0].toLowerCase() !== appContext.address.toLowerCase()){
+            if (readStoreFront[1].toLowerCase() !== appContext.address.toLowerCase()){
                 setMessageVendor("You don't have store front yet!")
-                setLabelSubmit("Create")
+                setLabelSubmit("Submit")
             } else {
                 setMessageVendor("")
-                setLabelSubmit("Update")
+                setLabelSubmit("Submit")
                 setStoreName(readStoreFront[1])
-                setStoreImage(readStoreFront[2])
                 setStoreDescription(readStoreFront[3])
-                setStoreLat(readStoreFront[4])
-                setStoreLong(readStoreFront[5])
+                setIsViewProduct(true)
             }
         } catch (e) {
           console.error(e);
@@ -120,17 +121,14 @@ const Vendor = ({ navigation }) => {
 
     function renderHeader() {
         return (
-            <View style={{ flexDirection: 'row', height: 50 }}>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: "#e71963", paddingBottom: 10, paddingTop: 10 }}>
-                </View>
-            </View>
+            <Header></Header>
         )
     }
 
     // Used to display balance & wallet address.
     function renderSubNav() {
         return (
-            <SubNav balance={appContext.balance} address={appContext.address}></SubNav>
+            <SubNav balance={appContext.balance} address={appContext.address} isViewProduct={isViewProduct} navigation={navigation}></SubNav>
         )
     }
 
@@ -139,12 +137,12 @@ const Vendor = ({ navigation }) => {
         return (
             <>
                 <View style={{ width: "100%", height: 30, textAlign: 'center' }}>
-                    <Text style={{ marginTop: 10, marginLeft: 20, color: "#767070", alignItems: "center" }}>{messageVendor}</Text>
+                    <Text style={{ marginLeft: 20, ...FONTS.body5, alignItems: "center" }}>{messageVendor}</Text>
                 </View>
                 <View>
                 <View style={styles.container_input}>
                     <Animated.View style={[styles.animatedStyle, animStyle]}>
-                        <Text style={styles.label}>Your store name</Text>
+                        <Text style={styles.label}>Store name</Text>
                     </Animated.View>
                     <TextInput
                         autoCapitalize={"none"}
@@ -158,7 +156,7 @@ const Vendor = ({ navigation }) => {
                     />
                 </View>
 
-                <View style={styles.container_input}>
+                {/* <View style={styles.container_input}>
                     <Animated.View style={[styles.animatedStyle, animStyle]}>
                         <Text style={styles.label}>Image Url</Text>
                     </Animated.View>
@@ -172,7 +170,7 @@ const Vendor = ({ navigation }) => {
                         onBlur={onBlurHandler(storeImage)}
                         blurOnSubmit
                     />
-                </View>
+                </View> */}
 
                 <View style={styles.container_input}>
                     <Animated.View style={[styles.animatedStyle, animStyle]}>
@@ -191,6 +189,22 @@ const Vendor = ({ navigation }) => {
                 </View>
 
                 <View style={styles.container_input}>
+                    <Animated.View style={[styles.animatedStyle, animStyle]}>
+                        <Text style={styles.label}>Location</Text>
+                    </Animated.View>
+                    <TextInput
+                        autoCapitalize={"none"}
+                        style={styles.input}
+                        value={storeLocation}
+                        onChangeText={setStoreLocation}
+                        editable={true}
+                        onFocus={onFocusHandler(storeLocation)}
+                        onBlur={onBlurHandler(storeLocation)}
+                        blurOnSubmit
+                    />
+                </View>
+
+                {/* <View style={styles.container_input}>
                     <Animated.View style={[styles.animatedStyle, animStyle]}>
                         <Text style={styles.label}>Store latitude</Text>
                     </Animated.View>
@@ -220,8 +234,8 @@ const Vendor = ({ navigation }) => {
                         onBlur={onBlurHandler(storeLong)}
                         blurOnSubmit
                     />
-                </View>
-                {labelSubmit ?
+                </View> */}
+                {/* {labelSubmit ?
                 (labelSubmit === "Create") ? 
                     <View style={{alignItems: "center"}}>
                         <TouchableOpacity
@@ -250,14 +264,8 @@ const Vendor = ({ navigation }) => {
                             >
                             <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => navigation.push('Product')}
-                            >
-                            <Text style={{color: 'white', ...FONTS.h3}}>List product</Text>
-                        </TouchableOpacity>
                     </View>
-                </View></> : <></>}
+                </View></> : <></>} */}
             </View>
             </>
         )
@@ -274,7 +282,7 @@ const Vendor = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.lightGray4
+        backgroundColor: COLORS.white
     },
     shadow: {
         shadowColor: "#000",
@@ -336,4 +344,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Vendor
+export default MyStore
