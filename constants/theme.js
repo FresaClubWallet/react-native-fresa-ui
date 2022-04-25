@@ -10,14 +10,18 @@ export const COLORS = {
     black: "#1E1F20",
     white: "#FFFFFF",
     pink: "#e71963",
-
+    gray: "#CAC8C8",
+    grayMedium: "#CBCBCB",
+    grayMedium2: "#F2F2F2",
     lightGray: "#F5F5F6",
     lightGray2: "#F6F6F7",
     lightGray3: "#EFEFF1",
     lightGray4: "#F8F8F9",
+    lightGray5: "#B0B0B0",
     transparent: "transparent",
     darkgray: '#898C95',
-    blue: '#4192B8'
+    blue: '#0096CB',
+    blueMedium: '#008ABA'
 };
 
 export const SIZES = {
@@ -27,12 +31,12 @@ export const SIZES = {
     radius: 30,
     padding: 10,
     padding2: 12,
-    marginTop1: 10,
+    marginTop1: 18,
     marginTop2: 25,
 
     // font sizes
     largeTitle: 50,
-    h1: 30,
+    h1: 24,
     h2: 22,
     h3: 20,
     h4: 18,
@@ -42,6 +46,7 @@ export const SIZES = {
     body3: 16,
     body4: 14,
     body5: 12,
+    body6: 12,
 
     // app dimensions
     width,
@@ -49,17 +54,18 @@ export const SIZES = {
 };
 
 export const FONTS = {
-    largeTitle: { fontFamily: "Roboto-regular", fontSize: SIZES.largeTitle, lineHeight: 55 },
-    h1: { fontFamily: "Roboto-Black", fontSize: SIZES.h1, lineHeight: 36 },
-    h2: { fontFamily: "Roboto-Bold", fontSize: SIZES.h2, lineHeight: 30 },
-    h3: { fontFamily: "Roboto-Bold", fontSize: SIZES.h3, lineHeight: 22 },
-    h4: { fontFamily: "Roboto-Bold", fontSize: SIZES.h4, lineHeight: 22 },
-    h5: { fontFamily: "Roboto-Bold", fontSize: SIZES.h5, lineHeight: 22 },
-    body1: { fontFamily: "Roboto-Regular", fontSize: SIZES.body1, lineHeight: 36 },
-    body2: { fontFamily: "Roboto-Regular", fontSize: SIZES.body2, lineHeight: 30 },
-    body3: { fontFamily: "Roboto-Regular", fontSize: SIZES.body3, lineHeight: 22 },
-    body4: { fontFamily: "Roboto-Regular", fontSize: SIZES.body4, lineHeight: 22 },
-    body5: { fontFamily: "Roboto-Regular", fontSize: SIZES.body5, lineHeight: 22 },
+    largeTitle: { fontFamily: "Cera-Pro-Medium", fontSize: SIZES.largeTitle, lineHeight: 55 },
+    h1: { fontFamily: "Cera-Pro-Medium", fontSize: SIZES.h1, lineHeight: 24 },
+    h2: { fontFamily: "Cera-Pro-Bold", fontSize: SIZES.h2, lineHeight: 30 },
+    h3: { fontFamily: "Cera-Pro-Medium", fontSize: SIZES.h3, lineHeight: 22 },
+    h4: { fontFamily: "Cera-Pro-Bold", fontSize: SIZES.h4, lineHeight: 22 },
+    h5: { fontFamily: "Cera-Pro-Bold", fontSize: SIZES.h5, lineHeight: 22 },
+    body1: { fontFamily: "Cera-Pro-Medium", fontSize: SIZES.body1, lineHeight: 36 },
+    body2: { fontFamily: "Cera-Pro-Medium", fontSize: SIZES.body2, lineHeight: 30 },
+    body3: { fontFamily: "Cera-Pro-Medium", fontSize: SIZES.body3, lineHeight: 22 },
+    body4: { fontFamily: "Cera-Pro-Medium", fontSize: SIZES.body4, lineHeight: 22 },
+    body5: { fontFamily: "Cera-Pro-Medium", fontSize: SIZES.body5, lineHeight: 24 },
+    body6: { fontFamily: "Cera-Pro-Medium", fontSize: SIZES.body6, color: '#BABABA', lineHeight: 24 },
 };
 
 const appTheme = { COLORS, SIZES, FONTS };

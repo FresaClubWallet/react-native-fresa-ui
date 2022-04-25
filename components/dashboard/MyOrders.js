@@ -17,35 +17,46 @@ class MyOrders extends Component {
         }
         const renderProduct = ({ product }) => {
             return (
-                
                 <TouchableOpacity style={styles.ItemTouchElement}>
                     <View >
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             <View style={{ flexWrap: 'wrap', flexDirection: 'column' }}>
-                                <Text style={{ ...FONTS.h5, paddingLeft: 10 }}>Order from {shortenAddress('0x9f3DD64c084C88e8E456e9BAdbc1ebbC624941be')}</Text>
-                                <Text style={{ paddingLeft: 10 }}>12/1/1 13:11</Text>
+                                <Text style={{ ...FONTS.h5, paddingLeft: 10 }}>Order From: <Text style={{color: '#BABABA'}}>{shortenAddress('0x9f3DD64c084C88e8E456e9BAdbc1ebbC624941be')}</Text></Text>
                                 <View style={ styles.CounterContainer }>
                                     <View style={ styles.counter }>
-                                        <Text style={{...FONTS.h4}}>Items</Text>
-                                        <Text>20</Text>
+                                        <Text style={{...FONTS.h5}}>Items: <Text style={{color: '#BABABA'}}>20</Text></Text>
                                     </View>
                                     <View style={ styles.counter }>
-                                        <Text style={{...FONTS.h4}}>Total</Text>
-                                        <Text>$20 CUSD</Text>
+                                        <Text style={{...FONTS.h5}}>Total:  <Text style={{color: '#BABABA'}}>$20 CUSD</Text></Text>
+                                    </View>
+                                </View>
+                                <View style={ styles.CounterContainer }>
+                                    <View style={ styles.counter }>
+                                        <Text style={{...FONTS.h5}}>Description: <Text style={{color: '#BABABA'}}>Carne Asada Taco</Text></Text>
+                                    </View>
+                                </View>
+                                <View style={ styles.CounterContainer }>
+                                    <View style={ styles.counter }>
+                                        <Text style={{...FONTS.h5}}>Date: <Text style={{color: '#BABABA'}}>12/04/2022 - 12:00pm</Text></Text>
                                     </View>
                                 </View>
                             </View>
                         </View>
                     </View>
-
-
                 </TouchableOpacity>
             )
         }
         
         return (
             <View style={styles.DashboardProductSliderContainer}>
-                <Text style={ styles.SliderTitleText }>My Orders</Text>
+                <View style={styles.tabOrder}>
+                    <View style={styles.firstTab}>
+                        <Text style={ styles.ActiveSliderTitleText }>My Orders</Text>
+                    </View>
+                    <View style={styles.secondTab}>
+                        <Text style={ styles.SliderTitleText }>Sale</Text>
+                    </View>
+                </View>
                 <TouchableOpacity style={styles.TouchElement}>
                     <FlatList
                             style={styles.ListElement}
@@ -70,20 +81,22 @@ const styles = StyleSheet.create({
     SliderTitleText:{
         ...FONTS.h4
     },
-    TouchElement:{
-
-    },
-    ListElement:{
-        
+    ActiveSliderTitleText: {
+        ...FONTS.h4,
+        textDecorationLine: 'underline',
+        textDecorationThickness: 3,
+        textDecorationColor: COLORS.pink,
+        textUnderlineOffset: 8
     },
     ItemTouchElement:{
         padding: SIZES.padding,
-        paddingBottom: SIZES.padding * 2,
         backgroundColor: COLORS.white,
-        // boxShadow: "3px 3px 18px -15px",
         justifyContent: 'center',
         marginRight: SIZES.padding,
-        marginTop:10,
+        marginBottom: 15,
+        borderColor: "#000000",
+        borderRadius: 20,
+        borderWidth: 1
     },
     CounterContainer:{
         height: 10,
@@ -93,7 +106,21 @@ const styles = StyleSheet.create({
     },
     counter: {
          marginRight: 10
-    }
+    },
+    tabOrder: {
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+    },
+    firstTab: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    secondTab:{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 }); 
 
 

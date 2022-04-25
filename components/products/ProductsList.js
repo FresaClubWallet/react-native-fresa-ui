@@ -24,18 +24,22 @@ class ProductsList extends Component {
                                     }}
                                 />
                                 <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: "60%" }}>
-                                    <Text style={{ ...FONTS.h5, paddingLeft: 10 }}><Text>{product.price.toString()} cUSD</Text></Text>
-                                    <Text style={{ paddingLeft: 10 }}>Name: {product.name}</Text>
-                                    <Text style={{ paddingLeft: 10 }}>Description: {product.description}</Text>
                                     <View style={ styles.CounterContainer }>
-                                        <View style={ styles.counter }>
-                                            <Text style={{...FONTS.h5}}>Index</Text>
-                                            <Text>{product.index.toString()}</Text>
+                                        <Text style={{ ...FONTS.h5 }}>{product.name}</Text>
+                                    </View>
+                                    <View style={ styles.CounterContainer }>
+                                            <Text style={{...FONTS.body6}}>by Tacos de Tijuana</Text>
+                                    </View>
+                                    <View style={ styles.CounterContainer }>
+                                        <View style={styles.counter}>
+                                            <Text style={{...FONTS.body6, marginRight: 10}}>Active: Yes</Text>
                                         </View>
-                                        <View style={ styles.counter }>
-                                            <Text style={{...FONTS.h5}}>Active</Text>
-                                            <Text>{product.active.toString()}</Text>
+                                        <View style={styles.counter}>
+                                            <Text style={{...FONTS.body6}}>Quantity: 3</Text>
                                         </View>
+                                    </View>
+                                    <View style={ styles.CounterContainer }>
+                                            <Text style={{...FONTS.h5}}>${product.price.toString()} cUSD</Text>
                                     </View>
                                 </View>
                             </View>
@@ -75,20 +79,23 @@ const styles = StyleSheet.create({
         padding: SIZES.padding,
         paddingBottom: SIZES.padding * 2,
         backgroundColor: COLORS.white,
-        // boxShadow: "3px 3px 18px -15px",
-        alignItems: "center",
-        justifyContent: "center",
-        marginRight: SIZES.padding,
-        marginTop: 20
+        alignItems: "left",
+        justifyContent: "left",
+        marginTop: 20,
+        shadowColor: "#000",
+        shadowOffset: {width: 1, height: 4},
+        borderRadius: 15,
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     },
     CounterContainer:{
         height: 10,
-        margin: 10,
+        margin: 8,
         flexDirection: 'row',
         flexWrap: 'wrap'
     },
     counter: {
-        width: "50%", height: 50
+       height: 50
     }
 });
 

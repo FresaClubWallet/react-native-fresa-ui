@@ -14,20 +14,25 @@ import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 import AppContext from '../components/AppContext'; 
 import SubNav from "../components/SubNav";
+import Header from "../components/Header";
+import * as ImagePicker from 'expo-image-picker';
 
 
-const Vendor = ({ navigation }) => {
+const MyStore = ({ navigation }) => {
     const connector = useWalletConnect();
     const appContext = useContext(AppContext);
     const moveText = useRef(new Animated.Value(0)).current;
 
     const [messageVendor, setMessageVendor] = useState("");
     const [storeName, setStoreName] = useState(null);
-    const [storeImage, setStoreImage] = useState(null);
+    const [storeImage, setStoreImage] = useState("https://avatars.githubusercontent.com/u/91978140?s=200&v=4");
     const [storeDescription, setStoreDescription] = useState(null);
-    const [storeLat, setStoreLat] = useState(null);
-    const [storeLong, setStoreLong] = useState(null);
+    const [storeLat, setStoreLat] = useState(1000);
+    const [storeLong, setStoreLong] = useState(2000);
     const [labelSubmit, setLabelSubmit] = useState("");
+    const [isViewProduct, setIsViewProduct] = useState(false);
+    const [storeLocation, setStoreLocation] = useState();
+    const [image, setImage] = useState(null);
 
     useEffect(()=>{
         readStoreFront();
@@ -61,6 +66,22 @@ const Vendor = ({ navigation }) => {
         }).start();
       };
 
+    const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+        setImage(result.uri);
+    }
+    };
+
     const yVal = moveText.interpolate({
         inputRange: [0, 1],
         outputRange: [4, -20],
@@ -83,12 +104,10 @@ const Vendor = ({ navigation }) => {
                 setLabelSubmit("Create")
             } else {
                 setMessageVendor("")
-                setLabelSubmit("Update")
+                setLabelSubmit("Submit")
                 setStoreName(readStoreFront[1])
-                setStoreImage(readStoreFront[2])
                 setStoreDescription(readStoreFront[3])
-                setStoreLat(readStoreFront[4])
-                setStoreLong(readStoreFront[5])
+                setIsViewProduct(true)
             }
         } catch (e) {
           console.error(e);
@@ -120,17 +139,14 @@ const Vendor = ({ navigation }) => {
 
     function renderHeader() {
         return (
-            <View style={{ flexDirection: 'row', height: 50 }}>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: "#e71963", paddingBottom: 10, paddingTop: 10 }}>
-                </View>
-            </View>
+            <Header></Header>
         )
     }
 
     // Used to display balance & wallet address.
     function renderSubNav() {
         return (
-            <SubNav balance={appContext.balance} address={appContext.address}></SubNav>
+            <SubNav balance={appContext.balance} address={appContext.address} isViewProduct={isViewProduct} navigation={navigation}></SubNav>
         )
     }
 
@@ -139,12 +155,12 @@ const Vendor = ({ navigation }) => {
         return (
             <>
                 <View style={{ width: "100%", height: 30, textAlign: 'center' }}>
-                    <Text style={{ marginTop: 10, marginLeft: 20, color: "#767070", alignItems: "center" }}>{messageVendor}</Text>
+                    <Text style={{ marginLeft: 20, ...FONTS.body5, alignItems: "center" }}>{messageVendor}</Text>
                 </View>
                 <View>
                 <View style={styles.container_input}>
                     <Animated.View style={[styles.animatedStyle, animStyle]}>
-                        <Text style={styles.label}>Your store name</Text>
+                        <Text style={styles.label}>Store name</Text>
                     </Animated.View>
                     <TextInput
                         autoCapitalize={"none"}
@@ -158,7 +174,7 @@ const Vendor = ({ navigation }) => {
                     />
                 </View>
 
-                <View style={styles.container_input}>
+                {/* <View style={styles.container_input}>
                     <Animated.View style={[styles.animatedStyle, animStyle]}>
                         <Text style={styles.label}>Image Url</Text>
                     </Animated.View>
@@ -172,7 +188,7 @@ const Vendor = ({ navigation }) => {
                         onBlur={onBlurHandler(storeImage)}
                         blurOnSubmit
                     />
-                </View>
+                </View> */}
 
                 <View style={styles.container_input}>
                     <Animated.View style={[styles.animatedStyle, animStyle]}>
@@ -191,6 +207,22 @@ const Vendor = ({ navigation }) => {
                 </View>
 
                 <View style={styles.container_input}>
+                    <Animated.View style={[styles.animatedStyle, animStyle]}>
+                        <Text style={styles.label}>Location</Text>
+                    </Animated.View>
+                    <TextInput
+                        autoCapitalize={"none"}
+                        style={styles.input}
+                        value={storeLocation}
+                        onChangeText={setStoreLocation}
+                        editable={true}
+                        onFocus={onFocusHandler(storeLocation)}
+                        onBlur={onBlurHandler(storeLocation)}
+                        blurOnSubmit
+                    />
+                </View>
+
+                {/* <View style={styles.container_input}>
                     <Animated.View style={[styles.animatedStyle, animStyle]}>
                         <Text style={styles.label}>Store latitude</Text>
                     </Animated.View>
@@ -220,10 +252,17 @@ const Vendor = ({ navigation }) => {
                         onBlur={onBlurHandler(storeLong)}
                         blurOnSubmit
                     />
-                </View>
+                </View> */}
                 {labelSubmit ?
                 (labelSubmit === "Create") ? 
                     <View style={{alignItems: "center"}}>
+                        <TouchableOpacity
+                            style={styles.buttonUploadImage}
+                            onPress={pickImage}>
+                            {image ? <Image source={{ uri: image }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
+                            <><Image source={images.imageUpload} style={styles.imageUpload} resizeMode='contain'></Image>
+                            <Text style={{color: COLORS.lightGray5, marginTop: 10}}>Upload Image</Text></>}
+                        </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={()=> writeStoreFront()}
@@ -231,32 +270,31 @@ const Vendor = ({ navigation }) => {
                             <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
                         </TouchableOpacity>
                     </View>: 
-                <><View style={styles.container_button}>
-                    <View style={{flexDirection: 'column', flexWrap: 'wrap' }}>
-                        <Text style={styles.label}>Your store Image</Text>
-                        <Image
+                <><View style={{alignItems: "center"}}>
+                    {/* <View style={{flexDirection: 'row', flexWrap: 'wrap' }}> */}
+                        {/* <Image
                             resizeMode="cover"
                             source={storeImage}
                             style={{
                                 width: 100,
                                 height: 100,
                             }}
-                        />
-                    </View>
-                    <View style={{flexDirection: 'column', flexWrap: 'wrap', gap: 20}}>
+                        /> */}
+                        <TouchableOpacity
+                            style={styles.buttonUploadImage}
+                            onPress={pickImage}>
+                            {image ? <Image source={{ uri: image }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
+                            <Image source={storeImage} style={{width: '100%', height: 200}}  resizeMode='contain'></Image>}
+                        </TouchableOpacity>
+                    {/* </View> */}
+                    {/* <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: 20}}> */}
                         <TouchableOpacity
                             style={styles.button}
                             onPress={()=> writeStoreFront()}
                             >
                             <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => navigation.push('Product')}
-                            >
-                            <Text style={{color: 'white', ...FONTS.h3}}>List product</Text>
-                        </TouchableOpacity>
-                    </View>
+                    {/* </View> */}
                 </View></> : <></>}
             </View>
             </>
@@ -274,7 +312,7 @@ const Vendor = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.lightGray4
+        backgroundColor: COLORS.white
     },
     shadow: {
         shadowColor: "#000",
@@ -286,14 +324,31 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         elevation: 1,
     },
-
-    button: {
+    imageUpload: {
+        width: '100%',
+        height: 80
+    },
+    buttonUploadImage: {
+        marginTop: SIZES.padding,
+        width: 300,
+        height: 200,
+        backgroundColor: COLORS.grayMedium2,
+        borderRadius: 30,
+        borderStyle: 'dashed',
+        borderWidth: 2,
+        borderColor: COLORS.black,
+        flexDirection: 'col', flexWrap: 'wrap',
         alignItems: 'center',
-        paddingVertical: 6,
-        paddingHorizontal: 20,
-        borderRadius: 4,
+        justifyContent: 'center',
+    },
+    button: {
+        marginTop: SIZES.padding * 2,
+        alignItems: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 40,
+        borderRadius: 30,
         elevation: 1,
-        backgroundColor: COLORS.pink,
+        backgroundColor: COLORS.blueMedium,
     },
     container_input: {
         marginBottom: 10,
@@ -307,12 +362,12 @@ const styles = StyleSheet.create({
         width: "90%",
         alignSelf: "center",
       },
-    container_button: {
-        flexDirection: 'row', 
-        flexWrap: 'wrap', 
-        justifyContent: 'space-around', 
-        alignItems: 'center'
-    },
+    // container_button: {
+    //     flexDirection: 'row', 
+    //     flexWrap: 'wrap', 
+    //     justifyContent: 'space-around', 
+    //     alignItems: 'center'
+    // },
     icon: {
         width: 40,
         justifyContent: "center",
@@ -336,4 +391,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Vendor
+export default MyStore

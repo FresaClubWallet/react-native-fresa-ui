@@ -1,54 +1,83 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useContext } from 'react';
+import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
+import AppContext from './AppContext'; 
 
-class Header extends Component {
-    constructor(props) {
-        super(props);
+
+const Header = (props) => {
+    const appContext = useContext(AppContext);
+    const shortenAddress = (address) => {
+        return `${address.slice(0, 20)}...${address.slice(
+            address.length - 4,
+            address.length
+        )}`;
     }
-
-    render() {
-        const shortenAddress = (address) => {
-            return `${address.slice(0, 9)}...${address.slice(
-                address.length - 4,
-                address.length
-            )}`;
-        }
-        return (
-            <View style={styles.headerContainer}>
-                <View style={styles.headerContent}>
-                    <View style={styles.storeAddressBar}>
-                        <Text style={styles.storeAddressBarText}>{shortenAddress('0x9f3DD64c084C88e8E456e9BAdbc1ebbC624941be')}</Text>
-                    </View>
+    return (
+        <View style={styles.headerContainer}>
+            <View style={styles.leftContent}>
+                <Image source={images.iconLogo} style={styles.logo}/>
+            </View>
+            <View style={styles.centerContent}>
+                <View style={styles.storeAddressBar}>
+                    <Text style={styles.storeAddressBarText}>{shortenAddress(appContext.address)}</Text>
                 </View>
             </View>
-        );
-    }
+            <View style={styles.rightContent}>
+                <ImageBackground source={images.eclipse} resizeMode="cover" style={styles.imageRightContent}>
+                    <Image source={icons.qr} style={styles.qr}/>
+                </ImageBackground>
+            </View>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
     headerContainer:{
         flexDirection: 'row', 
-        height: 50
+        height: 40
     },
-    headerContent:{
+    leftContent: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 10,
+        paddingTop: 20,
+        paddingLeft: 20
+    },
+    centerContent:{
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor:'#e71963',
         paddingBottom: 10,
         paddingTop:10
+    },
+    rightContent: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    imageRightContent:{
+        paddingBottom: 10,
+        paddingTop: 10,
+        paddingLeft: 20,
+        paddingRight: 10
     },
     storeAddressBar:{
         height: 34,
         width:250,
-        backgroundColor: '#14131336'
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     storeAddressBarText: {
         padding: 10,
-        color: "white"
+        color: COLORS.gray
+    },
+    logo: {
+        width: 37,
+        height: 37
+    },
+    qr: {
+        width: 20,
+        height: 20
     }
-
 });
 
 

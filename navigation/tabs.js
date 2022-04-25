@@ -5,12 +5,11 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs"
-import Svg, { Path } from 'react-native-svg';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
-import { Home, Vendor, Product } from "../screens"
+import { Home, MyStore, VendorQr, ProductDetail, Product } from "../screens"
 
-import { COLORS, icons } from "../constants"
+import { COLORS, icons, SIZES } from "../constants"
 
 const Tab = createBottomTabNavigator();
 
@@ -20,31 +19,23 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
 
     if (isSelected) {
         return (
-            <View style={{ flex: 1, alignItems: "center", backgroundColor: "#E71963" }}>
-                <View style={{ flexDirection: 'row', position: 'absolute', top: 0 }}>
-                    <View style={{ flex: 1, backgroundColor: COLORS.white }}></View>
-                    <Svg
-                        width={75}
-                        height={61}
-                        viewBox="0 0 75 61"
-                    >
-                        <Path
-                            d="M75.2 0v61H0V0c4.1 0 7.4 3.1 7.9 7.1C10 21.7 22.5 33 37.7 33c15.2 0 27.7-11.3 29.7-25.9.5-4 3.9-7.1 7.9-7.1h-.1z"
-                            fill={COLORS.white}
-                        />
-                    </Svg>
-                    <View style={{ flex: 1, backgroundColor: COLORS.white }}></View>
-                </View>
-
+            <View style={{ flex: 1, alignItems: "center", backgroundColor: COLORS.pink }}>
                 <TouchableOpacity
                     style={{
-                        top: -22.5,
+                        top: 2,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: 50,
-                        height: 50,
+                        width: 45,
+                        height: 45,
                         borderRadius: 25,
-                        backgroundColor: COLORS.white
+                        backgroundColor: COLORS.blue,
+                        shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 2,
+                        },
+                        shadowOpacity: 5,
+                        shadowRadius: 2
                     }}
                     onPress={onPress}
                 >
@@ -57,10 +48,10 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
             <TouchableOpacity
                 style={{
                     flex: 1,
-                    height: 60,
-                    backgroundColor: "#E71963"
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: COLORS.pink
                 }}
-                activeOpacity={1}
                 onPress={onPress}
             >
                 {children}
@@ -102,19 +93,16 @@ const Tabs = () => {
     return (
         <Tab.Navigator
             tabBarOptions={{
-                showLabel: false,
-                style: {
+                labelStyle: {
                     position: 'absolute',
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
-                    borderTopWidth: 0,
-                    backgroundColor: "transparent",
-                    elevation: 0
-                }
+                    bottom: 6,
+                    fontSize: 9
+                },
             }}
             screenOptions={{
-                headerShown: false
+                headerShown: false,
+                tabBarActiveTintColor: COLORS.white,
+                tabBarInactiveTintColor: COLORS.white
             }}
             tabBar={(props) => (
                 <CustomTabBar
@@ -128,12 +116,12 @@ const Tabs = () => {
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
-                            source={icons.cutlery}
+                            source={icons.home}
                             resizeMode="contain"
                             style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? COLORS.primary : COLORS.secondary
+                                top: -8,
+                                width: 18,
+                                height: 18
                             }}
                         />
                     ),
@@ -145,17 +133,17 @@ const Tabs = () => {
                 }}
             />
            <Tab.Screen
-                name="Storefront"
-                component={Vendor}
+                name="MyStore"
+                component={MyStore}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
-                            source={icons.user}
+                            source={icons.store}
                             resizeMode="contain"
                             style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? COLORS.primary : COLORS.secondary
+                                top: -8,
+                                width: 18,
+                                height: 18,
                             }}
                         />
                     ),
@@ -167,17 +155,17 @@ const Tabs = () => {
                 }}
             />
             <Tab.Screen
-                name="MyProducts"
-                component={Home}
+                name="VendorQr"
+                component={VendorQr}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
-                            source={icons.basket}
+                            source={icons.vendorqr}
                             resizeMode="contain"
                             style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? COLORS.primary : COLORS.secondary
+                                top: -8,
+                                width: 18,
+                                height: 18,
                             }}
                         />
                     ),
@@ -190,17 +178,39 @@ const Tabs = () => {
             />
 
             <Tab.Screen
-                name="Favourites"
-                component={Home}
+                name="Product"
+                component={ProductDetail}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
-                            source={icons.like}
+                            source={icons.product}
                             resizeMode="contain"
                             style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? COLORS.primary : COLORS.secondary
+                                top: -8,
+                                width: 18,
+                                height: 18,
+                            }}
+                        />
+                    ),
+                    tabBarButton: (props) => (
+                        <TabBarCustomButton
+                            {...props}
+                        />
+                    )
+                }}
+            />
+             <Tab.Screen
+                name="Favourite"
+                component={Product}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <Image
+                            source={icons.favourite}
+                            resizeMode="contain"
+                            style={{
+                                top: -8,
+                                width: 18,
+                                height: 18,
                             }}
                         />
                     ),
