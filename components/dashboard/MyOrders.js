@@ -32,7 +32,7 @@ class MyOrders extends Component {
                                 </View>
                                 <View style={ styles.CounterContainer }>
                                     <View style={ styles.counter }>
-                                        <Text style={{...FONTS.h5}}>Description: <Text style={{color: '#BABABA'}}>Bowl of salad</Text></Text>
+                                        <Text style={{...FONTS.h5}}>Description: <Text style={{color: '#BABABA'}}>Carne Asada Taco</Text></Text>
                                     </View>
                                 </View>
                                 <View style={ styles.CounterContainer }>

@@ -8,7 +8,7 @@ import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom
 import Svg, { Path } from 'react-native-svg';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
-import { Home, MyStore, VendorQr } from "../screens"
+import { Home, MyStore, VendorQr, ProductDetail } from "../screens"
 
 import { COLORS, icons, SIZES } from "../constants"
 
@@ -180,7 +180,7 @@ const Tabs = () => {
 
             <Tab.Screen
                 name="Product"
-                component={Home}
+                component={ProductDetail}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image

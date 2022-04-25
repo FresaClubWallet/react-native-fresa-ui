@@ -35,6 +35,10 @@ export const balance = require("../assets/icons/balance.png");
 export const hide = require("../assets/icons/hide.png");
 export const arrow = require("../assets/icons/arrow.png");
 export const homePink = require("../assets/icons/homePink.png");
+export const copy = require("../assets/icons/copy.png");
+export const heart = require("../assets/icons/heart.png");
+export const plus = require("../assets/icons/plus.png");
+export const minus = require("../assets/icons/minus.png");
 
 export default {
     back,
@@ -73,5 +77,9 @@ export default {
     balance,
     hide,
     arrow,
-    homePink
+    homePink,
+    copy,
+    heart,
+    minus,
+    plus
 }

@@ -8,6 +8,7 @@ const loginCircle = require("../assets/images/loginCircle.png");
 const eclipse = require("../assets/images/eclipse.png");
 const salad = require("../assets/images/salad.png");
 const sandwich = require("../assets/images/sandwich.png");
+const taco = require("../assets/images/taco.png");
 
 export default {
     iconLogo,
@@ -19,5 +20,6 @@ export default {
     loginCircle,
     eclipse,
     salad,
-    sandwich
+    sandwich,
+    taco
 }

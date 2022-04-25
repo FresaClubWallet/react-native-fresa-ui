@@ -17,7 +17,6 @@ const SubNav = (props) => {
                 <Image source={icons.hide} style={styles.iconHide}/>
             </View>
             <View style={styles.centerContent}>
-                
             </View>
             <View style={styles.rightContent}>
                 {props.isViewProduct ?
@@ -27,10 +26,14 @@ const SubNav = (props) => {
                         <Text style={ styles.viewProducts }>View products</Text>
                         <Image source={icons.arrow} style={styles.iconArrow}/>
                     </TouchableOpacity>: ""}
-                {props.isBackToStore ? <>
+                {props.isBackToStore ?
+                    <TouchableOpacity
+                        style={styles.buttonOpacity}
+                        onPress={() => props.navigation.push('Home')}>
                     <Image source={icons.homePink} style={styles.iconHome}/>
                     <Text style={ styles.backToStore }>Back to store</Text>
-                </> : ""}
+                    </TouchableOpacity>
+                : ""}
             </View>                
 
         </View>
