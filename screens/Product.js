@@ -12,7 +12,8 @@ import {
 } from "react-native";
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
-
+import SubNav from "../components/SubNav";
+import Header from "../components/Header";
 import AppContext from '../components/AppContext'; 
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import ProductsList from "../components/products/ProductsList"
@@ -85,20 +86,14 @@ const Product = ({ navigation }) => {
 
     function renderHeader() {
         return (
-            <View style={{ flexDirection: 'row', height: 50 }}>
-                <View style={{ flex: 1, 
-                justifyContent: 'left', 
-                    backgroundColor: "#e71963", paddingBottom: 10, paddingTop: 10 }}>
-                    <View style={{height: 34, width: 85,  marginLeft: 10}}>
-                        <TouchableOpacity
-                            style={styles.button_back}
-                            onPress={() => navigation.goBack()}
-                        >
-                            <Text style={{color: 'black', ...FONTS.h4}}>Back</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </View>
+            <Header></Header>
+        )
+    }
+
+    // Used to display balance & wallet address.
+    function renderSubNav() {
+        return (
+            <SubNav balance={appContext.balance} address={appContext.address} navigation={navigation} isBackToStore={true}></SubNav>
         )
     }
 
@@ -211,7 +206,8 @@ const Product = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             {renderHeader()}
-            <Text style={{ marginTop: 10, color: "#767070", alignItems: "center" }}>{messageProduct}</Text>
+            {renderSubNav()}
+            <Text style={{ color: "#767070", alignItems: "center" }}>{messageProduct}</Text>
             {renderProducts()}
             <TouchableOpacity
                 activeOpacity={0.7}
@@ -234,7 +230,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         textAlign: 'center',
-        backgroundColor: COLORS.lightGray4
+        backgroundColor: COLORS.white
     },
     container_input: {
         marginBottom: 10,
@@ -297,19 +293,26 @@ const styles = StyleSheet.create({
     },
     touchableOpacityStyle: {
         position: 'absolute',
-        width: 60,
-        height: 60,
+        width: 50,
+        height: 50,
         alignItems: 'center',
         justifyContent: 'center',
         right: 30,
-        bottom: 30,
-        backgroundColor: COLORS.pink,
+        bottom: 10,
+        backgroundColor: COLORS.blue,
         borderRadius: 100,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 1,
+            height: 2,
+        },
+        shadowOpacity: 50,
+        shadowRadius: 5,
     },
     floatingButtonStyle: {
         resizeMode: 'contain',
-        width: 40,
-        height: 40,
+        width: 30,
+        height: 30,
         backgroundColor: COLORS.transparent
     },
     containerModal: {
@@ -319,7 +322,6 @@ const styles = StyleSheet.create({
     },
     containeraltModal: {
         backgroundColor: "white",
-        paddingTop: 5,
         paddingHorizontal: 10,
         borderRadius: 10,
         borderWidth: 1,

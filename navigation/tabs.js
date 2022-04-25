@@ -5,10 +5,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs"
-import Svg, { Path } from 'react-native-svg';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
-import { Home, MyStore, VendorQr, ProductDetail } from "../screens"
+import { Home, MyStore, VendorQr, ProductDetail, Product } from "../screens"
 
 import { COLORS, icons, SIZES } from "../constants"
 
@@ -202,7 +201,7 @@ const Tabs = () => {
             />
              <Tab.Screen
                 name="Favourite"
-                component={Home}
+                component={Product}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image

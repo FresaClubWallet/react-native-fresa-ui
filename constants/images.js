@@ -9,6 +9,7 @@ const eclipse = require("../assets/images/eclipse.png");
 const salad = require("../assets/images/salad.png");
 const sandwich = require("../assets/images/sandwich.png");
 const taco = require("../assets/images/taco.png");
+const imageUpload = require("../assets/images/imageUpload.png");
 
 export default {
     iconLogo,
@@ -21,5 +22,6 @@ export default {
     eclipse,
     salad,
     sandwich,
-    taco
+    taco,
+    imageUpload
 }

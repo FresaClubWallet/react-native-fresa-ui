@@ -12,13 +12,16 @@ export const COLORS = {
     pink: "#e71963",
     gray: "#CAC8C8",
     grayMedium: "#CBCBCB",
+    grayMedium2: "#F2F2F2",
     lightGray: "#F5F5F6",
     lightGray2: "#F6F6F7",
     lightGray3: "#EFEFF1",
     lightGray4: "#F8F8F9",
+    lightGray5: "#B0B0B0",
     transparent: "transparent",
     darkgray: '#898C95',
-    blue: '#0096CB'
+    blue: '#0096CB',
+    blueMedium: '#008ABA'
 };
 
 export const SIZES = {

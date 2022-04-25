@@ -45,10 +45,14 @@ const MyProductsSlider = (props) => {
                 <View style={styles.centerContent}>
                     
                 </View>
-                <View style={styles.rightContent}>
-                    <Text style={ styles.ViewAll }>View all</Text>
-                    <Image source={icons.arrow} style={styles.iconArrow}/>
-                </View>
+                <TouchableOpacity
+                        style={styles.buttonOpacity}
+                        onPress={() => props.navigation.push('Product')}>
+                    <View style={styles.rightContent}>
+                        <Text style={ styles.ViewAll }>View all</Text>
+                        <Image source={icons.arrow} style={styles.iconArrow}/>
+                    </View>
+                </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.TouchElement}>
                 <FlatList
@@ -128,6 +132,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         paddingRight: 20
+    },
+    buttonOpacity: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
     },
 });
 

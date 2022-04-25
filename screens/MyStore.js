@@ -15,6 +15,7 @@ import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 import AppContext from '../components/AppContext'; 
 import SubNav from "../components/SubNav";
 import Header from "../components/Header";
+import * as ImagePicker from 'expo-image-picker';
 
 
 const MyStore = ({ navigation }) => {
@@ -31,6 +32,7 @@ const MyStore = ({ navigation }) => {
     const [labelSubmit, setLabelSubmit] = useState("");
     const [isViewProduct, setIsViewProduct] = useState(false);
     const [storeLocation, setStoreLocation] = useState();
+    const [image, setImage] = useState(null);
 
     useEffect(()=>{
         readStoreFront();
@@ -64,6 +66,22 @@ const MyStore = ({ navigation }) => {
         }).start();
       };
 
+    const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+        setImage(result.uri);
+    }
+    };
+
     const yVal = moveText.interpolate({
         inputRange: [0, 1],
         outputRange: [4, -20],
@@ -81,9 +99,9 @@ const MyStore = ({ navigation }) => {
         try {    
             const readStoreFront = await appContext.contract.readStoreFront(appContext.address)
             // check store front if null address , vendor not add
-            if (readStoreFront[1].toLowerCase() !== appContext.address.toLowerCase()){
+            if (readStoreFront[0].toLowerCase() !== appContext.address.toLowerCase()){
                 setMessageVendor("You don't have store front yet!")
-                setLabelSubmit("Submit")
+                setLabelSubmit("Create")
             } else {
                 setMessageVendor("")
                 setLabelSubmit("Submit")
@@ -235,9 +253,16 @@ const MyStore = ({ navigation }) => {
                         blurOnSubmit
                     />
                 </View> */}
-                {/* {labelSubmit ?
+                {labelSubmit ?
                 (labelSubmit === "Create") ? 
                     <View style={{alignItems: "center"}}>
+                        <TouchableOpacity
+                            style={styles.buttonUploadImage}
+                            onPress={pickImage}>
+                            {image ? <Image source={{ uri: image }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
+                            <><Image source={images.imageUpload} style={styles.imageUpload} resizeMode='contain'></Image>
+                            <Text style={{color: COLORS.lightGray5, marginTop: 10}}>Upload Image</Text></>}
+                        </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={()=> writeStoreFront()}
@@ -245,27 +270,32 @@ const MyStore = ({ navigation }) => {
                             <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
                         </TouchableOpacity>
                     </View>: 
-                <><View style={styles.container_button}>
-                    <View style={{flexDirection: 'column', flexWrap: 'wrap' }}>
-                        <Text style={styles.label}>Your store Image</Text>
-                        <Image
+                <><View style={{alignItems: "center"}}>
+                    {/* <View style={{flexDirection: 'row', flexWrap: 'wrap' }}> */}
+                        {/* <Image
                             resizeMode="cover"
                             source={storeImage}
                             style={{
                                 width: 100,
                                 height: 100,
                             }}
-                        />
-                    </View>
-                    <View style={{flexDirection: 'column', flexWrap: 'wrap', gap: 20}}>
+                        /> */}
+                        <TouchableOpacity
+                            style={styles.buttonUploadImage}
+                            onPress={pickImage}>
+                            {image ? <Image source={{ uri: image }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
+                            <Image source={storeImage} style={{width: '100%', height: 200}}  resizeMode='contain'></Image>}
+                        </TouchableOpacity>
+                    {/* </View> */}
+                    {/* <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: 20}}> */}
                         <TouchableOpacity
                             style={styles.button}
                             onPress={()=> writeStoreFront()}
                             >
                             <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
                         </TouchableOpacity>
-                    </View>
-                </View></> : <></>} */}
+                    {/* </View> */}
+                </View></> : <></>}
             </View>
             </>
         )
@@ -294,14 +324,31 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         elevation: 1,
     },
-
-    button: {
+    imageUpload: {
+        width: '100%',
+        height: 80
+    },
+    buttonUploadImage: {
+        marginTop: SIZES.padding,
+        width: 300,
+        height: 200,
+        backgroundColor: COLORS.grayMedium2,
+        borderRadius: 30,
+        borderStyle: 'dashed',
+        borderWidth: 2,
+        borderColor: COLORS.black,
+        flexDirection: 'col', flexWrap: 'wrap',
         alignItems: 'center',
-        paddingVertical: 6,
-        paddingHorizontal: 20,
-        borderRadius: 4,
+        justifyContent: 'center',
+    },
+    button: {
+        marginTop: SIZES.padding * 2,
+        alignItems: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 40,
+        borderRadius: 30,
         elevation: 1,
-        backgroundColor: COLORS.pink,
+        backgroundColor: COLORS.blueMedium,
     },
     container_input: {
         marginBottom: 10,
@@ -315,12 +362,12 @@ const styles = StyleSheet.create({
         width: "90%",
         alignSelf: "center",
       },
-    container_button: {
-        flexDirection: 'row', 
-        flexWrap: 'wrap', 
-        justifyContent: 'space-around', 
-        alignItems: 'center'
-    },
+    // container_button: {
+    //     flexDirection: 'row', 
+    //     flexWrap: 'wrap', 
+    //     justifyContent: 'space-around', 
+    //     alignItems: 'center'
+    // },
     icon: {
         width: 40,
         justifyContent: "center",

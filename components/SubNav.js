@@ -22,14 +22,14 @@ const SubNav = (props) => {
                 {props.isViewProduct ?
                     <TouchableOpacity
                         style={styles.buttonOpacity}
-                        onPress={() => props.navigation.push('Product')}>
+                        onPress={() => props.navigation.navigate('Product')}>
                         <Text style={ styles.viewProducts }>View products</Text>
                         <Image source={icons.arrow} style={styles.iconArrow}/>
                     </TouchableOpacity>: ""}
                 {props.isBackToStore ?
                     <TouchableOpacity
                         style={styles.buttonOpacity}
-                        onPress={() => props.navigation.push('Home')}>
+                        onPress={() => props.navigation.navigate('Home')}>
                     <Image source={icons.homePink} style={styles.iconHome}/>
                     <Text style={ styles.backToStore }>Back to store</Text>
                     </TouchableOpacity>
