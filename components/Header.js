@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 import AppContext from './AppContext'; 
 
@@ -23,9 +23,13 @@ const Header = (props) => {
                 </View>
             </View>
             <View style={styles.rightContent}>
-                <ImageBackground source={images.eclipse} resizeMode="cover" style={styles.imageRightContent}>
-                    <Image source={icons.qr} style={styles.qr}/>
-                </ImageBackground>
+                <TouchableOpacity
+                    style={styles.buttonOpacity}
+                    onPress={() => props.navigation.navigate('StoreQrScanner')}>
+                    <ImageBackground source={images.eclipse} resizeMode="cover" style={styles.imageRightContent}>
+                        <Image source={icons.qr} style={styles.qr}/>
+                    </ImageBackground>
+                </TouchableOpacity>
             </View>
         </View>
     );
