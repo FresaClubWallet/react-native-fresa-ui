@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     storeAddressBarText: {
-        padding: 10,
+        padding: 6,
         color: COLORS.gray
     },
     logo: {

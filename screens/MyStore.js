@@ -139,7 +139,7 @@ const MyStore = ({ navigation }) => {
 
     function renderHeader() {
         return (
-            <Header></Header>
+            <Header navigation={navigation}></Header>
         )
     }
 
@@ -153,7 +153,7 @@ const MyStore = ({ navigation }) => {
     // Display vendor store front
     function renderStoreFront() {
         return (
-            <>
+            <View>
                 <View style={{ width: "100%", height: 30, textAlign: 'center' }}>
                     <Text style={{ marginLeft: 20, ...FONTS.body5, alignItems: "center" }}>{messageVendor}</Text>
                 </View>
@@ -173,22 +173,6 @@ const MyStore = ({ navigation }) => {
                         blurOnSubmit
                     />
                 </View>
-
-                {/* <View style={styles.container_input}>
-                    <Animated.View style={[styles.animatedStyle, animStyle]}>
-                        <Text style={styles.label}>Image Url</Text>
-                    </Animated.View>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.input}
-                        value={storeImage}
-                        onChangeText={setStoreImage}
-                        editable={true}
-                        onFocus={onFocusHandler(storeImage)}
-                        onBlur={onBlurHandler(storeImage)}
-                        blurOnSubmit
-                    />
-                </View> */}
 
                 <View style={styles.container_input}>
                     <Animated.View style={[styles.animatedStyle, animStyle]}>
@@ -222,37 +206,6 @@ const MyStore = ({ navigation }) => {
                     />
                 </View>
 
-                {/* <View style={styles.container_input}>
-                    <Animated.View style={[styles.animatedStyle, animStyle]}>
-                        <Text style={styles.label}>Store latitude</Text>
-                    </Animated.View>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.input}
-                        value={storeLat}
-                        onChangeText={setStoreLat}
-                        editable={true}
-                        onFocus={onFocusHandler(storeLat)}
-                        onBlur={onBlurHandler(storeLat)}
-                        blurOnSubmit
-                    />
-                </View>
-
-                <View style={styles.container_input}>
-                    <Animated.View style={[styles.animatedStyle, animStyle]}>
-                        <Text style={styles.label}>Store longitude</Text>
-                    </Animated.View>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.input}
-                        value={storeLong}
-                        onChangeText={setStoreLong}
-                        editable={true}
-                        onFocus={onFocusHandler(storeLong)}
-                        onBlur={onBlurHandler(storeLong)}
-                        blurOnSubmit
-                    />
-                </View> */}
                 {labelSubmit ?
                 (labelSubmit === "Create") ? 
                     <View style={{alignItems: "center"}}>
@@ -260,8 +213,10 @@ const MyStore = ({ navigation }) => {
                             style={styles.buttonUploadImage}
                             onPress={pickImage}>
                             {image ? <Image source={{ uri: image }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
-                            <><Image source={images.imageUpload} style={styles.imageUpload} resizeMode='contain'></Image>
-                            <Text style={{color: COLORS.lightGray5, marginTop: 10}}>Upload Image</Text></>}
+                            <View>
+                                <Image source={images.imageUpload} style={styles.imageUpload} resizeMode='contain'></Image>
+                                <Text style={{color: COLORS.lightGray5, marginTop: 10}}>Upload Image</Text>
+                            </View>}
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
@@ -270,34 +225,22 @@ const MyStore = ({ navigation }) => {
                             <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
                         </TouchableOpacity>
                     </View>: 
-                <><View style={{alignItems: "center"}}>
-                    {/* <View style={{flexDirection: 'row', flexWrap: 'wrap' }}> */}
-                        {/* <Image
-                            resizeMode="cover"
-                            source={storeImage}
-                            style={{
-                                width: 100,
-                                height: 100,
-                            }}
-                        /> */}
+                <View><View style={{alignItems: "center"}}>
                         <TouchableOpacity
                             style={styles.buttonUploadImage}
                             onPress={pickImage}>
                             {image ? <Image source={{ uri: image }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
                             <Image source={storeImage} style={{width: '100%', height: 200}}  resizeMode='contain'></Image>}
                         </TouchableOpacity>
-                    {/* </View> */}
-                    {/* <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: 20}}> */}
                         <TouchableOpacity
                             style={styles.button}
                             onPress={()=> writeStoreFront()}
                             >
                             <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
                         </TouchableOpacity>
-                    {/* </View> */}
-                </View></> : <></>}
+                </View></View> : <View></View>}
             </View>
-            </>
+            </View>
         )
     }
     return (
@@ -337,7 +280,8 @@ const styles = StyleSheet.create({
         borderStyle: 'dashed',
         borderWidth: 2,
         borderColor: COLORS.black,
-        flexDirection: 'col', flexWrap: 'wrap',
+        flexDirection: 'column', 
+        flexWrap: 'wrap',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -362,12 +306,6 @@ const styles = StyleSheet.create({
         width: "90%",
         alignSelf: "center",
       },
-    // container_button: {
-    //     flexDirection: 'row', 
-    //     flexWrap: 'wrap', 
-    //     justifyContent: 'space-around', 
-    //     alignItems: 'center'
-    // },
     icon: {
         width: 40,
         justifyContent: "center",
@@ -376,7 +314,6 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 13,
         height: 35,
-        // outlineStyle: 'none'
     },
     label: {
         color: "grey",

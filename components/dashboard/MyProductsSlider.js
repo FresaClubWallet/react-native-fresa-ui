@@ -7,27 +7,25 @@ const MyProductsSlider = (props) => {
     const renderProduct = ({ product }) => {
         return (
             <TouchableOpacity style={styles.ItemTouchElement}>
-                <View>
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                        <Image
-                            resizeMode="cover"
-                            source={images.taco}
-                            style={{
-                                width: 100,
-                                height: 100,
-                            }}
-                        />
-                        <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: 150 }}>
-                            <Text style={{ ...FONTS.h5, paddingLeft: 10 }}>Carne Asada Taco</Text>
-                            <View style={ styles.CounterContainer }>
-                                <View style={ styles.counter }>
-                                    <Text style={{...FONTS.body6}}>Stock: 20</Text>
-                                </View>
-                                <View style={ styles.counter }>
-                                    <Text style={{...FONTS.body6}}>Sold: 25</Text>
-                                </View>
-                                <Text style={{...FONTS.h5}}>$2.75 cUSD</Text>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                    <Image
+                        resizeMode="cover"
+                        source={images.taco}
+                        style={{
+                            width: 100,
+                            height: 100,
+                        }}
+                    />
+                    <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: 150 }}>
+                        <Text style={{ ...FONTS.h5, paddingLeft: 10 }}>Carne Asada Taco</Text>
+                        <View style={ styles.CounterContainer }>
+                            <View style={ styles.counter }>
+                                <Text style={{...FONTS.body6}}>Stock: 20</Text>
                             </View>
+                            <View style={ styles.counter }>
+                                <Text style={{...FONTS.body6}}>Sold: 25</Text>
+                            </View>
+                            <Text style={{...FONTS.h5}}>$2.75 cUSD</Text>
                         </View>
                     </View>
                 </View>

@@ -86,7 +86,7 @@ const Product = ({ navigation }) => {
 
     function renderHeader() {
         return (
-            <Header></Header>
+            <Header navigation={navigation}></Header>
         )
     }
 
@@ -99,9 +99,7 @@ const Product = ({ navigation }) => {
 
     function renderProducts() {
         return (
-            <View>
-                <ProductsList products={products}></ProductsList>
-            </View>
+            <ProductsList products={products}></ProductsList>
         )
     }
 
@@ -117,7 +115,7 @@ const Product = ({ navigation }) => {
             {label: 'deactive', value: false }
           ];
         return (
-          <>
+          <View>
             <Modal onRequestClose={() => setIsVisible(false)} transparent visible={isVisible}>
               <View style={styles.containeraltModal}>
                 <View style={styles.container_input}>
@@ -174,7 +172,7 @@ const Product = ({ navigation }) => {
                 </View>
                 <View>
                     <RadioForm
-                        style={{gap: 20, padding: 15}}
+                        style={{justifyContent:'space-between', padding: 15}}
                         radio_props={radio_props}
                         initial={0}
                         formHorizontal={true}
@@ -183,7 +181,7 @@ const Product = ({ navigation }) => {
                         onPress={(value) => setStatus(value)}
                     />
                 </View>
-                <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: 20, direction: "rtl", padding: 15}}>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent:'space-between', direction: "rtl", padding: 15}}>
                     <TouchableOpacity
                         style={styles.buttonModalAdd}
                         onPress={() => writeProduct(name, image, description, price, status)}
@@ -199,7 +197,7 @@ const Product = ({ navigation }) => {
                 </View>
               </View>
             </Modal>
-          </>
+          </View>
         );
       }
 

@@ -24,7 +24,7 @@ const ProductDetail = ({ navigation }) => {
 
     function renderHeader() {
         return (
-            <Header></Header>
+            <Header navigation={navigation}></Header>
         )
     }
 
@@ -59,7 +59,7 @@ const ProductDetail = ({ navigation }) => {
             </View>
             <Text style={styles.description}>Housemade tortilla, Carne Asada diced onions and cilantro.</Text>
             <View style={styles.bodyWallet}>
-                <Text style={{...FONTS.h5, marginRight: 2}}>Wallet: </Text>
+                <Text style={{...FONTS.h5, marginRight: 2}}>Wallet:</Text>
                 <Text style={{...FONTS.h5, color: '#BABABA', marginRight: 6}}>0xu46slr0sd3ior5guwa...739h3</Text>
                 <Image source={icons.copy} style={styles.iconCopy}></Image>
             </View>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white,
     },
     bodyPreviewProductDetail: {
-        flexDirection: 'col',
+        flexDirection: 'column', 
         alignItems: 'center',
         paddingLeft: SIZES.padding * 2,
         paddingRight: SIZES.padding * 2,
@@ -141,8 +141,8 @@ const styles = StyleSheet.create({
     },
     rightBodyBottomProductDetail: {
         flexDirection: 'row',
-        alignItems: 'right',
-        justifyContent: 'right'
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end'
     },
     description: {
         ...FONTS.body3,
@@ -167,8 +167,8 @@ const styles = StyleSheet.create({
     },
     rightBodyOrder: {
         flexDirection: 'row',
-        alignItems: 'right',
-        justifyContent: 'right'
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end'
     },
     buttonFavourite: {
         flex: 3,
