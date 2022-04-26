@@ -25,7 +25,7 @@ const SubNav = (props) => {
                         onPress={() => props.navigation.navigate('Product')}>
                         <Text style={ styles.viewProducts }>View products</Text>
                         <Image source={icons.arrow} style={styles.iconArrow}/>
-                    </TouchableOpacity>: ""}
+                    </TouchableOpacity>: <View></View>}
                 {props.isBackToStore ?
                     <TouchableOpacity
                         style={styles.buttonOpacity}
@@ -33,7 +33,7 @@ const SubNav = (props) => {
                     <Image source={icons.homePink} style={styles.iconHome}/>
                     <Text style={ styles.backToStore }>Back to store</Text>
                     </TouchableOpacity>
-                : ""}
+                : <View></View>}
             </View>                
 
         </View>
@@ -81,9 +81,7 @@ const styles = StyleSheet.create({
     },
     balanceText: {
         color: COLORS.black,
-        font: FONTS.h4,
-        fontSize: SIZES.h4,
-        fontWeight: "600",
+        ...FONTS.h4,
         paddingLeft: 10,
         paddingRight: 10,
     },

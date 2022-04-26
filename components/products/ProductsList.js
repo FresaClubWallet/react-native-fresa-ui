@@ -11,36 +11,44 @@ class ProductsList extends Component {
     render() {
         const renderProduct = (product) => {
             if (product) {
+                console.log(product.image)
                 return (
                     <TouchableOpacity style={styles.ItemTouchElement}>
-                        <View >
-                            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                                <Image
-                                    resizeMode="cover"
-                                    source={product.image}
-                                    style={{
-                                        width: 100,
-                                        height: 100,
-                                    }}
-                                />
-                                <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: "60%" }}>
-                                    <View style={ styles.CounterContainer }>
-                                        <Text style={{ ...FONTS.h5 }}>{product.name}</Text>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                            {/* {product.image == null ? 
+                            <Image
+                                resizeMode="cover"
+                                source={images.taco}
+                                style={{
+                                    width: 100,
+                                    height: 100,
+                                }}
+                            /> */}
+                            <Image
+                                resizeMode="cover"
+                                source={product.image ? {uri:product.image}: images.taco}
+                                style={{
+                                    width: 100,
+                                    height: 100,
+                                }}
+                            />}
+                            <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: "60%" }}>
+                                <View style={ styles.CounterContainer }>
+                                    <Text style={{ ...FONTS.h5 }}>{product.name}</Text>
+                                </View>
+                                <View style={ styles.CounterContainer }>
+                                    <Text style={{...FONTS.body6}}>by Tacos de Tijuana</Text>
+                                </View>
+                                <View style={ styles.CounterContainer }>
+                                    <View style={styles.counter}>
+                                        <Text style={{...FONTS.body6, marginRight: 10}}>Active: Yes</Text>
                                     </View>
-                                    <View style={ styles.CounterContainer }>
-                                            <Text style={{...FONTS.body6}}>by Tacos de Tijuana</Text>
+                                    <View style={styles.counter}>
+                                        <Text style={{...FONTS.body6}}>Quantity: 3</Text>
                                     </View>
-                                    <View style={ styles.CounterContainer }>
-                                        <View style={styles.counter}>
-                                            <Text style={{...FONTS.body6, marginRight: 10}}>Active: Yes</Text>
-                                        </View>
-                                        <View style={styles.counter}>
-                                            <Text style={{...FONTS.body6}}>Quantity: 3</Text>
-                                        </View>
-                                    </View>
-                                    <View style={ styles.CounterContainer }>
-                                            <Text style={{...FONTS.h5}}>${product.price.toString()} cUSD</Text>
-                                    </View>
+                                </View>
+                                <View style={ styles.CounterContainer }>
+                                    <Text style={{...FONTS.h5}}>${product.price.toString()} cUSD</Text>
                                 </View>
                             </View>
                         </View>
@@ -79,8 +87,8 @@ const styles = StyleSheet.create({
         padding: SIZES.padding,
         paddingBottom: SIZES.padding * 2,
         backgroundColor: COLORS.white,
-        alignItems: "left",
-        justifyContent: "left",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
         marginTop: 20,
         shadowColor: "#000",
         shadowOffset: {width: 1, height: 4},

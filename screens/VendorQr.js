@@ -18,7 +18,7 @@ const VendorQr = ({ navigation }) => {
     
     function renderHeader() {
         return (
-            <Header></Header>
+            <Header navigation={navigation}></Header>
         )
     }
 
@@ -41,11 +41,11 @@ const VendorQr = ({ navigation }) => {
                 style={{
                     width: '100%',
                     height: '50%',
-                    flexDirection: 'col',
+                    flexDirection: 'column', 
                     alignItems: 'center',
                 }}>
                 <LogoFromFile />
-                <Text style={{paddingTop: 20}}> *This is your vendor QR code address</Text>
+                <Text style={{paddingTop: 20}}>*This is your vendor QR code address</Text>
             </View>
         </SafeAreaView>
     )

@@ -5,6 +5,7 @@ import Product from "./Product"
 import Restaurant from "./Restaurant"
 import VendorQr from "./VendorQr"
 import ProductDetail from "./ProductDetail"
+import StoreQrScanner from "./StoreQrScanner"
 
 export {
     Login,
@@ -13,5 +14,6 @@ export {
     VendorQr,
     Product,
     Restaurant,
-    ProductDetail
+    ProductDetail,
+    StoreQrScanner
 }

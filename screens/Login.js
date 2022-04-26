@@ -20,7 +20,7 @@ const Login = ({ navigation }) => {
                 <View style={{alignItems: 'center'}}>
                     <Image source={images.iconLogo} style={styles.logo}/>
                 </View>
-                <View style={{alignItems: 'left', marginTop: 80, marginLeft: 50}}>
+                <View style={{alignItems: 'flex-start', marginTop: 80, marginLeft: 50}}>
                     <Text style={{...FONTS.h1}}>Welcome to Fresa</Text>
                     <Text style={{marginTop: SIZES.marginTop1}}>You are just a few steps away</Text>
                     <Text>from starting your culinary</Text>
@@ -40,11 +40,11 @@ const Login = ({ navigation }) => {
                         style={styles.button}
                         onPress={() => appContext.connectWallet()}
                         >
-                        <View style={{alignItems: 'right'}}>
+                        <View style={{alignItems: 'flex-end', marginRight: 10}}>
                             <Image source={images.loginCircle} style={styles.loginCircle}>
                             </Image>
                         </View>
-                        <View style={{alignItems: 'left', marginRight: 20}}>
+                        <View style={{alignItems: 'flex-start', marginRight: 20}}>
                             <Text style={{color: 'white', ...FONTS.h3}}>Connect Wallet</Text>
                         </View>
                     </TouchableOpacity>
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         bottom: 50,
         // marginTop: SIZES.height - SIZES.height * 0.84,
         alignItems: 'center',
-        gap: 10,
+        justifyContent:'space-between',
         paddingVertical: 5,
         paddingHorizontal: 5,
         borderRadius: 40,

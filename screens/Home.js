@@ -133,21 +133,19 @@ const Home = ({ navigation }) => {
             ]
         }
     ]
+    const [categories, setCategories] = useState(categoryData)
 
-    const [categories, setCategories] = React.useState(categoryData)
 
     function renderHeader() {
         return (
-            <Header></Header>
+            <Header navigation={navigation}></Header>
         )
     }
 
     function renderProducts() {
         getProducts("0x9f3DD64c084C88e8E456e9BAdbc1ebbC624941be");
         return (
-            <View>
-                <MyProductsSlider products={categories} navigation={navigation}></MyProductsSlider>
-            </View>
+            <MyProductsSlider products={categories} navigation={navigation}></MyProductsSlider>
         )
     }
 
