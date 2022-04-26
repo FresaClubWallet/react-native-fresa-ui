@@ -7,7 +7,7 @@ const MyProductsSlider = (props) => {
     const renderProduct = ({ product }) => {
         return (
             <TouchableOpacity style={styles.ItemTouchElement}>
-                <View >
+                <View>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                         <Image
                             resizeMode="cover"
