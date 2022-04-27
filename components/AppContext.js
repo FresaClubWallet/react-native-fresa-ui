@@ -1,13 +1,12 @@
 import React, { createContext, useState, useEffect, useMemo } from 'react';
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
-import { Fresa__factory } from "../types/index";
+import { Fresaclub__factory } from "../typechain/index";
 import { ethers } from "ethers";
 import { CHAIN_DATA } from './ChainData';
 
 const AppContext = createContext({ signed: false, user: {} });
 
 export const AppProvider = ({ children }) => {
-  console.log(CHAIN_DATA)
   const connector        = useWalletConnect();
   const [address, setAddress] = useState('NOT LOGGED IN');
   const [balance, setBalance] = useState('....');
@@ -18,7 +17,7 @@ export const AppProvider = ({ children }) => {
   );
 
   const contract = useMemo(
-    () => new Fresa__factory().attach(CHAIN_DATA.CONTRACT_ADDRESS).connect(provider),
+    () => new Fresaclub__factory().attach(CHAIN_DATA.CONTRACT_ADDRESS).connect(provider),
     [provider]
   );
 

@@ -55,7 +55,8 @@ const Product = ({ navigation }) => {
                 setProducts(await Promise.all(_products))
             }
         } catch (e) {
-          console.error(e);
+            setMessageProduct(e.errorArgs[0])
+            console.error(e);
         }
       };
 

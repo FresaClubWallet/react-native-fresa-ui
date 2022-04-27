@@ -96,11 +96,12 @@ const MyStore = ({ navigation }) => {
       };
 
     const readStoreFront = async () => {
-        try {    
+        try {
             const readStoreFront = await appContext.contract.readStoreFront(appContext.address)
+
             // check store front if null address , vendor not add
             if (readStoreFront[0].toLowerCase() !== appContext.address.toLowerCase()){
-                setMessageVendor("You don't have store front yet!")
+                setMessageVendor("No Fresa Storefront was found at this address.")
                 setLabelSubmit("Create")
             } else {
                 setMessageVendor("")
@@ -110,7 +111,9 @@ const MyStore = ({ navigation }) => {
                 setIsViewProduct(true)
             }
         } catch (e) {
-          console.error(e);
+            setMessageVendor(e.errorArgs[0])
+            setLabelSubmit("Create")
+            console.error(e);
         }
       };
 

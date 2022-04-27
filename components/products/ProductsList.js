@@ -11,19 +11,9 @@ class ProductsList extends Component {
     render() {
         const renderProduct = (product) => {
             if (product) {
-                console.log(product.image)
                 return (
                     <TouchableOpacity style={styles.ItemTouchElement}>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                            {/* {product.image == null ? 
-                            <Image
-                                resizeMode="cover"
-                                source={images.taco}
-                                style={{
-                                    width: 100,
-                                    height: 100,
-                                }}
-                            /> */}
                             <Image
                                 resizeMode="cover"
                                 source={product.image ? {uri:product.image}: images.taco}

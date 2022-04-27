@@ -24,7 +24,6 @@ const Home = ({ navigation }) => {
     const callMethod = async () => {
         try {
             const readStoreFront = await appContext.contract.readProduct("0x9f3DD64c084C88e8E456e9BAdbc1ebbC624941be", 0)
-            console.log(readStoreFront)
         } catch (e) {
             console.error(e);
         }
@@ -33,7 +32,6 @@ const Home = ({ navigation }) => {
     const getProduct = async (address, index) => {
         try {
             const readStoreFront = await appContext.contract.readProduct(address, index)
-            console.log(readStoreFront)
         } catch (e) {
             console.error(e);
         }
