@@ -59,8 +59,8 @@ const Product = ({ navigation }) => {
                 setProducts(await Promise.all(_products))
             }
         } catch (e) {
-            setMessageProduct(e.errorArgs[0])
-            console.error(e);
+            // setMessageProduct(e.errorArgs[0])
+            // console.error(e);
         }
       };
 
@@ -85,7 +85,7 @@ const Product = ({ navigation }) => {
               readProductCount();
 
             } catch (e) {
-          console.error(e);
+        //   console.error(e);
         }
       };
 
@@ -211,16 +211,13 @@ const Product = ({ navigation }) => {
             {renderHeader()}
             {renderSubNav()}
             <Text style={{ color: "#767070", alignItems: "center" }}>{messageProduct}</Text>
-            {renderProducts()}
+            {products.length >0 ? renderProducts() : <View></View>}
             <TouchableOpacity
                 activeOpacity={0.7}
                 style={styles.touchableOpacityStyle}
                 onPress={() => setIsVisible(true)}>
                 <Image
-                    source={{
-                    uri:
-                        icons.add_product,
-                    }}
+                    source={icons.add_product}
                     style={styles.floatingButtonStyle}
                 />
             </TouchableOpacity>

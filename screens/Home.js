@@ -88,7 +88,7 @@ const Home = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {renderSubNav()}
-            {renderProducts()}
+            {products.length >0 ? renderProducts() : <View></View>}
         </SafeAreaView>
     )
 }

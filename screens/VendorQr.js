@@ -45,9 +45,9 @@ const VendorQr = ({ navigation }) => {
                     flexDirection: 'column', 
                     alignItems: 'center',
                 }}>
-                <Text style={{paddingBottom: 20, fontSize: SIZES.h2}}>This is your vendor QR code</Text>
+                <Text style={{paddingBottom: 20, ...FONTS.h3}}>This is your vendor QR code</Text>
                 <LogoFromFile />
-                <Text style={{paddingTop: 20}}>Customers can scan this to access your storefront.</Text>
+                <Text style={{paddingTop: 20, ...FONTS.body5}}>Customers can scan this to access your storefront.</Text>
 
             </View>
         </SafeAreaView>
