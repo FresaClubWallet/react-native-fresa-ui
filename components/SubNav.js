@@ -26,12 +26,12 @@ const SubNav = (props) => {
                         <Text style={ styles.viewProducts }>View products</Text>
                         <Image source={icons.arrow} style={styles.iconArrow}/>
                     </TouchableOpacity>: <View></View>}
-                {props.isBackToStore ?
+                {props.isBackToDashboard ?
                     <TouchableOpacity
                         style={styles.buttonOpacity}
                         onPress={() => props.navigation.navigate('Home')}>
                     <Image source={icons.homePink} style={styles.iconHome}/>
-                    <Text style={ styles.backToStore }>Back to store</Text>
+                    <Text style={ styles.backToStore }>Exit store</Text>
                     </TouchableOpacity>
                 : <View></View>}
             </View>                

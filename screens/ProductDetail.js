@@ -10,18 +10,84 @@ import {
     Button
 } from "react-native";
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
+import { useWalletConnect } from '@walletconnect/react-native-dapp';
 
 import SubNav from "../components/SubNav";
 import Header from "../components/Header";
-import MyProductsSlider from "../components/dashboard/MyProductsSlider"
-import MyOrders from "../components/dashboard/MyOrders";
-import AppContext from '../components/AppContext'; 
+import AppContext from '../components/AppContext';
 
-const products = [];
 
-const ProductDetail = ({ navigation }) => {
+const ProductDetail = ({ navigation, route }) => {
+    const connector = useWalletConnect();
     const appContext = useContext(AppContext);
-    console.log(navigation);
+
+    const [products, setProducts] = useState([])
+
+    const [storeName, setStoreName] = useState("");
+    const [storeImage, setStoreImage] = useState("https://avatars.githubusercontent.com/u/91978140?s=200&v=4");
+    const [storeDescription, setStoreDescription] = useState("");
+    const [productCount, setProductCount] = useState(0);
+
+
+
+    const [image, setImage] = useState("");
+
+    useEffect(() => {
+        readStoreFront();
+    }, [connector])
+
+
+    function trunc(text) {
+        return text.length > 15 ? `${text.substr(0, 25)}...` : text;
+    }
+
+    const readStoreFront = async () => {
+        try {
+            const _readStoreFront = await appContext.contract.readStoreFront(route.params.storefront);
+
+            console.log(_readStoreFront);
+            setStoreName(_readStoreFront[1]);
+            setStoreImage(_readStoreFront[2]);
+            setStoreDescription(_readStoreFront[3]);
+            setProductCount(_readStoreFront[7].toString());
+
+            readProducts();
+
+
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    const readProducts = async () => {
+        try {
+            const _products = []
+            for (let i = 0; i < productCount; i++) {
+                let _product = new Promise(async (resolve, reject) => {
+                    let p = await appContext.contract.readProduct(route.params.storefront, i)
+                    resolve({
+                        index: i,
+                        key: i,
+                        owner: p[0],
+                        name: p[1],
+                        image: p[2],
+                        description: p[3],
+                        price: p[4].toString(),
+                        sold: p[5].toString(),
+                        qty: p[6].toString(),
+                        active: p[7]
+                    })
+                })
+                _products.push(_product)
+
+            }
+            setProducts(await Promise.all(_products))
+        } catch (e) {
+            // setMessageProduct(e.errorArgs[0])
+            console.error(e);
+        }
+    };
+
 
     function renderHeader() {
         return (
@@ -32,7 +98,7 @@ const ProductDetail = ({ navigation }) => {
     // Used to display balance & wallet address.
     function renderSubNav() {
         return (
-            <SubNav balance={appContext.balance} address={appContext.address} isBackToStore={true} navigation={navigation}></SubNav>
+            <SubNav balance={appContext.balance} address={appContext.address} isBackToDashboard={true} navigation={navigation}></SubNav>
         )
     }
     return (
@@ -40,46 +106,43 @@ const ProductDetail = ({ navigation }) => {
             {renderHeader()}
             {renderSubNav()}
             <View style={styles.bodyPreviewProductDetail}>
-                <Text style={styles.titleProductDetail}>Tacos de Tijuana </Text>
-                <Image source={images.taco} style={styles.imageProductDetail} resizeMode='contain'>
+                <Text style={styles.titleProductDetail}>{storeName}</Text>
+                <Image source={{ uri: storeImage }} style={styles.imageProductDetail} resizeMode='contain'>
                 </Image>
-            </View>
-            <View style={styles.bodyBottomProductDetail}>
-                <View style={styles.leftBodyBottomProductDetail}>
-                    <Text style={styles.titleProductDetail}>Carne Asada Taco</Text>
-                </View>
-                <View style={styles.rightBodyBottomProductDetail}>
-                    <TouchableOpacity style={styles.PlusStyle}>
-                        <Image source={icons.plus} style={styles.iconPlus}></Image>
-                    </TouchableOpacity>
-                    <Text style={{...FONTS.h2}}>1</Text>
-                    <TouchableOpacity style={styles.PlusStyle}>
-                        <Image source={icons.minus} style={styles.iconMinus}></Image>
-                    </TouchableOpacity>
+                <View>
+                    <Text style={styles.descriptionProductDetail}>
+                        {storeDescription}
+                    </Text>
                 </View>
             </View>
-            <Text style={styles.description}>Housemade tortilla, Carne Asada diced onions and cilantro.</Text>
-            <View style={styles.bodyWallet}>
-                <Text style={{...FONTS.h5, marginRight: 2}}>Wallet:</Text>
-                <Text style={{...FONTS.h5, color: '#BABABA', marginRight: 6}}>0xu46slr0sd3ior5guwa...739h3</Text>
-                <Image source={icons.copy} style={styles.iconCopy}></Image>
-            </View>
-            <View style={styles.bodyOrder}>
-                <View style={styles.leftBodyOrder}>
-                    <Text style={{...FONTS.body4}}>Total Price </Text>
-                    <Text style={{...FONTS.h4}}>$2.75 cUSD</Text>
 
-                </View>
-                <View style={styles.rightBodyOrder}>
-                    <TouchableOpacity
-                        style={styles.buttonFavourite}>
-                        <Image source={icons.favourite} style={styles.iconFavourite}></Image>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.buttonOrder}>
-                            <Text style={{color: 'white', ...FONTS.h3, marginLeft: 10, marginRight: 10}}>Order</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={styles.TouchElement}>
+                <FlatList
+                    data={products}
+                    alwaysBounceVertical={true}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity key={item.index} style={styles.ItemTouchElement}>
+                            <View style={{ flexDirection: 'row',alignItems:"center", flexWrap: 'wrap', marginLeft: 10 }}>
+                                <Image
+                                    resizeMode="cover"
+                                    source={item.image ? { uri: item.image } : images.imageUpload}
+                                    style={{
+                                        width: 60,
+                                        height: 60,
+                                        alignItems:"center",
+                                        flexDirection: "row"
+                                    }}
+                                />
+                                <View style={{ flexWrap: 'wrap', flexDirection: 'column', marginLeft: 5}}>
+                                    <Text style={{ ...FONTS.h5, paddingLeft: 10 }}>{item.name} - <Text style={{ ...FONTS.body6 }}>${item.price} cUSD</Text></Text>
+                                    <Text numberOfLines={3} style={{ ...FONTS.body6, paddingLeft: 10, width: 250 }}>{item.description}</Text>
+                                </View>
+                               
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                />
+
             </View>
         </SafeAreaView>
     )
@@ -91,19 +154,26 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white,
     },
     bodyPreviewProductDetail: {
-        flexDirection: 'column', 
+        flexDirection: 'column',
         alignItems: 'center',
         paddingLeft: SIZES.padding * 2,
         paddingRight: SIZES.padding * 2,
-        paddingBottom: SIZES.padding 
+        paddingBottom: SIZES.padding
     },
     titleProductDetail: {
-        ...FONTS.h2,
+        ...FONTS.h3,
+    },
+    descriptionProductDetail: {
+        ...FONTS.body5,
+        textAlign: "center"
+    },
+    subProductDetail: {
+        ...FONTS.body5,
     },
     imageProductDetail: {
-        width: '100%',
-        height: 300,       
-        alignSelf: 'center' 
+        width: '90%',
+        height: 200,
+        alignSelf: 'center'
     },
     bodyBottomProductDetail: {
         flexDirection: 'row',
@@ -114,11 +184,11 @@ const styles = StyleSheet.create({
     iconPlus: {
         width: 14,
         height: 14
-    },  
+    },
     iconMinus: {
         width: 12,
         height: 4
-    }, 
+    },
     iconCopy: {
         width: 14,
         height: 17
@@ -201,6 +271,9 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         backgroundColor: COLORS.pink,
     },
+    ItemTouchElement:{
+        marginBottom: 10
+    }
 })
 
 export default ProductDetail
