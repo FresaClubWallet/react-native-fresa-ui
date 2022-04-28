@@ -63,9 +63,7 @@ const StoreQrScanner = ({ navigation }) => {
     const handleBarCodeScanned = ({ type, data }) => {
         if(isAddress(data)){
             setScanned(true);
-            navigation.navigate('ProductDetail', );
-
-            navigation.navigate('SecondPage', {
+            navigation.navigate('ProductDetail', {
                 storefront: data,
             });
         }
