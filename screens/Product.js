@@ -43,6 +43,7 @@ const Product = ({ navigation }) => {
                     let p = await appContext.contract.readProduct(appContext.address, i)
                     resolve({
                         index: i,
+                        key: i,
                         owner: p[0],
                         name: p[1],
                         image: p[2],

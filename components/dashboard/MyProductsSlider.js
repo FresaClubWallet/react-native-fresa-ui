@@ -11,7 +11,7 @@ const MyProductsSlider = (props) => {
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                     <Image
                         resizeMode="cover"
-                        source={product.image}
+                        source={{uri: product.image}}
                         style={{
                             width: 100,
                             height: 100,

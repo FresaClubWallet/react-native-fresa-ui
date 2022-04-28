@@ -22,11 +22,11 @@ class ProductsList extends Component {
         const renderProduct = (product) => {
             if (product) {
                 return (
-                    <TouchableOpacity style={styles.ItemTouchElement}>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                    <TouchableOpacity key={product.index} style={styles.ItemTouchElement}>
+                        <View  style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             <Image
                                 resizeMode="cover"
-                                source={product.image}
+                                source={{uri: product.image}}
                                 style={{
                                     width: 100,
                                     height: 100,
