@@ -24,15 +24,15 @@ const MyStore = ({ navigation }) => {
     const moveText = useRef(new Animated.Value(0)).current;
 
     const [messageVendor, setMessageVendor] = useState("");
-    const [storeName, setStoreName] = useState(null);
+    const [storeName, setStoreName] = useState("");
     const [storeImage, setStoreImage] = useState("https://avatars.githubusercontent.com/u/91978140?s=200&v=4");
-    const [storeDescription, setStoreDescription] = useState(null);
+    const [storeDescription, setStoreDescription] = useState("");
     const [storeLat, setStoreLat] = useState(1000);
     const [storeLong, setStoreLong] = useState(2000);
     const [labelSubmit, setLabelSubmit] = useState("");
     const [isViewProduct, setIsViewProduct] = useState(false);
     const [storeLocation, setStoreLocation] = useState();
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState("");
 
     useEffect(()=>{
         readStoreFront();
