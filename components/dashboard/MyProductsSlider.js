@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         shadowOpacity: 0.2,
         shadowRadius: 12,
-        marginStart:5
+        marginStart:5,
+        elevation:4
     },
     CounterContainer:{
         height: 10,
