@@ -21,6 +21,7 @@ const products = [];
 
 const ProductDetail = ({ navigation }) => {
     const appContext = useContext(AppContext);
+    console.log(navigation);
 
     function renderHeader() {
         return (
