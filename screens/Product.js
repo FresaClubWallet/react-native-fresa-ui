@@ -98,7 +98,7 @@ const Product = ({ navigation }) => {
     // Used to display balance & wallet address.
     function renderSubNav() {
         return (
-            <SubNav balance={appContext.balance} address={appContext.address} navigation={navigation} isBackToStore={true}></SubNav>
+            <SubNav balance={appContext.balance} address={appContext.address} navigation={navigation} isBackToStore={false}></SubNav>
         )
     }
 

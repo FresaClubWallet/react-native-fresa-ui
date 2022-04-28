@@ -5,9 +5,8 @@ import { icons, images, SIZES, COLORS, FONTS } from '../../constants'
 
 const MyProductsSlider = (props) => {
     const renderProduct = (product) => {
-        console.log(product)
         return (
-            <TouchableOpacity style={styles.ItemTouchElement}>
+            <TouchableOpacity key={product.index} style={styles.ItemTouchElement}>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                     <Image
                         resizeMode="cover"
@@ -46,7 +45,7 @@ const MyProductsSlider = (props) => {
                 </View>
                 <TouchableOpacity
                         style={styles.buttonOpacity}
-                        onPress={() => props.navigation.push('Product')}>
+                        onPress={() => props.navigation.navigate('Product')}>
                     <View style={styles.rightContent}>
                         <Text style={ styles.ViewAll }>View all</Text>
                         <Image source={icons.arrow} style={styles.iconArrow}/>
@@ -55,7 +54,7 @@ const MyProductsSlider = (props) => {
             </View>
             <TouchableOpacity style={styles.TouchElement}>
                 <FlatList
-                        style={styles.ListElement}
+                        style={styles.ListElement} 
                         data={props.products}
                         horizontal
                         showsHorizontalScrollIndicator={false}
@@ -92,10 +91,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginRight: SIZES.padding,
         shadowColor: "#000",
-        shadowOffset: {width: 1, height: 4},
+        shadowOffset: {width: 0, height: 0},
         borderRadius: 15,
         shadowOpacity: 0.2,
-        shadowRadius: 3,
+        shadowRadius: 12,
+        marginStart:5
     },
     CounterContainer:{
         height: 10,

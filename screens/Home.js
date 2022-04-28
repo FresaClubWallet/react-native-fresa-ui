@@ -45,6 +45,7 @@ const Home = ({ navigation }) => {
                     let p = await appContext.contract.readProduct(appContext.address, i)
                     resolve({
                         index: i,
+                        key: i,
                         owner: p[0],
                         name: p[1],
                         image: p[2],
@@ -61,7 +62,7 @@ const Home = ({ navigation }) => {
             }
         } catch (e) {
             //setMessageProduct(e.errorArgs[0]);
-            console.error(e);
+            //console.error(e);
         }
       };
 
@@ -73,14 +74,14 @@ const Home = ({ navigation }) => {
 
     function renderProducts() {
         return (
-            <MyProductsSlider products={products}></MyProductsSlider>
+            <MyProductsSlider products={products} navigation={navigation}></MyProductsSlider>
         )
     }
 
     // Used to display balance & wallet address.
     function renderSubNav() {
         return (
-            <SubNav balance={appContext.balance} address={appContext.address}></SubNav>
+            <SubNav balance={appContext.balance} address={appContext.address} ></SubNav>
         )
     }
     return (

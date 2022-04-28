@@ -91,10 +91,10 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         marginTop: 20,
         shadowColor: "#000",
-        shadowOffset: {width: 1, height: 4},
+        shadowOffset: {width: 0, height: 0},
         borderRadius: 15,
         shadowOpacity: 0.2,
-        shadowRadius: 3,
+        shadowRadius: 12,
     },
     CounterContainer:{
         height: 10,

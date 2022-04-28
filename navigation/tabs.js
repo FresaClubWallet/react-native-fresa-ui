@@ -80,17 +80,21 @@ const CustomTabBar = (props) => {
 const Tabs = () => {
     return (
         <Tab.Navigator
-            tabBarOptions={{
-                labelStyle: {
-                    position: 'absolute',
-                    bottom: 6,
-                    fontSize: 9
-                },
-            }}
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: COLORS.white,
-                tabBarInactiveTintColor: COLORS.white
+                tabBarInactiveTintColor: COLORS.white,
+                tabBarLabelStyle: {
+                    position: "absolute",
+                    bottom: 6,
+                    fontSize: 9
+                  },
+                  tabBarStyle: [
+                    {
+                      "display": "flex"
+                    },
+                    null
+                  ]
             }}
             tabBar={(props) => (
                 <CustomTabBar
