@@ -16,7 +16,7 @@ const AppRoutes = () => (
         <Stack.Screen name="Home" component={Tabs} />
         <Stack.Screen name="MyStore" component={Tabs} />
         <Stack.Screen name="VendorQr" component={Tabs} />
-        <Stack.Screen name="ProductDetail" component={ProductDetail} />
+        <Stack.Screen name="ProductDetail" component={Tabs} />
         <Stack.Screen name="Product" component={Product} />
         <Stack.Screen name="Restaurant" component={Restaurant} />
         <Stack.Screen name="StoreQrScanner" component={StoreQrScanner} />
