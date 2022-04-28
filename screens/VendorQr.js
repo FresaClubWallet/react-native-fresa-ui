@@ -24,7 +24,7 @@ const VendorQr = ({ navigation }) => {
 
     // 20% (default) sized logo from local file string with white logo backdrop
     function LogoFromFile() {    
-        return <SvgQRCode value={appContext.address} logo={images.iconLogo} />;
+        return <SvgQRCode size={250} value={appContext.address} logo={images.iconLogo} />;
     }
 
     // Used to display balance & wallet address.
@@ -41,11 +41,14 @@ const VendorQr = ({ navigation }) => {
                 style={{
                     width: '100%',
                     height: '50%',
+                    top: 100,
                     flexDirection: 'column', 
                     alignItems: 'center',
                 }}>
+                <Text style={{paddingBottom: 20, fontSize: SIZES.h2}}>This is your vendor QR code</Text>
                 <LogoFromFile />
-                <Text style={{paddingTop: 20}}>*This is your vendor QR code address</Text>
+                <Text style={{paddingTop: 20}}>Customers can scan this to access your storefront.</Text>
+
             </View>
         </SafeAreaView>
     )

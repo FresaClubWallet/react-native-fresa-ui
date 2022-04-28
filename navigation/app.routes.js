@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Restaurant, Product, StoreQrScanner } from '../screens'
+import { Restaurant, Product, StoreQrScanner, Favourites } from '../screens'
 import Tabs from '../navigation/tabs'
 
 
@@ -20,6 +20,7 @@ const AppRoutes = () => (
         <Stack.Screen name="Product" component={Product} />
         <Stack.Screen name="Restaurant" component={Restaurant} />
         <Stack.Screen name="StoreQrScanner" component={StoreQrScanner} />
+        <Stack.Screen name="Favourites" component={Favourites} />
 
     </Stack.Navigator>
 )

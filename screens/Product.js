@@ -33,8 +33,9 @@ const Product = ({ navigation }) => {
         try {    
             const readProductCount = await appContext.contract.readProductCount(appContext.address);
             const _productsLength = await readProductCount.toString();
+
             if (_productsLength == 0) {
-                setMessageProduct("You don't have product yet!")
+                setMessageProduct("You have not yet added any products to your Fresa Storefront.")
             } else {
                 const _products = []
                 for (let i = 0; i < _productsLength; i++) {
@@ -46,8 +47,10 @@ const Product = ({ navigation }) => {
                         name: p[1],
                         image: p[2],
                         description: p[3],
-                        price: p[4],
-                        active: p[5],
+                        price: p[4].toString(),
+                        sold: p[5].toString(),
+                        qty: p[6].toString(),
+                        active: p[7]
                     })
                     })
                     _products.push(_product)

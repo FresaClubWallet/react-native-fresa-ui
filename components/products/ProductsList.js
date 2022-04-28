@@ -9,6 +9,16 @@ class ProductsList extends Component {
     }
     
     render() {
+        function trunc(text) {
+            return text.length > 40 ? `${text.substr(0, 30)}...` : text;
+        }
+        function boolToText(bool){
+            if(bool){
+                return "True";
+            }else{
+                return "False";
+            }
+        }
         const renderProduct = (product) => {
             if (product) {
                 return (
@@ -16,25 +26,25 @@ class ProductsList extends Component {
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             <Image
                                 resizeMode="cover"
-                                source={product.image ? {uri:product.image}: images.taco}
+                                source={product.image}
                                 style={{
                                     width: 100,
                                     height: 100,
                                 }}
-                            />}
-                            <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: "60%" }}>
+                            />
+                            <View style={{ flexWrap: 'wrap', flexDirection: 'column'}}>
                                 <View style={ styles.CounterContainer }>
                                     <Text style={{ ...FONTS.h5 }}>{product.name}</Text>
                                 </View>
                                 <View style={ styles.CounterContainer }>
-                                    <Text style={{...FONTS.body6}}>by Tacos de Tijuana</Text>
+                                    <Text style={{...FONTS.body6}}>{trunc(product.description)}</Text>
                                 </View>
                                 <View style={ styles.CounterContainer }>
                                     <View style={styles.counter}>
-                                        <Text style={{...FONTS.body6, marginRight: 10}}>Active: Yes</Text>
+                                        <Text style={{...FONTS.body6, marginRight: 10}}>Active: {boolToText(product.active)}</Text>
                                     </View>
                                     <View style={styles.counter}>
-                                        <Text style={{...FONTS.body6}}>Quantity: 3</Text>
+                                        <Text style={{...FONTS.body6}}>Quantity: {product.qty}</Text>
                                     </View>
                                 </View>
                                 <View style={ styles.CounterContainer }>

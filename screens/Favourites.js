@@ -1,0 +1,90 @@
+import React, { useEffect, useState, useContext } from "react";
+import {
+    SafeAreaView,
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    Image,
+    FlatList
+} from "react-native";
+import { icons, images, SIZES, COLORS, FONTS } from '../constants'
+
+import SubNav from "../components/SubNav";
+import Header from "../components/Header";
+import AppContext from '../components/AppContext'; 
+import { useWalletConnect } from '@walletconnect/react-native-dapp';
+import { BigNumber } from "ethers";
+
+
+
+var favouriteCount = 0;
+var favourites = [];
+
+const Favourites = ({ navigation }) => {
+    const appContext = useContext(AppContext);
+    const connector = useWalletConnect();
+
+    const getFavouriteCount = async () => {
+        try {
+            const fav = "0xc65A40bA070Dcb283774Fb092772A9cBAA68Cd29";
+            
+            favouriteCount = await appContext.contract.readProductCount(appContext.address);
+
+            for(var i = 0; i < favouriteCount;i++){
+                console.log(i);
+            }
+
+
+
+            console.log(favouriteCount.toString());
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+
+    function renderHeader() {
+        return (
+            <Header navigation={navigation}></Header>
+        )
+    }
+    function renderSubNav() {
+        return (
+            <SubNav balance={appContext.balance} address={appContext.address}></SubNav>
+        )
+    }
+    function renderFavourites(){        
+        return(
+            <Text>Hello</Text>
+        )
+    }
+    return (
+        getFavouriteCount(),
+
+        <SafeAreaView style={styles.container}>
+            {renderHeader()}
+            {renderFavourites()}
+            {renderSubNav()}
+        </SafeAreaView>
+    )
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: COLORS.white
+    },
+    shadow: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        elevation: 1,
+    }
+})
+
+export default Favourites

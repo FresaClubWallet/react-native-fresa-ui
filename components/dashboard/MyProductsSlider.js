@@ -4,28 +4,29 @@ import { icons, images, SIZES, COLORS, FONTS } from '../../constants'
 
 
 const MyProductsSlider = (props) => {
-    const renderProduct = ({ product }) => {
+    const renderProduct = (product) => {
+        console.log(product)
         return (
             <TouchableOpacity style={styles.ItemTouchElement}>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                     <Image
                         resizeMode="cover"
-                        source={images.taco}
+                        source={product.image}
                         style={{
                             width: 100,
                             height: 100,
                         }}
                     />
                     <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: 150 }}>
-                        <Text style={{ ...FONTS.h5, paddingLeft: 10 }}>Carne Asada Taco</Text>
+                        <Text style={{ ...FONTS.h5, paddingLeft: 10 }}>{product.name}</Text>
                         <View style={ styles.CounterContainer }>
                             <View style={ styles.counter }>
-                                <Text style={{...FONTS.body6}}>Stock: 20</Text>
+                                <Text style={{...FONTS.body6}}>Stock: {product.qty}</Text>
                             </View>
                             <View style={ styles.counter }>
-                                <Text style={{...FONTS.body6}}>Sold: 25</Text>
+                                <Text style={{...FONTS.body6}}>Sold: {product.sold}</Text>
                             </View>
-                            <Text style={{...FONTS.h5}}>$2.75 cUSD</Text>
+                            <Text style={{...FONTS.h5}}>${product.price} cUSD</Text>
                         </View>
                     </View>
                 </View>
@@ -58,8 +59,7 @@ const MyProductsSlider = (props) => {
                         data={props.products}
                         horizontal
                         showsHorizontalScrollIndicator={false}
-                        keyExtractor={product => `${product.id}`}
-                        renderItem={renderProduct}
+                        renderItem={({item}) => renderProduct(item)}
                         contentContainerStyle={{ paddingVertical: SIZES.padding * 2 }}
                 />
             </TouchableOpacity>

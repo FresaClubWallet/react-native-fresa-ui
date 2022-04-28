@@ -107,6 +107,7 @@ const MyStore = ({ navigation }) => {
                 setMessageVendor("")
                 setLabelSubmit("Submit")
                 setStoreName(readStoreFront[1])
+                setStoreImage(readStoreFront[2])
                 setStoreDescription(readStoreFront[3])
                 setIsViewProduct(true)
             }
@@ -183,10 +184,12 @@ const MyStore = ({ navigation }) => {
                     </Animated.View>
                     <TextInput
                         autoCapitalize={"none"}
-                        style={styles.input}
+                        style={styles.inputMulti}
                         value={storeDescription}
                         onChangeText={setStoreDescription}
                         editable={true}
+                        numberOfLines={4}
+                        multiline
                         onFocus={onFocusHandler(storeDescription)}
                         onBlur={onBlurHandler(storeDescription)}
                         blurOnSubmit
@@ -215,7 +218,7 @@ const MyStore = ({ navigation }) => {
                         <TouchableOpacity
                             style={styles.buttonUploadImage}
                             onPress={pickImage}>
-                            {image ? <Image source={{ uri: image }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
+                            {image ? <Image source={{ uri: {image} }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
                             <View>
                                 <Image source={images.imageUpload} style={styles.imageUpload} resizeMode='contain'></Image>
                                 <Text style={{color: COLORS.lightGray5, marginTop: 10}}>Upload Image</Text>
@@ -317,6 +320,10 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 13,
         height: 35,
+    },
+    inputMulti: {
+        fontSize: 13,
+        height: 70,
     },
     label: {
         color: "grey",

@@ -7,7 +7,7 @@ import {
 import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs"
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
-import { Home, MyStore, VendorQr, ProductDetail, Product } from "../screens"
+import { Home, MyStore, VendorQr, ProductDetail, Product, Favourites } from "../screens"
 
 import { COLORS, icons, SIZES } from "../constants"
 
@@ -179,7 +179,7 @@ const Tabs = () => {
 
             <Tab.Screen
                 name="Product"
-                component={ProductDetail}
+                component={Product}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
@@ -201,7 +201,7 @@ const Tabs = () => {
             />
              <Tab.Screen
                 name="Favourite"
-                component={Product}
+                component={Favourites}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
