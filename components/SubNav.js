@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
+import { Ionicons } from '@expo/vector-icons';
 
 const SubNav = (props) => {
+    const [hideBalance, setHideBalance] = useState(false)
     const shortenAddress = (address) => {
         return `${address.slice(0, 6)}...${address.slice(
             address.length - 4,
@@ -13,8 +15,14 @@ const SubNav = (props) => {
         <View style={styles.subnavContainer}>
             <View style={styles.leftContent}>
                 <Image source={icons.balance} style={styles.iconBalance}/>
-                <Text style={styles.balanceText}>{props.balance} cUSD</Text>
-                <Image source={icons.hide} style={styles.iconHide}/>
+                <Text style={styles.balanceText}>
+                    {hideBalance ? <Text>**** </Text> : <Text>{props.balance} </Text>}
+                    cUSD
+                </Text>
+                <TouchableOpacity onPress={() => setHideBalance(!hideBalance)}>
+                    {hideBalance ? <Ionicons name="md-eye-off" size={20} color="black" /> :
+                    <Ionicons name="md-eye" size={20} color="black" /> }
+                </TouchableOpacity>
             </View>
             <View style={styles.centerContent}>
             </View>

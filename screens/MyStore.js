@@ -16,7 +16,7 @@ import AppContext from '../components/AppContext';
 import SubNav from "../components/SubNav";
 import Header from "../components/Header";
 import * as ImagePicker from 'expo-image-picker';
-
+import LoadingScreen from "../components/LoadingScreen";
 
 const MyStore = ({ navigation }) => {
     const connector = useWalletConnect();
@@ -112,7 +112,7 @@ const MyStore = ({ navigation }) => {
                 setIsViewProduct(true)
             }
         } catch (e) {
-            setMessageVendor(e.errorArgs[0])
+            setMessageVendor("No Fresa Storefront was found at this address.")
             setLabelSubmit("Create")
             console.error(e);
         }
@@ -253,7 +253,7 @@ const MyStore = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {renderSubNav()}
-            {renderStoreFront()}
+            {messageVendor ? renderStoreFront() : <LoadingScreen/>}
         </SafeAreaView>
     )
 }
