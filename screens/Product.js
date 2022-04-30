@@ -64,10 +64,10 @@ const Product = ({ navigation }) => {
         }
       };
 
-    const writeProduct = async (_name, _image, _description, _price, _active) => {
+    const writeProduct = async (_name, _image, _description, _price,_qty, _active) => {
         try {
             const signed = await appContext.contract.populateTransaction["writeProduct"](
-                _name, _image, _description, _price, _active, {
+                _name, _image, _description, _price,_qty, _active, {
                     from: appContext.address
                 });
         
@@ -113,6 +113,8 @@ const Product = ({ navigation }) => {
         const [image, setImage] = useState("")
         const [description, setDescription] = useState("")
         const [price, setPrice] = useState("")
+        const [qty, setQty] = useState(0)
+
         const [status, setStatus] = useState(true);
 
         const radio_props = [
@@ -175,6 +177,19 @@ const Product = ({ navigation }) => {
                         blurOnSubmit
                     />
                 </View>
+                <View style={styles.container_input}>
+                    <Animated.View style={[styles.animatedStyle]}>
+                        <Text style={styles.label}>Qty</Text>
+                    </Animated.View>
+                    <TextInput
+                        autoCapitalize={"none"}
+                        style={styles.input}
+                        editable={true}
+                        value={qty}
+                        onChangeText={setQty}
+                        blurOnSubmit
+                    />
+                </View>
                 <View>
                     <RadioForm
                         style={{justifyContent:'space-between', padding: 15}}
@@ -189,7 +204,7 @@ const Product = ({ navigation }) => {
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent:'space-between', direction: "rtl", padding: 15}}>
                     <TouchableOpacity
                         style={styles.buttonModalAdd}
-                        onPress={() => writeProduct(name, image, description, price, status)}
+                        onPress={() => writeProduct(name, image, description, price, qty, status)}
                         >
                         <Text style={{color: 'white', ...FONTS.h3}}>Add</Text>
                     </TouchableOpacity>

@@ -15,6 +15,7 @@ const StoreQrScanner = ({ navigation }) => {
         (async () => {
             const { status } = await BarCodeScanner.requestPermissionsAsync();
             setHasPermission(status === 'granted');
+            setScanned(false);
         })();
     }, []);
 
@@ -63,7 +64,6 @@ const StoreQrScanner = ({ navigation }) => {
     const handleBarCodeScanned = ({ type, data }) => {
         if(isAddress(data)){
             setScanned(true);
-
             navigation.navigate('ProductDetail', {
                 storefront: data,
             });
