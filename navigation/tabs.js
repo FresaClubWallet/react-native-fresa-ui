@@ -104,7 +104,7 @@ const Tabs = () => {
         >
             <Tab.Screen
                 name="Home"
-                component={Product}
+                component={Home}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image

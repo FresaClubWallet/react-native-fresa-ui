@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image} from 'react-native';
-import { icons, images, SIZES, COLORS, FONTS } from '../../constants'
-
+import { icons, images, SIZES, COLORS, FONTS } from '../../constants';
+import {Formatters} from '../../helpers';
 
 class ProductsList extends Component {
     constructor(props) {
@@ -9,16 +9,6 @@ class ProductsList extends Component {
     }
     
     render() {
-        function trunc(text) {
-            return text.length > 40 ? `${text.substr(0, 30)}...` : text;
-        }
-        function boolToText(bool){
-            if(bool){
-                return "True";
-            }else{
-                return "False";
-            }
-        }
         const renderProduct = (product) => {
             if (product) {
                 return (
@@ -37,11 +27,11 @@ class ProductsList extends Component {
                                     <Text style={{ ...FONTS.h5 }}>{product.name}</Text>
                                 </View>
                                 <View style={ styles.CounterContainer }>
-                                    <Text style={{...FONTS.body6}}>{trunc(product.description)}</Text>
+                                    <Text style={{...FONTS.body6}}>{Formatters.trunctToLen(product.description, 30)}</Text>
                                 </View>
                                 <View style={ styles.CounterContainer }>
                                     <View style={styles.counter}>
-                                        <Text style={{...FONTS.body6, marginRight: 10}}>Active: {boolToText(product.active)}</Text>
+                                        <Text style={{...FONTS.body6, marginRight: 10}}>Active: {Formatters.boolToText(product.active)}</Text>
                                     </View>
                                     <View style={styles.counter}>
                                         <Text style={{...FONTS.body6}}>Quantity: {product.qty}</Text>

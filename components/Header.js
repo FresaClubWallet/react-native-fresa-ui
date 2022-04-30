@@ -2,16 +2,11 @@ import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 import AppContext from './AppContext'; 
-
+import { Formatters } from '../helpers';
 
 const Header = (props) => {
     const appContext = useContext(AppContext);
-    const shortenAddress = (address) => {
-        return `${address.slice(0, 20)}...${address.slice(
-            address.length - 4,
-            address.length
-        )}`;
-    }
+
     return (
         <View style={styles.headerContainer}>
             <View style={styles.leftContent}>
@@ -19,7 +14,7 @@ const Header = (props) => {
             </View>
             <View style={styles.centerContent}>
                 <View style={styles.storeAddressBar}>
-                    <Text style={styles.storeAddressBarText}>{shortenAddress(appContext.address)}</Text>
+                    <Text style={styles.storeAddressBarText}>{Formatters.trunctToLen(appContext.address, 30)}</Text>
                 </View>
             </View>
             <View style={styles.rightContent}>
