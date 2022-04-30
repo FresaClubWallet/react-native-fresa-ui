@@ -34,7 +34,6 @@ const Home = ({ navigation }) => {
         try {    
             const readProductCount = await appContext.contract.readProductCount(appContext.address);
             const _productsLength = await readProductCount.toString();
-            console.log("Product count" + _productsLength);
 
             if (_productsLength == 0) {
                 setMessageProduct("You have not yet added any products to your Fresa Storefront.")
