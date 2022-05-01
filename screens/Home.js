@@ -8,6 +8,8 @@ import {
     Image,
     FlatList
 } from "react-native";
+import { useWalletConnect } from '@walletconnect/react-native-dapp';
+
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
 import SubNav from "../components/SubNav";
@@ -19,122 +21,49 @@ import AppContext from '../components/AppContext';
 const products = [];
 
 const Home = ({ navigation }) => {
+    const connector = useWalletConnect();
     const appContext = useContext(AppContext);
+    const [products, setProducts] = useState([])
+    const [messageProduct, setMessageProduct] = useState("");
 
-    const callMethod = async () => {
-        try {
-            const readStoreFront = await appContext.contract.readProduct("0x9f3DD64c084C88e8E456e9BAdbc1ebbC624941be", 0)
-            console.log(readStoreFront)
-        } catch (e) {
-            console.error(e);
-        }
-    };
+    useEffect(()=>{
+        readProductCount();
+    },[connector])
 
-    const getProduct = async (address, index) => {
-        try {
-            const readStoreFront = await appContext.contract.readProduct(address, index)
-            console.log(readStoreFront)
-        } catch (e) {
-            console.error(e);
-        }
-    };
+    const readProductCount = async () => {
+        try {    
+            const readProductCount = await appContext.contract.readProductCount(appContext.address);
+            const _productsLength = await readProductCount.toString();
 
-    const getProducts = async (address) => {
-        try {
-            // Get Product count from store.
-            const productCount = await appContext.contract.readProductCount(address);
-            products.splice(0, productCount);
-            for(var i = 0;i < productCount; i++){
-                const _p = await appContext.contract.readProduct(address, i)
-                products.push(
-                    _p
-                )
+            if (_productsLength == 0) {
+                setMessageProduct("You have not yet added any products to your Fresa Storefront.")
+            } else {
+                const _products = []
+                for (let i = 0; i < _productsLength; i++) {
+                    let _product = new Promise(async (resolve, reject) => {
+                    let p = await appContext.contract.readProduct(appContext.address, i)
+                    resolve({
+                        index: i,
+                        key: i,
+                        owner: p[0],
+                        name: p[1],
+                        image: p[2],
+                        description: p[3],
+                        price: p[4].toString(),
+                        sold: p[5].toString(),
+                        qty: p[6].toString(),
+                        active: p[7]
+                    })
+                    })
+                    _products.push(_product)
+                }
+                setProducts(await Promise.all(_products));
             }
         } catch (e) {
-            console.error(e);
+            //setMessageProduct(e.errorArgs[0]);
+            //console.error(e);
         }
-    };
-
-    const categoryData = [
-        {
-            id: 1,
-            name: "Salad",
-            image: images.salad,
-            location: {
-                latitude: 1.5347282806345879,
-                longitude: 110.35632207358996,
-            },
-            menu: [
-                {
-                    menuId: 1,
-                    name: "Salad",
-                    photo: images.salad,
-                    description: "A Basket of fresh strawberries picked for our fresaclub members.",
-                    calories: 100,
-                    price: 1
-                }
-            ]
-        },
-        {
-            id: 2,
-            name: "Sandwich",
-            image: images.salad,
-            location: {
-                latitude: 1.5347282806345879,
-                longitude: 110.35632207358996,
-            },
-            menu: [
-                {
-                    menuId: 1,
-                    name: "1 Basket of fresh strawberries.",
-                    photo: images.salad,
-                    description: "A Basket of fresh strawberries picked for our fresaclub members.",
-                    calories: 100,
-                    price: 1
-                }
-            ]
-        },
-        {
-            id: 3,
-            name: "Berry Nicee Strawberries",
-            image: images.salad,
-            location: {
-                latitude: 1.5347282806345879,
-                longitude: 110.35632207358996,
-            },
-            menu: [
-                {
-                    menuId: 1,
-                    name: "1 Basket of fresh strawberries.",
-                    photo: images.salad,
-                    description: "A Basket of fresh strawberries picked for our fresaclub members.",
-                    calories: 100,
-                    price: 1
-                }
-            ]
-        },
-        {
-            id: 4,
-            name: "Berry Nicee Strawberries",
-            image: images.salad,
-            location: {
-                latitude: 1.5347282806345879,
-                longitude: 110.35632207358996,
-            },
-            menu: [
-                {
-                    menuId: 1,
-                    name: "1 Basket of fresh strawberries.",
-                    photo: images.salad,
-                    description: "A Basket of fresh strawberries picked for our fresaclub members.",
-                    calories: 100,
-                    price: 1
-                }
-            ]
-        }
-    ]
-    const [categories, setCategories] = useState(categoryData)
-
+      };
 
     function renderHeader() {
         return (
@@ -143,24 +72,22 @@ const Home = ({ navigation }) => {
     }
 
     function renderProducts() {
-        getProducts("0x9f3DD64c084C88e8E456e9BAdbc1ebbC624941be");
         return (
-            <MyProductsSlider products={categories} navigation={navigation}></MyProductsSlider>
+            <MyProductsSlider products={products} navigation={navigation}></MyProductsSlider>
         )
     }
 
     // Used to display balance & wallet address.
     function renderSubNav() {
         return (
-            <SubNav balance={appContext.balance} address={appContext.address}></SubNav>
+            <SubNav balance={appContext.balance} address={appContext.address} ></SubNav>
         )
     }
     return (
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {renderSubNav()}
-            {renderProducts()}
-            <MyOrders products={categories}></MyOrders>
+            {products.length >0 ? renderProducts() : <View></View>}
         </SafeAreaView>
     )
 }

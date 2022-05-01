@@ -16,7 +16,7 @@ import AppContext from '../components/AppContext';
 import SubNav from "../components/SubNav";
 import Header from "../components/Header";
 import * as ImagePicker from 'expo-image-picker';
-
+import LoadingScreen from "../components/LoadingScreen";
 
 const MyStore = ({ navigation }) => {
     const connector = useWalletConnect();
@@ -24,15 +24,15 @@ const MyStore = ({ navigation }) => {
     const moveText = useRef(new Animated.Value(0)).current;
 
     const [messageVendor, setMessageVendor] = useState("");
-    const [storeName, setStoreName] = useState(null);
+    const [storeName, setStoreName] = useState("");
     const [storeImage, setStoreImage] = useState("https://avatars.githubusercontent.com/u/91978140?s=200&v=4");
-    const [storeDescription, setStoreDescription] = useState(null);
+    const [storeDescription, setStoreDescription] = useState("");
     const [storeLat, setStoreLat] = useState(1000);
     const [storeLong, setStoreLong] = useState(2000);
     const [labelSubmit, setLabelSubmit] = useState("");
     const [isViewProduct, setIsViewProduct] = useState(false);
     const [storeLocation, setStoreLocation] = useState();
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState("");
 
     useEffect(()=>{
         readStoreFront();
@@ -96,21 +96,25 @@ const MyStore = ({ navigation }) => {
       };
 
     const readStoreFront = async () => {
-        try {    
+        try {
             const readStoreFront = await appContext.contract.readStoreFront(appContext.address)
+
             // check store front if null address , vendor not add
             if (readStoreFront[0].toLowerCase() !== appContext.address.toLowerCase()){
-                setMessageVendor("You don't have store front yet!")
+                setMessageVendor("No Fresa Storefront was found at this address.")
                 setLabelSubmit("Create")
             } else {
                 setMessageVendor("")
                 setLabelSubmit("Submit")
                 setStoreName(readStoreFront[1])
+                setStoreImage(readStoreFront[2])
                 setStoreDescription(readStoreFront[3])
                 setIsViewProduct(true)
             }
         } catch (e) {
-          console.error(e);
+            setMessageVendor("No Fresa Storefront was found at this address.")
+            setLabelSubmit("Create")
+            console.error(e);
         }
       };
 
@@ -180,10 +184,12 @@ const MyStore = ({ navigation }) => {
                     </Animated.View>
                     <TextInput
                         autoCapitalize={"none"}
-                        style={styles.input}
+                        style={styles.inputMulti}
                         value={storeDescription}
                         onChangeText={setStoreDescription}
                         editable={true}
+                        numberOfLines={4}
+                        multiline
                         onFocus={onFocusHandler(storeDescription)}
                         onBlur={onBlurHandler(storeDescription)}
                         blurOnSubmit
@@ -212,7 +218,7 @@ const MyStore = ({ navigation }) => {
                         <TouchableOpacity
                             style={styles.buttonUploadImage}
                             onPress={pickImage}>
-                            {image ? <Image source={{ uri: image }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
+                            {image ? <Image source={{ uri: {image} }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
                             <View>
                                 <Image source={images.imageUpload} style={styles.imageUpload} resizeMode='contain'></Image>
                                 <Text style={{color: COLORS.lightGray5, marginTop: 10}}>Upload Image</Text>
@@ -247,7 +253,7 @@ const MyStore = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {renderSubNav()}
-            {renderStoreFront()}
+            {messageVendor ? renderStoreFront() : <LoadingScreen/>}
         </SafeAreaView>
     )
 }
@@ -314,6 +320,10 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 13,
         height: 35,
+    },
+    inputMulti: {
+        fontSize: 13,
+        height: 70,
     },
     label: {
         color: "grey",

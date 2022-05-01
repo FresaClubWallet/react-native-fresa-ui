@@ -7,7 +7,7 @@ import {
 import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs"
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
-import { Home, MyStore, VendorQr, ProductDetail, Product } from "../screens"
+import { Home, MyStore, VendorQr, ProductDetail, Product, Favourites } from "../screens"
 
 import { COLORS, icons, SIZES } from "../constants"
 
@@ -19,29 +19,17 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
 
     if (isSelected) {
         return (
-            <View style={{ flex: 1, alignItems: "center", backgroundColor: COLORS.pink }}>
-                <TouchableOpacity
-                    style={{
-                        top: 2,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: 45,
-                        height: 45,
-                        borderRadius: 25,
-                        backgroundColor: COLORS.blue,
-                        shadowColor: "#000",
-                        shadowOffset: {
-                            width: 0,
-                            height: 2,
-                        },
-                        shadowOpacity: 5,
-                        shadowRadius: 2
-                    }}
-                    onPress={onPress}
-                >
-                    {children}
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+                style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: COLORS.primary
+                }}
+                onPress={onPress}
+            >
+                {children}
+            </TouchableOpacity>
         )
     } else {
         return (
@@ -92,17 +80,21 @@ const CustomTabBar = (props) => {
 const Tabs = () => {
     return (
         <Tab.Navigator
-            tabBarOptions={{
-                labelStyle: {
-                    position: 'absolute',
-                    bottom: 6,
-                    fontSize: 9
-                },
-            }}
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: COLORS.white,
-                tabBarInactiveTintColor: COLORS.white
+                tabBarInactiveTintColor: COLORS.white,
+                tabBarLabelStyle: {
+                    position: "absolute",
+                    bottom: 6,
+                    fontSize: 9
+                  },
+                  tabBarStyle: [
+                    {
+                      "display": "flex"
+                    },
+                    null
+                  ]
             }}
             tabBar={(props) => (
                 <CustomTabBar
@@ -179,7 +171,7 @@ const Tabs = () => {
 
             <Tab.Screen
                 name="Product"
-                component={ProductDetail}
+                component={Product}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
@@ -201,7 +193,7 @@ const Tabs = () => {
             />
              <Tab.Screen
                 name="Favourite"
-                component={Product}
+                component={Favourites}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image

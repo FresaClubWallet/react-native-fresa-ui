@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image} from 'react-native';
-import { icons, images, SIZES, COLORS, FONTS } from '../../constants'
-
+import { icons, images, SIZES, COLORS, FONTS } from '../../constants';
+import {Formatters} from '../../helpers';
 
 class ProductsList extends Component {
     constructor(props) {
@@ -11,40 +11,30 @@ class ProductsList extends Component {
     render() {
         const renderProduct = (product) => {
             if (product) {
-                console.log(product.image)
                 return (
-                    <TouchableOpacity style={styles.ItemTouchElement}>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                            {/* {product.image == null ? 
+                    <TouchableOpacity key={product.index} style={styles.ItemTouchElement}>
+                        <View  style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             <Image
                                 resizeMode="cover"
-                                source={images.taco}
+                                source={{uri: product.image}}
                                 style={{
                                     width: 100,
                                     height: 100,
                                 }}
-                            /> */}
-                            <Image
-                                resizeMode="cover"
-                                source={product.image ? {uri:product.image}: images.taco}
-                                style={{
-                                    width: 100,
-                                    height: 100,
-                                }}
-                            />}
-                            <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: "60%" }}>
+                            />
+                            <View style={{ flexWrap: 'wrap', flexDirection: 'column'}}>
                                 <View style={ styles.CounterContainer }>
                                     <Text style={{ ...FONTS.h5 }}>{product.name}</Text>
                                 </View>
                                 <View style={ styles.CounterContainer }>
-                                    <Text style={{...FONTS.body6}}>by Tacos de Tijuana</Text>
+                                    <Text style={{...FONTS.body6}}>{Formatters.trunctToLen(product.description, 30)}</Text>
                                 </View>
                                 <View style={ styles.CounterContainer }>
                                     <View style={styles.counter}>
-                                        <Text style={{...FONTS.body6, marginRight: 10}}>Active: Yes</Text>
+                                        <Text style={{...FONTS.body6, marginRight: 10}}>Active: {Formatters.boolToText(product.active)}</Text>
                                     </View>
                                     <View style={styles.counter}>
-                                        <Text style={{...FONTS.body6}}>Quantity: 3</Text>
+                                        <Text style={{...FONTS.body6}}>Quantity: {product.qty}</Text>
                                     </View>
                                 </View>
                                 <View style={ styles.CounterContainer }>
@@ -91,10 +81,11 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         marginTop: 20,
         shadowColor: "#000",
-        shadowOffset: {width: 1, height: 4},
+        shadowOffset: {width: 0, height: 0},
         borderRadius: 15,
         shadowOpacity: 0.2,
-        shadowRadius: 3,
+        shadowRadius: 12,
+        elevation: 4
     },
     CounterContainer:{
         height: 10,

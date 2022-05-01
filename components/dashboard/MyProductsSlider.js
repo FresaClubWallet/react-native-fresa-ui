@@ -4,40 +4,46 @@ import { icons, images, SIZES, COLORS, FONTS } from '../../constants'
 
 
 const MyProductsSlider = (props) => {
-    const renderProduct = ({ product }) => {
-        return (
-            <TouchableOpacity style={styles.ItemTouchElement}>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                    <Image
-                        resizeMode="cover"
-                        source={images.taco}
-                        style={{
-                            width: 100,
-                            height: 100,
-                        }}
-                    />
-                    <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: 150 }}>
-                        <Text style={{ ...FONTS.h5, paddingLeft: 10 }}>Carne Asada Taco</Text>
-                        <View style={ styles.CounterContainer }>
-                            <View style={ styles.counter }>
-                                <Text style={{...FONTS.body6}}>Stock: 20</Text>
+    const renderProduct = (product) => {
+        try{
+            return (
+                <TouchableOpacity key={product.index} style={styles.ItemTouchElement}>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                        <Image
+                            resizeMode="cover"
+                            source={product.image ? { uri: product.image} : require('../../assets/icon.png')}
+                            style={{
+                                width: 100,
+                                height: 100,
+                            }}
+                        />
+                        <View style={{ flexWrap: 'wrap', flexDirection: 'column', width: 150 }}>
+                            <Text style={{ ...FONTS.h5, paddingLeft: 10 }}>{product.name}</Text>
+                            <View style={ styles.CounterContainer }>
+                                <View style={ styles.counter }>
+                                    <Text style={{...FONTS.body6}}>Stock: {product.qty}</Text>
+                                </View>
+                                <View style={ styles.counter }>
+                                    <Text style={{...FONTS.body6}}>Sold: {product.sold}</Text>
+                                </View>
+                                <Text style={{...FONTS.h5}}>${product.price} cUSD</Text>
                             </View>
-                            <View style={ styles.counter }>
-                                <Text style={{...FONTS.body6}}>Sold: 25</Text>
-                            </View>
-                            <Text style={{...FONTS.h5}}>$2.75 cUSD</Text>
                         </View>
                     </View>
-                </View>
-            </TouchableOpacity>
-        )
+                </TouchableOpacity>
+            )
+        } catch(e) {
+            // @TODO this is quick fix
+        }
     }
 
     return (
         <View style={styles.DashboardProductSliderContainer}>
             <View style={styles.ProductBar}>
                 <View style={styles.leftContent}>
-                    <Image source={icons.myproduct} style={styles.iconMyProduct}/>
+                    <Image 
+                        source={icons.myproduct}
+                        style={styles.iconMyProduct}/>
                     <Text style={ styles.SliderTitleText }>My Products</Text>
                 </View>
                 <View style={styles.centerContent}>
@@ -45,21 +51,22 @@ const MyProductsSlider = (props) => {
                 </View>
                 <TouchableOpacity
                         style={styles.buttonOpacity}
-                        onPress={() => props.navigation.push('Product')}>
+                        onPress={() => props.navigation.navigate('Product')}>
                     <View style={styles.rightContent}>
                         <Text style={ styles.ViewAll }>View all</Text>
-                        <Image source={icons.arrow} style={styles.iconArrow}/>
+                        <Image 
+                            source={icons.arrow}
+                            style={styles.iconArrow}/>
                     </View>
                 </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.TouchElement}>
                 <FlatList
-                        style={styles.ListElement}
+                        style={styles.ListElement} 
                         data={props.products}
                         horizontal
                         showsHorizontalScrollIndicator={false}
-                        keyExtractor={product => `${product.id}`}
-                        renderItem={renderProduct}
+                        renderItem={({item}) => renderProduct(item)}
                         contentContainerStyle={{ paddingVertical: SIZES.padding * 2 }}
                 />
             </TouchableOpacity>
@@ -92,10 +99,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginRight: SIZES.padding,
         shadowColor: "#000",
-        shadowOffset: {width: 1, height: 4},
+        shadowOffset: {width: 0, height: 0},
         borderRadius: 15,
         shadowOpacity: 0.2,
-        shadowRadius: 3,
+        shadowRadius: 12,
+        marginStart:5,
+        elevation:4
     },
     CounterContainer:{
         height: 10,
