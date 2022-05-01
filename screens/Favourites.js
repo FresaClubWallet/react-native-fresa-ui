@@ -16,6 +16,7 @@ import AppContext from '../components/AppContext';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { BigNumber } from "ethers";
 
+import { Storefront } from "../fresa";
 
 
 var favouriteCount = 0;
@@ -77,8 +78,7 @@ const Favourites = ({ navigation }) => {
         )
     }
     return (
-        writeProduct(),
-
+        Storefront.getStorefront(appContext.address),
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {renderFavourites()}
