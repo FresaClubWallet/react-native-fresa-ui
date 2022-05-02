@@ -26,4 +26,6 @@ const DATA = {
     }
   };
 
-export const CHAIN_DATA = ENV ? DATA[ENV] : DATA["testnet"];
+const CHAIN_DATA = ENV ? DATA[ENV] : DATA["testnet"];
+
+export default CHAIN_DATA;

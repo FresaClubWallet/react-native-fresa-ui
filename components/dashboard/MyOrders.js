@@ -1,14 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image} from 'react-native';
 ;
 import { icons, images, SIZES, COLORS, FONTS } from '../../constants'
 
-class MyOrders extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
+const MyOrders = (props) => {
         const shortenAddress = (address) => {
             return `${address.slice(0, 11)}...${address.slice(
                 address.length - 4,
@@ -58,7 +53,7 @@ class MyOrders extends Component {
                 <TouchableOpacity style={styles.TouchElement}>
                     <FlatList
                             style={styles.ListElement}
-                            data={this.props.products}
+                            data={props.products}
                             horizontal={false}
                             showsHorizontalScrollIndicator={false}
                             keyExtractor={product => `${product.id}`}
@@ -68,7 +63,6 @@ class MyOrders extends Component {
                 </TouchableOpacity>
             </View>
         );
-    }
 }
 
 

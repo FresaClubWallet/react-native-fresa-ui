@@ -12,11 +12,11 @@ import {
 } from "react-native";
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
-import SubNav from "../components/SubNav";
-import Header from "../components/Header";
-import AppContext from '../components/AppContext'; 
+
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import ProductsList from "../components/products/ProductsList"
+
+import {SubNav, Header, AppContext, ProductsList } from '../components';
+
 
 const Product = ({ navigation }) => {
     const connector = useWalletConnect();

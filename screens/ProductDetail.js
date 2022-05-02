@@ -12,9 +12,7 @@ import {
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 
-import SubNav from "../components/SubNav";
-import Header from "../components/Header";
-import AppContext from '../components/AppContext';
+import {SubNav, Header, AppContext } from '../components';
 
 
 const ProductDetail = ({ navigation, route }) => {

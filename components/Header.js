@@ -14,7 +14,7 @@ const Header = (props) => {
             </View>
             <View style={styles.centerContent}>
                 <View style={styles.storeAddressBar}>
-                    <Text style={styles.storeAddressBarText}>{Formatters.trunctToLen(appContext.address, 30)}</Text>
+                    <Text style={styles.storeAddressBarText}>{Formatters.trunctToLen(appContext.address, 25)}</Text>
                 </View>
             </View>
             <View style={styles.rightContent}>

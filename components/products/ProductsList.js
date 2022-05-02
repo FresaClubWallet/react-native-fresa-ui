@@ -1,62 +1,57 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image} from 'react-native';
 import { icons, images, SIZES, COLORS, FONTS } from '../../constants';
 import {Formatters} from '../../helpers';
 
-class ProductsList extends Component {
-    constructor(props) {
-        super(props);
-    }
-    
-    render() {
-        const renderProduct = (product) => {
-            if (product) {
-                return (
-                    <TouchableOpacity key={product.index} style={styles.ItemTouchElement}>
-                        <View  style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                            <Image
-                                resizeMode="cover"
-                                source={{uri: product.image}}
-                                style={{
-                                    width: 100,
-                                    height: 100,
-                                }}
-                            />
-                            <View style={{ flexWrap: 'wrap', flexDirection: 'column'}}>
-                                <View style={ styles.CounterContainer }>
-                                    <Text style={{ ...FONTS.h5 }}>{product.name}</Text>
+const ProductsList = (props) => {
+
+    const renderProduct = (product) => {
+        if (product) {
+            return (
+                <TouchableOpacity key={product.index} style={styles.ItemTouchElement}>
+                    <View  style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                        <Image
+                            resizeMode="cover"
+                            source={{uri: product.image}}
+                            style={{
+                                width: 100,
+                                height: 100,
+                            }}
+                        />
+                        <View style={{ flexWrap: 'wrap', flexDirection: 'column'}}>
+                            <View style={ styles.CounterContainer }>
+                                <Text style={{ ...FONTS.h5 }}>{product.name}</Text>
+                            </View>
+                            <View style={ styles.CounterContainer }>
+                                <Text style={{...FONTS.body6}}>{Formatters.trunctToLen(product.description, 30)}</Text>
+                            </View>
+                            <View style={ styles.CounterContainer }>
+                                <View style={styles.counter}>
+                                    <Text style={{...FONTS.body6, marginRight: 10}}>Active: {Formatters.boolToText(product.active)}</Text>
                                 </View>
-                                <View style={ styles.CounterContainer }>
-                                    <Text style={{...FONTS.body6}}>{Formatters.trunctToLen(product.description, 30)}</Text>
-                                </View>
-                                <View style={ styles.CounterContainer }>
-                                    <View style={styles.counter}>
-                                        <Text style={{...FONTS.body6, marginRight: 10}}>Active: {Formatters.boolToText(product.active)}</Text>
-                                    </View>
-                                    <View style={styles.counter}>
-                                        <Text style={{...FONTS.body6}}>Quantity: {product.qty}</Text>
-                                    </View>
-                                </View>
-                                <View style={ styles.CounterContainer }>
-                                    <Text style={{...FONTS.h5}}>${product.price.toString()} cUSD</Text>
+                                <View style={styles.counter}>
+                                    <Text style={{...FONTS.body6}}>Quantity: {product.qty}</Text>
                                 </View>
                             </View>
+                            <View style={ styles.CounterContainer }>
+                                <Text style={{...FONTS.h5}}>${product.price.toString()} cUSD</Text>
+                            </View>
                         </View>
-                    </TouchableOpacity>
-                )
-            }
-        }
-        return (
-            <View style={styles.DashboardProductSliderContainer}>
-                <Text style={ styles.TitleText }>My Products</Text>
-                <TouchableOpacity style={styles.TouchElement}>
-                    {this.props.products.map(value => {
-                        return renderProduct(value)
-                    })}
+                    </View>
                 </TouchableOpacity>
-            </View>
-        );
+            )
+        }
     }
+    return (
+        <View style={styles.DashboardProductSliderContainer}>
+            <Text style={ styles.TitleText }>My Products</Text>
+            <TouchableOpacity style={styles.TouchElement}>
+                {props.products.map(value => {
+                    return renderProduct(value)
+                })}
+            </TouchableOpacity>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

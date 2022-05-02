@@ -9,7 +9,7 @@ import {
     ImageBackground
 } from "react-native";
 import { images, SIZES, COLORS, FONTS } from '../constants'
-import AppContext from '../components/AppContext'; 
+import { AppContext } from '../components';
 
 const Login = ({ navigation }) => {
     const appContext = useContext(AppContext);

@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, useMemo } from 'react';
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import { Fresaclub__factory } from "../typechain/index";
 import { ethers } from "ethers";
-import { CHAIN_DATA } from './ChainData';
+import CHAIN_DATA from './ChainData';
 
 const AppContext = createContext({ signed: false, user: {} });
 

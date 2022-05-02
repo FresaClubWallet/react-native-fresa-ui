@@ -12,11 +12,7 @@ import { useWalletConnect } from '@walletconnect/react-native-dapp';
 
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
-import SubNav from "../components/SubNav";
-import Header from "../components/Header";
-import MyProductsSlider from "../components/dashboard/MyProductsSlider"
-import MyOrders from "../components/dashboard/MyOrders";
-import AppContext from '../components/AppContext'; 
+import {SubNav, Header, AppContext, MyProductsSlider } from '../components';
 
 const products = [];
 

@@ -10,14 +10,12 @@ import {
 } from "react-native";
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
-import SubNav from "../components/SubNav";
-import Header from "../components/Header";
-import AppContext from '../components/AppContext';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { BigNumber } from "ethers";
 
 import { Storefront } from "../fresa";
 
+import {SubNav, Header, AppContext } from '../components';
 
 var favouriteCount = 0;
 var favourites = [];

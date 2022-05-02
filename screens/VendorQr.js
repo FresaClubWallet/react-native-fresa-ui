@@ -7,11 +7,9 @@ import {
 } from "react-native";
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
-import SubNav from "../components/SubNav";
-import Header from "../components/Header";
-import AppContext from '../components/AppContext'; 
 import SvgQRCode from 'react-native-qrcode-svg';
 
+import {SubNav, Header, AppContext } from '../components';
 
 const VendorQr = ({ navigation }) => {
     const appContext = useContext(AppContext);

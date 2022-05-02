@@ -12,11 +12,11 @@ import {
 } from "react-native";
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
-import AppContext from '../components/AppContext'; 
-import SubNav from "../components/SubNav";
-import Header from "../components/Header";
+
 import * as ImagePicker from 'expo-image-picker';
-import LoadingScreen from "../components/LoadingScreen";
+
+import {SubNav, Header, AppContext, LoadingScreen } from '../components';
+
 
 const MyStore = ({ navigation }) => {
     const connector = useWalletConnect();

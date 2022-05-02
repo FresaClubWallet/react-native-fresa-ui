@@ -4,8 +4,8 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 
 import { images, SIZES, COLORS, FONTS } from '../constants'
 
-import AppContext from '../components/AppContext';
 
+import { AppContext } from '../components';
 
 const StoreQrScanner = ({ navigation }) => {
     const [hasPermission, setHasPermission] = useState(null);
