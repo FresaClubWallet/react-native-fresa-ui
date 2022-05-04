@@ -5,12 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const SubNav = (props) => {
     const [hideBalance, setHideBalance] = useState(false)
-    const shortenAddress = (address) => {
-        return `${address.slice(0, 6)}...${address.slice(
-            address.length - 4,
-            address.length
-        )}`;
-    }
+
     return (
         <View style={styles.subnavContainer}>
             <View style={styles.leftContent}>

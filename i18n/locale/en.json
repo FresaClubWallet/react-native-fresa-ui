@@ -1,0 +1,31 @@
+{
+  "common": {
+    "ok": "OK",
+    "success": "success",
+    "send": "Send",
+    "cancel": "Cancel",
+    "offline": "Please check your Internet connection"
+  },
+
+  "input": {
+    "storeName": "Store name",
+    "storeDescription": "Store description",
+    "storeLocation": "Location"
+  },
+
+  "validation": {
+    "storeNameIsRequired": "*Store name is required.",
+    "storeDescriptionIsRequired": "*Store description is required.",
+    "storeLocationIsRequired": "*Store location is required.", 
+   
+    "storeNameMinCharacters": "Store name must be at least 6 characters.",
+    "storeDescriptionMinCharacters": "Store description must be at least 8 characters."
+  },
+  "error": {
+    "somethingWrong": "Something went wrong",
+    "doYouWantToRestart": "Do you want to restart application",
+    "restart": "Restart",
+    "cancel": "Cancel",
+    "close": "Close"
+  }
+}

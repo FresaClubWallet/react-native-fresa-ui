@@ -14,14 +14,15 @@ import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
 import * as ImagePicker from 'expo-image-picker';
+import { Formik, Form, Field } from 'formik';
 
-import {SubNav, Header, AppContext, LoadingScreen } from '../components';
-
+import {SubNav, Header, AppContext, LoadingScreen, ErrorText, FormFields } from '../components';
+import { storeFrontValidation } from "../helpers/validators";
+import $t from 'i18n';
 
 const MyStore = ({ navigation }) => {
     const connector = useWalletConnect();
     const appContext = useContext(AppContext);
-    const moveText = useRef(new Animated.Value(0)).current;
 
     const [messageVendor, setMessageVendor] = useState("");
     const [storeName, setStoreName] = useState("");
@@ -38,33 +39,6 @@ const MyStore = ({ navigation }) => {
         readStoreFront();
     },[connector])
 
-    const onFocusHandler = (value) => {
-        if (value !== "") {
-          moveTextTop();
-        }
-      };
-    
-    const onBlurHandler = (value) => {
-    if (value === "") {
-        moveTextBottom();
-    }
-    };
-
-    const moveTextTop = () => {
-    Animated.timing(moveText, {
-        toValue: 1,
-        duration: 200,
-        useNativeDriver: true,
-    }).start();
-    };
-
-    const moveTextBottom = () => {
-        Animated.timing(moveText, {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: true,
-        }).start();
-      };
 
     const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -81,19 +55,6 @@ const MyStore = ({ navigation }) => {
         setImage(result.uri);
     }
     };
-
-    const yVal = moveText.interpolate({
-        inputRange: [0, 1],
-        outputRange: [4, -20],
-      });
-    
-      const animStyle = {
-        transform: [
-          {
-            translateY: yVal,
-          },
-        ],
-      };
 
     const readStoreFront = async () => {
         try {
@@ -161,92 +122,55 @@ const MyStore = ({ navigation }) => {
                 <View style={{ width: "100%", height: 30, textAlign: 'center' }}>
                     <Text style={{ marginLeft: 20, ...FONTS.body5, alignItems: "center" }}>{messageVendor}</Text>
                 </View>
-                <View>
-                <View style={styles.container_input}>
-                    <Animated.View style={[styles.animatedStyle, animStyle]}>
-                        <Text style={styles.label}>Store name</Text>
-                    </Animated.View>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.input}
-                        value={storeName}
-                        onChangeText={setStoreName}
-                        editable={true}
-                        onFocus={onFocusHandler(storeName)}
-                        onBlur={onBlurHandler(storeName)}
-                        blurOnSubmit
-                    />
-                </View>
+                <Formik
+                    initialValues={{ storeName: storeName, storeDescription: storeDescription, storeLocation: storeLocation }}
+                    onSubmit={writeStoreFront}
+                    validationSchema={storeFrontValidation}
+                >
+                {({ handleSubmit }) => (
+                    <View style={styles.container_input}>
+                        <Field name="storeName" component={FormFields} placeholder={$t('input.storeName')} style={styles.input}/>
+                        <Field name="storeDescription" component={FormFields} placeholder={$t('input.storeDescription')} 
+                            style={[styles.input, styles.inputMulti]} numberOfLines={4} multiline/>
+                        <Field name="storeLocation" component={FormFields} placeholder={$t('input.storeLocation')} style={styles.input}/>
 
-                <View style={styles.container_input}>
-                    <Animated.View style={[styles.animatedStyle, animStyle]}>
-                        <Text style={styles.label}>Store description</Text>
-                    </Animated.View>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.inputMulti}
-                        value={storeDescription}
-                        onChangeText={setStoreDescription}
-                        editable={true}
-                        numberOfLines={4}
-                        multiline
-                        onFocus={onFocusHandler(storeDescription)}
-                        onBlur={onBlurHandler(storeDescription)}
-                        blurOnSubmit
-                    />
-                </View>
-
-                <View style={styles.container_input}>
-                    <Animated.View style={[styles.animatedStyle, animStyle]}>
-                        <Text style={styles.label}>Location</Text>
-                    </Animated.View>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.input}
-                        value={storeLocation}
-                        onChangeText={setStoreLocation}
-                        editable={true}
-                        onFocus={onFocusHandler(storeLocation)}
-                        onBlur={onBlurHandler(storeLocation)}
-                        blurOnSubmit
-                    />
-                </View>
-
-                {labelSubmit ?
-                (labelSubmit === "Create") ? 
-                    <View style={{alignItems: "center"}}>
-                        <TouchableOpacity
-                            style={styles.buttonUploadImage}
-                            onPress={pickImage}>
-                            {image ? <Image source={{ uri: {image} }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
-                            <View>
-                                <Image source={images.imageUpload} style={styles.imageUpload} resizeMode='contain'></Image>
-                                <Text style={{color: COLORS.lightGray5, marginTop: 10}}>Upload Image</Text>
-                            </View>}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={()=> writeStoreFront()}
-                            >
-                            <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
-                        </TouchableOpacity>
-                    </View>: 
-                <View><View style={{alignItems: "center"}}>
-                        <TouchableOpacity
-                            style={styles.buttonUploadImage}
-                            onPress={pickImage}>
-                            {image ? <Image source={{ uri: image }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
-                            <Image source={storeImage} style={{width: '100%', height: 200}}  resizeMode='contain'></Image>}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={()=> writeStoreFront()}
-                            >
-                            <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
-                        </TouchableOpacity>
-                </View></View> : <View></View>}
-            </View>
-            </View>
+                    {labelSubmit ?
+                    (labelSubmit === "Create") ? 
+                        <View style={{alignItems: "center"}}>
+                            <TouchableOpacity
+                                style={styles.buttonUploadImage}
+                                onPress={pickImage}>
+                                {image ? <Image source={{ uri: {image} }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
+                                <View>
+                                    <Image source={images.imageUpload} style={styles.imageUpload} resizeMode='contain'></Image>
+                                    <Text style={{color: COLORS.lightGray5, marginTop: 10}}>Upload Image</Text>
+                                </View>}
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={handleSubmit}
+                                >
+                                <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
+                            </TouchableOpacity>
+                        </View>: 
+                    <View><View style={{alignItems: "center"}}>
+                            <TouchableOpacity
+                                style={styles.buttonUploadImage}
+                                onPress={pickImage}>
+                                {image ? <Image source={{ uri: image }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
+                                <Image source={storeImage} style={{width: '100%', height: 200}}  resizeMode='contain'></Image>}
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={handleSubmit}
+                                >
+                                <Text style={{color: 'white', ...FONTS.h3}}>{labelSubmit}</Text>
+                            </TouchableOpacity>
+                    </View></View> : <View></View>}
+                    </View>
+                )}
+            </Formik>
+        </View>
         )
     }
     return (
@@ -300,41 +224,34 @@ const styles = StyleSheet.create({
         elevation: 1,
         backgroundColor: COLORS.blueMedium,
     },
-    container_input: {
-        marginBottom: 10,
-        marginTop: 20,
-        backgroundColor: "#fff",
-        paddingTop: 5,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: "#bdbdbd",
-        borderRadius: 2,
-        width: "90%",
-        alignSelf: "center",
-      },
     icon: {
         width: 40,
         justifyContent: "center",
         alignItems: "center",
     },
+    container_input: {
+        width: "90%",
+        alignSelf: "center",
+    },
     input: {
         fontSize: 13,
-        height: 35,
+        height: 45,
+        marginTop: 20,
+        backgroundColor: "#fff",
+        borderWidth: 1,
+        borderColor: "#000000",
+        borderRadius: 10,
+        width: "100%",
+        alignSelf: "center",
+        paddingHorizontal: 10,
+        paddingVertical:10
     },
     inputMulti: {
-        fontSize: 13,
-        height: 70,
+        height: 85,
     },
     label: {
         color: "grey",
         fontSize: 12,
-    },
-    animatedStyle: {
-        top: 5,
-        left: 15,
-        position: 'absolute',
-        borderRadius: 90,
-        zIndex: 10000,
     },
 })
 
