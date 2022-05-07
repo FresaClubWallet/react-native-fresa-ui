@@ -76,7 +76,7 @@ const Favourites = ({ navigation }) => {
         )
     }
     return (
-        Storefront.getStorefront(appContext.address),
+        Storefront.getStorefront(appContext),
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {renderFavourites()}

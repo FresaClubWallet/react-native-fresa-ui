@@ -1,24 +1,22 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
     SafeAreaView,
     View,
     Text,
     StyleSheet,
-    Animated,
     TouchableOpacity,
     Image,
-    FlatList,
-    TextInput,
 } from "react-native";
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
-import { icons, images, SIZES, COLORS, FONTS } from '../constants'
+import { images, SIZES, COLORS, FONTS } from '../constants'
 
 import * as ImagePicker from 'expo-image-picker';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Field } from 'formik';
 
 import {SubNav, Header, AppContext, LoadingScreen, ErrorText, FormFields } from '../components';
 import { storeFrontValidation } from "../helpers/validators";
 import $t from 'i18n';
+import { Storefront } from "../fresa";
 
 const MyStore = ({ navigation }) => {
     const connector = useWalletConnect();
@@ -32,8 +30,10 @@ const MyStore = ({ navigation }) => {
     const [storeLong, setStoreLong] = useState(2000);
     const [labelSubmit, setLabelSubmit] = useState("");
     const [isViewProduct, setIsViewProduct] = useState(false);
-    const [storeLocation, setStoreLocation] = useState();
+    const [storeLocation, setStoreLocation] = useState("");
     const [image, setImage] = useState("");
+    const [active, setActive] = useState(1);
+    const [loading, setLoading] = useState(0);
 
     useEffect(()=>{
         readStoreFront();
@@ -57,32 +57,30 @@ const MyStore = ({ navigation }) => {
     };
 
     const readStoreFront = async () => {
-        try {
-            const readStoreFront = await appContext.contract.readStoreFront(appContext.address)
-
-            // check store front if null address , vendor not add
-            if (readStoreFront[0].toLowerCase() !== appContext.address.toLowerCase()){
-                setMessageVendor("No Fresa Storefront was found at this address.")
-                setLabelSubmit("Create")
-            } else {
-                setMessageVendor("")
-                setLabelSubmit("Submit")
-                setStoreName(readStoreFront[1])
-                setStoreImage(readStoreFront[2])
-                setStoreDescription(readStoreFront[3])
-                setIsViewProduct(true)
-            }
-        } catch (e) {
+        const storeFront = await Storefront.getStorefront(appContext, appContext.address)
+        // check store front if null address , vendor not add
+        if (storeFront.length == 0){
             setMessageVendor("No Fresa Storefront was found at this address.")
             setLabelSubmit("Create")
-            console.error(e);
+        } else {
+            setMessageVendor("")
+            setLabelSubmit("Submit")
+            setStoreName(storeFront[1])
+            setStoreImage(storeFront[2])
+            setStoreDescription(storeFront[3])
+            setIsViewProduct(true)
         }
+        setLoading(1)
       };
+      
+    // const submitStoreFront = async () => {
+    //     await Storefront.writeStorefront(appContext ,connector, storeName, storeImage, storeDescription, storeLat, storeLong, active, appContext.address)
+    // }
 
-    const writeStoreFront = async () => {
+    const submitStoreFront = async () => {
         try {
             const signed = await appContext.contract.populateTransaction["writeStoreFront"](
-                storeName, storeImage, storeDescription, storeLat, storeLong, {
+                storeName, storeImage, storeDescription, storeLat, storeLong, active, {
                     from: appContext.address
                 });
         
@@ -123,8 +121,9 @@ const MyStore = ({ navigation }) => {
                     <Text style={{ marginLeft: 20, ...FONTS.body5, alignItems: "center" }}>{messageVendor}</Text>
                 </View>
                 <Formik
+                    enableReinitialize
                     initialValues={{ storeName: storeName, storeDescription: storeDescription, storeLocation: storeLocation }}
-                    onSubmit={writeStoreFront}
+                    onSubmit={submitStoreFront}
                     validationSchema={storeFrontValidation}
                 >
                 {({ handleSubmit }) => (
@@ -177,7 +176,7 @@ const MyStore = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {renderSubNav()}
-            {messageVendor ? renderStoreFront() : <LoadingScreen/>}
+            {loading ? renderStoreFront() : <LoadingScreen/>}
         </SafeAreaView>
     )
 }
