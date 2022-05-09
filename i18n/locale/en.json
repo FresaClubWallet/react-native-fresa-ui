@@ -10,16 +10,26 @@
   "input": {
     "storeName": "Store name",
     "storeDescription": "Store description",
-    "storeLocation": "Location"
+    "storeLocation": "Location",
+    "productName": "Product name",
+    "productDescription": "Product description",
+    "productPrice": "Price",
+    "productQty": "Quantity"
   },
 
   "validation": {
     "storeNameIsRequired": "*Store name is required.",
     "storeDescriptionIsRequired": "*Store description is required.",
     "storeLocationIsRequired": "*Store location is required.", 
+    "productNameIsRequired": "*Product name is required.",
+    "productDescriptionIsRequired": "*Product description is required.",
+    "productPriceIsRequired": "*Price is required.",
+    "productQtyIsRequired": "*Quantity is requied.",
    
-    "storeNameMinCharacters": "Store name must be at least 6 characters.",
-    "storeDescriptionMinCharacters": "Store description must be at least 8 characters."
+    "storeNameMinCharacters": "*Store name must be at least 6 characters.",
+    "storeDescriptionMinCharacters": "*Store description must be at least 8 characters.",
+    "productNameMinCharacters": "*Product name must be at least 4 characters.",
+    "productDescriptionMinCharacters": "*Product description must be at least 8 characters."
   },
   "error": {
     "somethingWrong": "Something went wrong",

@@ -1,27 +1,22 @@
-import { useContext } from "react";
-import { useWalletConnect } from '@walletconnect/react-native-dapp';
-
-import AppContext from "../components/AppContext";
-
-
-const Products = {
-    getAppContext: function () {
-        return useContext(AppContext);
-    },
-    getProductCount: async function (_address) {
-        const pCount = await Products.getAppContext().contract.readProductCount(_address);
+import { BigNumber } from "ethers";
+/* Need to pass appContext & connector & address
+Because hooks need to call inside body of main function not here
+*/
+const Products =  {
+    getProductCount: async function (AppContext, _address) {
+        const pCount = await AppContext.contract.readProductCount(_address);
         return pCount;
     },
     getProductExists: async function (_address, _index) {
-        const exists = await Products.getAppContext().contract.readProductExists(_address, _index);
+        const exists = await AppContext.contract.readProductExists(_address, _index);
         return exists;
     },
     getProduct: async function (_address, _index) {
-        const product = await Products.getAppContext().contract.readProduct(_address, _index);
+        const product = await AppContext.contract.readProduct(_address, _index);
         return product;
     },
-    getProducts: async function (_address) {
-        let _pcount = await Products.getProductCount(_address);
+    getProducts: async function (AppContext, _address) {
+        let _pcount = await Products.getProductCount(AppContext, _address);
         let _products = [];
 
         for (let i = 0; i < _pcount; i++) {
@@ -45,38 +40,35 @@ const Products = {
         }
         return await Promise.all(_products);
     },
-    writeProduct: async function(_name, _image, _description, _price, _qty, _active){
-        const connector = useWalletConnect();
-
+    // TODO: have bug can't write
+    writeProduct: async function(AppContext, Connector, _name, _image, _description, _price, _qty, _active, _address){
         try {
-            const signed = await Products.getAppContext().contract.populateTransaction["writeProduct"](
+            const signed = await AppContext.contract.populateTransaction["writeProduct"](
                 _name, _image, _description, BigNumber.from(_price), _qty, _active, {
-                from: Products.getAppContext().address
+                from: _address
             });
-            const signedResponse = await connector.signTransaction({
+            const signedResponse = await Connector.signTransaction({
                 ...signed,
                 gasLimit: 1500000
             });
-            const res = await connector.sendTransaction(signed);
+            const res = await Connector.sendTransaction(signed);
         } catch (e) {
             console.error(e);
             return false;
         }
         return true;
     },
-    editProduct: async function(_index, _name, _image, _description, _price, _qty, _active){
-        const connector = useWalletConnect();
-
+    editProduct: async function(AppContext, Connector,_index, _name, _image, _description, _price, _qty, _active, _address){
         try {
-            const signed = await Products.getAppContext().contract.populateTransaction["editProduct"](
+            const signed = await AppContext.contract.populateTransaction["editProduct"](
                 _index, _name, _image, _description, BigNumber.from(_price), _qty, _active, {
-                from: Products.getAppContext().address
+                from: _address
             });
-            const signedResponse = await connector.signTransaction({
+            const signedResponse = await Connector.signTransaction({
                 ...signed,
                 gasLimit: 1500000
             });
-            const res = await connector.sendTransaction(signed);
+            const res = await Connector.sendTransaction(signed);
         } catch (e) {
             console.error(e);
             return false;

@@ -36,3 +36,16 @@ export const storeFrontValidation = Yup.object().shape({
   storeLocation: Yup.string()
     .required($t('validation.storeLocationIsRequired'))
 });
+
+export const productValidation = Yup.object().shape({
+    productName: Yup.string()
+    .required($t('validation.productNameIsRequired'))
+    .min(4, $t('validation.productNameMinCharacters')),
+    productDescription: Yup.string()
+    .required($t('validation.productDescriptionIsRequired'))
+    .min(8, $t('validation.productDescriptionMinCharacters')),
+    productPrice: Yup.string()
+    .required($t('validation.productPriceIsRequired')),
+    productQty: Yup.string()
+    .required($t('validation.productQtyIsRequired')) 
+})

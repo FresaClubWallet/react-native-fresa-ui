@@ -1,5 +1,5 @@
 /* Need to pass appContext & connector & address
-Because hooks need to call inside body of main function
+Because hooks need to call inside body of main function not here
 */
 const Storefront = {
     getStorefrontExists: async function (_address) {

@@ -41,33 +41,33 @@ const MyStore = ({ navigation }) => {
 
 
     const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-    });
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
 
-    console.log(result);
+        console.log(result);
 
-    if (!result.cancelled) {
-        setImage(result.uri);
-    }
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
     };
 
     const readStoreFront = async () => {
-        const storeFront = await Storefront.getStorefront(appContext, appContext.address)
+        const _storeFront = await Storefront.getStorefront(appContext, appContext.address)
         // check store front if null address , vendor not add
-        if (storeFront.length == 0){
+        if (_storeFront.length == 0){
             setMessageVendor("No Fresa Storefront was found at this address.")
             setLabelSubmit("Create")
         } else {
             setMessageVendor("")
             setLabelSubmit("Submit")
-            setStoreName(storeFront[1])
-            setStoreImage(storeFront[2])
-            setStoreDescription(storeFront[3])
+            setStoreName(_storeFront[1])
+            setStoreImage(_storeFront[2])
+            setStoreDescription(_storeFront[3])
             setIsViewProduct(true)
         }
         setLoading(1)
@@ -186,16 +186,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: COLORS.white
     },
-    shadow: {
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 1,
-    },
     imageUpload: {
         width: '100%',
         height: 80
@@ -247,11 +237,7 @@ const styles = StyleSheet.create({
     },
     inputMulti: {
         height: 85,
-    },
-    label: {
-        color: "grey",
-        fontSize: 12,
-    },
+    }
 })
 
 export default MyStore

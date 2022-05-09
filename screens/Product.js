@@ -7,7 +7,6 @@ import {
     TouchableOpacity,
     Image,
     Modal,
-    Animated,
     TextInput
 } from "react-native";
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
@@ -15,8 +14,13 @@ import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 
-import {SubNav, Header, AppContext, ProductsList } from '../components';
-
+import {SubNav, Header, AppContext, ProductsList, LoadingScreen, FormFields } from '../components';
+import { Products } from "../fresa";
+import $t from 'i18n';
+import { Formik, Field } from 'formik';
+import { productValidation } from "../helpers/validators";
+import * as ImagePicker from 'expo-image-picker';
+import { BigNumber } from "ethers";
 
 const Product = ({ navigation }) => {
     const connector = useWalletConnect();
@@ -24,70 +28,64 @@ const Product = ({ navigation }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [messageProduct, setMessageProduct] = useState("");
     const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(0);
 
     useEffect(()=>{
         readProductCount();
     },[connector])
 
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
+    };
+
     const readProductCount = async () => {
-        try {    
-            const readProductCount = await appContext.contract.readProductCount(appContext.address);
-            const _productsLength = await readProductCount.toString();
-
-            if (_productsLength == 0) {
-                setMessageProduct("You have not yet added any products to your Fresa Storefront.")
-            } else {
-                const _products = []
-                for (let i = 0; i < _productsLength; i++) {
-                    let _product = new Promise(async (resolve, reject) => {
-                    let p = await appContext.contract.readProduct(appContext.address, i)
-                    resolve({
-                        index: i,
-                        key: i,
-                        owner: p[0],
-                        name: p[1],
-                        image: p[2],
-                        description: p[3],
-                        price: p[4].toString(),
-                        sold: p[5].toString(),
-                        qty: p[6].toString(),
-                        active: p[7]
-                    })
-                    })
-                    _products.push(_product)
-                }
-                setProducts(await Promise.all(_products))
-            }
-        } catch (e) {
-            // setMessageProduct(e.errorArgs[0])
-            // console.error(e);
+        let _products = await Products.getProducts(appContext, appContext.address)
+        if (_products.length == 0) {
+            setMessageProduct("You have not yet added any products to your Fresa Storefront.")
+        } else {
+            setProducts(await Promise.all(_products))
         }
+        setLoading(1)
       };
 
-    const writeProduct = async (_name, _image, _description, _price,_qty, _active) => {
-        try {
-            const signed = await appContext.contract.populateTransaction["writeProduct"](
-                _name, _image, _description, _price,_qty, _active, {
-                    from: appContext.address
-                });
-        
-              console.log({ signed });
-        
-              const signedResponse = await connector.signTransaction({
-                ...signed,
-                gasLimit: 1500000
-              });
-              console.log({ signedResponse });
-        
-              const res = await connector.sendTransaction(signed);
-              console.log({ res });
-              setIsVisible(false)
-              readProductCount();
 
-            } catch (e) {
-        //   console.error(e);
-        }
-      };
+
+    // const submitProduct = async (_name, _image, _description, _price,_qty, _active) => {
+    //     try {
+    //         const signed = await appContext.contract.populateTransaction["writeProduct"](
+    //             _name, _image, _description, _price,_qty, _active, {
+    //                 from: appContext.address
+    //             });
+        
+    //           console.log({ signed });
+        
+    //           const signedResponse = await connector.signTransaction({
+    //             ...signed,
+    //             gasLimit: 1500000
+    //           });
+    //           console.log({ signedResponse });
+        
+    //           const res = await connector.sendTransaction(signed);
+    //           console.log({ res });
+    //           setIsVisible(false)
+    //           readProductCount();
+
+    //         } catch (e) {
+    //     //   console.error(e);
+    //     }
+    //   };
 
     function renderHeader() {
         return (
@@ -109,13 +107,41 @@ const Product = ({ navigation }) => {
     }
 
     function ProductModal() {
-        const [name, setName] = useState("")
-        const [image, setImage] = useState("")
-        const [description, setDescription] = useState("")
-        const [price, setPrice] = useState("")
-        const [qty, setQty] = useState(0)
+        const [productName, setProductName] = useState("Carne Asada Taco")
+        const [productImage, setProductImage] = useState("https://foodieandwine.com/wp-content/uploads/2020/05/CarneAsadaTacos.jpg")
+        const [productDescription, setProductDescription] = useState("Housemade tortilla, Carne Asada diced onions and cilantro.")
+        const [productPrice, setProductPrice] = useState(2.75)
+        const [productQty, setProductQty] = useState(3)
+        const [productStatus, setProductStatus] = useState(1);
 
-        const [status, setStatus] = useState(true);
+        const submitProduct = async (data) => {
+            // await Products.writeProduct(appContext, connector, data.productName, 
+            //     data.productImage, data.productDescription, data.productPrice, data.productQty, data.productStatus, appContext.address)
+            // @TODO bug Cannot read properties of undefined (reading 'length')
+            try {
+                const signed = await appContext.contract.populateTransaction["writeProduct"](
+                    data.productName, data.productImage, data.productDescription, BigNumber.from(data.productPrice * 10 ** 8).toNumber(), 
+                    data.productQty,  data.productStatus, {
+                        from: appContext.address
+                    });
+            
+                    console.log({ signed });
+            
+                    const signedResponse = await connector.signTransaction({
+                    ...signed,
+                    gasLimit: 1500000
+                    });
+                    console.log({ signedResponse });
+            
+                    const res = await connector.sendTransaction(signed);
+                    console.log({ res });
+                    setIsVisible(false)
+                    readProductCount();
+    
+                } catch (e) {
+                  console.error(e);
+                }
+        }
 
         const radio_props = [
             {label: 'active', value: true },
@@ -124,98 +150,60 @@ const Product = ({ navigation }) => {
         return (
           <View>
             <Modal onRequestClose={() => setIsVisible(false)} transparent visible={isVisible}>
-              <View style={styles.containeraltModal}>
-                <View style={styles.container_input}>
-                    <Animated.View style={[styles.animatedStyle]}>
-                        <Text style={styles.label}>Your product name</Text>
-                    </Animated.View>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.input}
-                        editable={true}
-                        value={name}
-                        onChangeText={setName}
-                        blurOnSubmit
-                    />
-                </View>
-                <View style={styles.container_input}>
-                    <Animated.View style={[styles.animatedStyle]}>
-                        <Text style={styles.label}>Image url</Text>
-                    </Animated.View>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.input}
-                        editable={true}
-                        value={image}
-                        onChangeText={setImage}
-                        blurOnSubmit
-                    />
-                </View>
-                <View style={styles.container_input}>
-                    <Animated.View style={[styles.animatedStyle]}>
-                        <Text style={styles.label}>Description</Text>
-                    </Animated.View>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.input}
-                        editable={true}
-                        value={description}
-                        onChangeText={setDescription}
-                        blurOnSubmit
-                    />
-                </View>
-                <View style={styles.container_input}>
-                    <Animated.View style={[styles.animatedStyle]}>
-                        <Text style={styles.label}>Price</Text>
-                    </Animated.View>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.input}
-                        editable={true}
-                        value={price}
-                        onChangeText={setPrice}
-                        blurOnSubmit
-                    />
-                </View>
-                <View style={styles.container_input}>
-                    <Animated.View style={[styles.animatedStyle]}>
-                        <Text style={styles.label}>Qty</Text>
-                    </Animated.View>
-                    <TextInput
-                        autoCapitalize={"none"}
-                        style={styles.input}
-                        editable={true}
-                        value={qty}
-                        onChangeText={setQty}
-                        blurOnSubmit
-                    />
-                </View>
-                <View>
-                    <RadioForm
-                        style={{justifyContent:'space-between', padding: 15}}
-                        radio_props={radio_props}
-                        initial={0}
-                        formHorizontal={true}
-                        animation={true}
-                        value={status}
-                        onPress={(value) => setStatus(value)}
-                    />
-                </View>
-                <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent:'space-between', direction: "rtl", padding: 15}}>
-                    <TouchableOpacity
-                        style={styles.buttonModalAdd}
-                        onPress={() => writeProduct(name, image, description, price, qty, status)}
-                        >
-                        <Text style={{color: 'white', ...FONTS.h3}}>Add</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.buttonModalClose}
-                        onPress={() => setIsVisible(false)}
-                        >
-                        <Text style={{color: 'white', ...FONTS.h3}}>Close</Text>
-                    </TouchableOpacity>
-                </View>
-              </View>
+                <Formik
+                        enableReinitialize
+                        initialValues={{ productName: productName, productDescription: productDescription, productPrice: productPrice, productQty: productQty, productStatus: productStatus }}
+                        onSubmit={submitProduct}
+                        validationSchema={productValidation}
+                    >
+                    {({ handleSubmit }) => (
+                        <View style={styles.container_input}>
+                            <Field name="productName" component={FormFields} placeholder={$t('input.productName')} style={styles.input}/>
+                            <Field name="productDescription" component={FormFields} placeholder={$t('input.productDescription')} 
+                                style={[styles.input, styles.inputMulti]} numberOfLines={4} multiline/>
+                            <View style={{flexDirection: 'row', flexWrap: 'nowrap', justifyContent:'space-between', width: '90%'}}>
+                                <Field name="productPrice" component={FormFields} placeholder={$t('input.productPrice')} 
+                                    style={[styles.input, {width: "80%", alignSelf:'flex-start'}]}/>
+                                <Field name="productQty" component={FormFields} placeholder={$t('input.productQty')} 
+                                    style={[styles.input, , {width: "80%", alignSelf:'flex-start'}]}/>
+                            </View>
+                            <TouchableOpacity
+                                style={styles.buttonUploadImage}
+                                onPress={pickImage}>
+                                {productImage ? <Image source={{ uri: {productImage} }} style={{width: '100%', height: 200}} resizeMode='contain'></Image> :
+                                <View>
+                                    <Image source={productImage.imageUpload} style={styles.imageUpload} resizeMode='contain'></Image>
+                                    <Text style={{color: COLORS.lightGray5, marginTop: 10}}>Upload Image</Text>
+                                </View>}
+                            </TouchableOpacity>
+                            <View>
+                                <RadioForm
+                                    style={{justifyContent:'space-between', padding: 15}}
+                                    radio_props={radio_props}
+                                    initial={0}
+                                    formHorizontal={true}
+                                    animation={true}
+                                    value={productStatus}
+                                    onPress={(value) => setProductStatus(value)}
+                                />
+                            </View>
+                            <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent:'space-between', direction: "rtl", padding: 15}}>
+                                <TouchableOpacity
+                                    style={styles.buttonModalAdd}
+                                    onPress={handleSubmit}
+                                    >
+                                    <Text style={{color: 'white', ...FONTS.h3}}>Add</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.buttonModalClose}
+                                    onPress={() => setIsVisible(false)}
+                                    >
+                                    <Text style={{color: 'white', ...FONTS.h3}}>Close</Text>
+                                </TouchableOpacity>
+                            </View>
+                       </View>
+                    )}
+                </Formik>
             </Modal>
           </View>
         );
@@ -226,7 +214,8 @@ const Product = ({ navigation }) => {
             {renderHeader()}
             {renderSubNav()}
             <Text style={{ color: "#767070", alignItems: "center" }}>{messageProduct}</Text>
-            {products.length >0 ? renderProducts() : <View></View>}
+            {loading ? renderProducts() : <LoadingScreen/>}
+
             <TouchableOpacity
                 activeOpacity={0.7}
                 style={styles.touchableOpacityStyle}
@@ -248,16 +237,22 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white
     },
     container_input: {
-        marginBottom: 10,
-        marginTop: 20,
+        marginBottom: 20,
+        marginTop: 30,
         backgroundColor: "#fff",
-        paddingTop: 5,
         paddingHorizontal: 10,
         borderWidth: 1,
-        borderColor: "#bdbdbd",
-        borderRadius: 2,
+        borderColor: "#FFFFFF",
+        borderRadius: 10,
         width: "90%",
         alignSelf: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 2,
+        shadowRadius: 2,
       },
     label: {
         color: "grey",
@@ -265,8 +260,19 @@ const styles = StyleSheet.create({
     },
     input: {
         fontSize: 13,
-        height: 35,
-        // outlineStyle: 'none'
+        height: 45,
+        marginTop: 20,
+        backgroundColor: "#fff",
+        borderWidth: 1,
+        borderColor: "#000000",
+        borderRadius: 10,
+        width: "100%",
+        alignSelf: "center",
+        paddingHorizontal: 10,
+        paddingVertical:10
+    },
+    inputMulti: {
+        height: 85,
     },
     centeredView: {
         flex: 1,
@@ -295,16 +301,6 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         elevation: 1,
         backgroundColor: COLORS.white
-    },
-    shadow: {
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 1,
     },
     touchableOpacityStyle: {
         position: 'absolute',
@@ -348,18 +344,36 @@ const styles = StyleSheet.create({
         margin: 'auto'
     },
     buttonModalClose: {
-        paddingVertical: 6,
-        paddingHorizontal: 20,
-        borderRadius: 4,
+        paddingVertical: 10,
+        paddingHorizontal: 40,
+        borderRadius: 20,
         elevation: 1,
         backgroundColor: COLORS.darkgray,
     },
     buttonModalAdd: {
-        paddingVertical: 6,
-        paddingHorizontal: 20,
-        borderRadius: 4,
+        paddingVertical: 10,
+        paddingHorizontal: 40,
+        borderRadius: 20,
         elevation: 1,
         backgroundColor: COLORS.pink,
+    },
+    buttonUploadImage: {
+        marginTop: SIZES.padding,
+        width: 300,
+        height: 200,
+        backgroundColor: COLORS.grayMedium2,
+        borderRadius: 30,
+        borderStyle: 'dashed',
+        borderWidth: 2,
+        borderColor: COLORS.black,
+        flexDirection: 'column', 
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    imageUpload: {
+        width: '100%',
+        height: 80
     },
 })
 
