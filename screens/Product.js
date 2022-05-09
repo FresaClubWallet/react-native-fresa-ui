@@ -20,6 +20,7 @@ import $t from 'i18n';
 import { Formik, Field } from 'formik';
 import { productValidation } from "../helpers/validators";
 import * as ImagePicker from 'expo-image-picker';
+import Toast from 'react-native-toast-message';
 
 const Product = ({ navigation }) => {
     const connector = useWalletConnect();
@@ -28,7 +29,41 @@ const Product = ({ navigation }) => {
     const [messageProduct, setMessageProduct] = useState("");
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(0);
-    // appContext.disConnectWallet()
+    const [productName, setProductName] = useState()
+    const [productImage, setProductImage] = useState("https://foodieandwine.com/wp-content/uploads/2020/05/CarneAsadaTacos.jpg")
+    const [productDescription, setProductDescription] = useState("")
+    const [productPrice, setProductPrice] = useState()
+    const [productQty, setProductQty] = useState()
+    const [productStatus, setProductStatus] = useState(true);
+    const [productIndex, setProductIndex] = useState("");
+
+    // Success
+    const showToast = () => {
+        Toast.show({
+          type: 'success',
+          text1: 'Successfully',
+          text2: 'You have successfully updated 👋'
+        });
+      }
+
+    // write or edit
+    const submitProduct = async (data) => {
+        if(typeof productIndex == 'number'){
+            // edit
+            await Products.editProduct(appContext, connector, productIndex, data.productName, 
+                productImage, data.productDescription, data.productPrice, data.productQty, data.productStatus, appContext.address)
+        } else {
+            // write
+            await Products.writeProduct(appContext, connector, data.productName, 
+                productImage, data.productDescription, data.productPrice, data.productQty, data.productStatus, appContext.address)
+        }
+
+        setIsVisible(false)
+        readProductCount();
+        showToast();
+        setProductIndex("") // clear 
+    }
+
     useEffect(()=>{
         readProductCount();
     },[connector])
@@ -74,25 +109,14 @@ const Product = ({ navigation }) => {
 
     function renderProducts() {
         return (
-            <ProductsList products={products}></ProductsList>
+            <ProductsList products={products} setProductIndex={setProductIndex} setIsVisible={setIsVisible} 
+            setProductName={setProductName} setProductDescription={setProductDescription} setProductPrice={setProductPrice} 
+            setProductQty={setProductQty} setProductStatus={setProductStatus}>
+            </ProductsList>
         )
     }
 
     function ProductModal() {
-        const [productName, setProductName] = useState("Carne Asada Taco")
-        const [productImage, setProductImage] = useState("https://foodieandwine.com/wp-content/uploads/2020/05/CarneAsadaTacos.jpg")
-        const [productDescription, setProductDescription] = useState("Housemade tortilla, Carne Asada diced onions and cilantro.")
-        const [productPrice, setProductPrice] = useState(2)
-        const [productQty, setProductQty] = useState(3)
-        const [productStatus, setProductStatus] = useState(true);
-
-        const submitProduct = async (data) => {
-            await Products.writeProduct(appContext, connector, data.productName, 
-                productImage, data.productDescription, data.productPrice, data.productQty, data.productStatus, appContext.address)
-            setIsVisible(false)
-            readProductCount();
-        }
-
         const radio_props = [
             {label: 'active', value: true },
             {label: 'deactive', value: false }

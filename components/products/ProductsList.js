@@ -8,7 +8,16 @@ const ProductsList = (props) => {
     const renderProduct = (product) => {
         if (product) {
             return (
-                <TouchableOpacity key={product.index} style={styles.ItemTouchElement}>
+                <TouchableOpacity key={product.index} style={styles.ItemTouchElement} onPress={() => {
+                        props.setProductIndex(product.index)
+                        props.setProductName(product.name)
+                        props.setProductDescription(product.description)
+                        props.setProductPrice(product.price)
+                        props.setProductQty(product.qty)
+                        props.setProductStatus(product.active)
+                        props.setIsVisible(true)}
+                    }
+                    >
                     <View  style={{ flexDirection: 'row', flexWrap: 'nowrap' }}>
                         <Image
                             resizeMode="cover"

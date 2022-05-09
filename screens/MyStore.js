@@ -17,6 +17,7 @@ import {SubNav, Header, AppContext, LoadingScreen, ErrorText, FormFields } from 
 import { storeFrontValidation } from "../helpers/validators";
 import $t from 'i18n';
 import { Storefront } from "../fresa";
+import Toast from 'react-native-toast-message';
 
 const MyStore = ({ navigation }) => {
     const connector = useWalletConnect();
@@ -34,6 +35,16 @@ const MyStore = ({ navigation }) => {
     const [image, setImage] = useState("");
     const [active, setActive] = useState(1);
     const [loading, setLoading] = useState(0);
+
+    // Success
+    const showToast = () => {
+        Toast.show({
+          type: 'success',
+          text1: 'Successfully',
+          text2: 'You have successfully updated 👋'
+        });
+      }
+
 
     useEffect(()=>{
         readStoreFront();
@@ -78,6 +89,7 @@ const MyStore = ({ navigation }) => {
             data.storeDescription, storeLat, storeLong, active, appContext.address)
        
         readStoreFront();
+        showToast();
       };
 
     function renderHeader() {

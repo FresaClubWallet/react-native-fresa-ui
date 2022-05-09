@@ -64,14 +64,20 @@ const Products =  {
     editProduct: async function(AppContext, Connector,_index, _name, _image, _description, _price, _qty, _active, _address){
         try {
             const signed = await AppContext.contract.populateTransaction["editProduct"](
-                _index, _name, _image, _description, BigNumber.from(_price), _qty, _active, {
+                _index, _name, _image, _description, _price, _qty, _active, {
                 from: _address
             });
+            console.log({ signed });
+
             const signedResponse = await Connector.signTransaction({
                 ...signed,
                 gasLimit: 1500000
             });
+            console.log({ signedResponse });
+
             const res = await Connector.sendTransaction(signed);
+            console.log({ res });
+
         } catch (e) {
             console.error(e);
             return false;
