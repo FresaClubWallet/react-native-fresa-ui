@@ -9,7 +9,7 @@ const ProductsList = (props) => {
         if (product) {
             return (
                 <TouchableOpacity key={product.index} style={styles.ItemTouchElement}>
-                    <View  style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                    <View  style={{ flexDirection: 'row', flexWrap: 'nowrap' }}>
                         <Image
                             resizeMode="cover"
                             source={{uri: product.image}}

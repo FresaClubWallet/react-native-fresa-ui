@@ -20,7 +20,6 @@ import $t from 'i18n';
 import { Formik, Field } from 'formik';
 import { productValidation } from "../helpers/validators";
 import * as ImagePicker from 'expo-image-picker';
-import { BigNumber } from "ethers";
 
 const Product = ({ navigation }) => {
     const connector = useWalletConnect();
@@ -29,7 +28,7 @@ const Product = ({ navigation }) => {
     const [messageProduct, setMessageProduct] = useState("");
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(0);
-
+    // appContext.disConnectWallet()
     useEffect(()=>{
         readProductCount();
     },[connector])
@@ -60,33 +59,6 @@ const Product = ({ navigation }) => {
         setLoading(1)
       };
 
-
-
-    // const submitProduct = async (_name, _image, _description, _price,_qty, _active) => {
-    //     try {
-    //         const signed = await appContext.contract.populateTransaction["writeProduct"](
-    //             _name, _image, _description, _price,_qty, _active, {
-    //                 from: appContext.address
-    //             });
-        
-    //           console.log({ signed });
-        
-    //           const signedResponse = await connector.signTransaction({
-    //             ...signed,
-    //             gasLimit: 1500000
-    //           });
-    //           console.log({ signedResponse });
-        
-    //           const res = await connector.sendTransaction(signed);
-    //           console.log({ res });
-    //           setIsVisible(false)
-    //           readProductCount();
-
-    //         } catch (e) {
-    //     //   console.error(e);
-    //     }
-    //   };
-
     function renderHeader() {
         return (
             <Header navigation={navigation}></Header>
@@ -110,37 +82,15 @@ const Product = ({ navigation }) => {
         const [productName, setProductName] = useState("Carne Asada Taco")
         const [productImage, setProductImage] = useState("https://foodieandwine.com/wp-content/uploads/2020/05/CarneAsadaTacos.jpg")
         const [productDescription, setProductDescription] = useState("Housemade tortilla, Carne Asada diced onions and cilantro.")
-        const [productPrice, setProductPrice] = useState(2.75)
+        const [productPrice, setProductPrice] = useState(2)
         const [productQty, setProductQty] = useState(3)
-        const [productStatus, setProductStatus] = useState(1);
+        const [productStatus, setProductStatus] = useState(true);
 
         const submitProduct = async (data) => {
-            // await Products.writeProduct(appContext, connector, data.productName, 
-            //     data.productImage, data.productDescription, data.productPrice, data.productQty, data.productStatus, appContext.address)
-            // @TODO bug Cannot read properties of undefined (reading 'length')
-            try {
-                const signed = await appContext.contract.populateTransaction["writeProduct"](
-                    data.productName, data.productImage, data.productDescription, BigNumber.from(data.productPrice * 10 ** 8).toNumber(), 
-                    data.productQty,  data.productStatus, {
-                        from: appContext.address
-                    });
-            
-                    console.log({ signed });
-            
-                    const signedResponse = await connector.signTransaction({
-                    ...signed,
-                    gasLimit: 1500000
-                    });
-                    console.log({ signedResponse });
-            
-                    const res = await connector.sendTransaction(signed);
-                    console.log({ res });
-                    setIsVisible(false)
-                    readProductCount();
-    
-                } catch (e) {
-                  console.error(e);
-                }
+            await Products.writeProduct(appContext, connector, data.productName, 
+                productImage, data.productDescription, data.productPrice, data.productQty, data.productStatus, appContext.address)
+            setIsVisible(false)
+            readProductCount();
         }
 
         const radio_props = [

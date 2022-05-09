@@ -72,32 +72,12 @@ const MyStore = ({ navigation }) => {
         }
         setLoading(1)
       };
-      
-    // const submitStoreFront = async () => {
-    //     await Storefront.writeStorefront(appContext ,connector, storeName, storeImage, storeDescription, storeLat, storeLong, active, appContext.address)
-    // }
 
-    const submitStoreFront = async () => {
-        try {
-            const signed = await appContext.contract.populateTransaction["writeStoreFront"](
-                storeName, storeImage, storeDescription, storeLat, storeLong, active, {
-                    from: appContext.address
-                });
-        
-              console.log({ signed });
-        
-              const signedResponse = await connector.signTransaction({
-                ...signed,
-                gasLimit: 1500000
-              });
-              console.log({ signedResponse });
-        
-              const res = await connector.sendTransaction(signed);
-              console.log({ res });
-              readStoreFront();
-        } catch (e) {
-          console.error(e);
-        }
+    const submitStoreFront = async (data) => {
+        await Storefront.writeStorefront(appContext ,connector, data.storeName, storeImage, 
+            data.storeDescription, storeLat, storeLong, active, appContext.address)
+       
+        readStoreFront();
       };
 
     function renderHeader() {

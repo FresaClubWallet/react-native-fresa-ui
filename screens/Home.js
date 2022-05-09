@@ -12,7 +12,8 @@ import { useWalletConnect } from '@walletconnect/react-native-dapp';
 
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
-import {SubNav, Header, AppContext, MyProductsSlider } from '../components';
+import {SubNav, Header, AppContext, MyProductsSlider, LoadingScreen } from '../components';
+import { Products } from "../fresa";
 
 const products = [];
 
@@ -21,44 +22,20 @@ const Home = ({ navigation }) => {
     const appContext = useContext(AppContext);
     const [products, setProducts] = useState([])
     const [messageProduct, setMessageProduct] = useState("");
+    const [loading, setLoading] = useState(0);
 
     useEffect(()=>{
         readProductCount();
     },[connector])
 
     const readProductCount = async () => {
-        try {    
-            const readProductCount = await appContext.contract.readProductCount(appContext.address);
-            const _productsLength = await readProductCount.toString();
-
-            if (_productsLength == 0) {
-                setMessageProduct("You have not yet added any products to your Fresa Storefront.")
-            } else {
-                const _products = []
-                for (let i = 0; i < _productsLength; i++) {
-                    let _product = new Promise(async (resolve, reject) => {
-                    let p = await appContext.contract.readProduct(appContext.address, i)
-                    resolve({
-                        index: i,
-                        key: i,
-                        owner: p[0],
-                        name: p[1],
-                        image: p[2],
-                        description: p[3],
-                        price: p[4].toString(),
-                        sold: p[5].toString(),
-                        qty: p[6].toString(),
-                        active: p[7]
-                    })
-                    })
-                    _products.push(_product)
-                }
-                setProducts(await Promise.all(_products));
-            }
-        } catch (e) {
-            //setMessageProduct(e.errorArgs[0]);
-            //console.error(e);
+        let _products = await Products.getProducts(appContext, appContext.address)
+        if (_products.length == 0) {
+            setMessageProduct("You have not yet added any products to your Fresa Storefront.")
+        } else {
+            setProducts(await Promise.all(_products))
         }
+        setLoading(1)
       };
 
     function renderHeader() {
@@ -83,7 +60,7 @@ const Home = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {renderSubNav()}
-            {products.length >0 ? renderProducts() : <View></View>}
+            {loading ? renderProducts() : <LoadingScreen/>}
         </SafeAreaView>
     )
 }

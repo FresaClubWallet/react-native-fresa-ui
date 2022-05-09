@@ -11,17 +11,17 @@ const Products =  {
         const exists = await AppContext.contract.readProductExists(_address, _index);
         return exists;
     },
-    getProduct: async function (_address, _index) {
+    getProduct: async function (AppContext, _address, _index) {
         const product = await AppContext.contract.readProduct(_address, _index);
         return product;
     },
     getProducts: async function (AppContext, _address) {
-        let _pcount = await Products.getProductCount(AppContext, _address);
+        let _pcount = await this.getProductCount(AppContext, _address);
         let _products = [];
 
         for (let i = 0; i < _pcount; i++) {
             let _p = new Promise(async (resolve, reject) => {
-                let p = await Products.getProduct(_address, i)
+                let p = await this.getProduct(AppContext, _address, i)
                 resolve({
                     index: i,
                     key: i,
@@ -40,18 +40,21 @@ const Products =  {
         }
         return await Promise.all(_products);
     },
-    // TODO: have bug can't write
     writeProduct: async function(AppContext, Connector, _name, _image, _description, _price, _qty, _active, _address){
         try {
             const signed = await AppContext.contract.populateTransaction["writeProduct"](
-                _name, _image, _description, BigNumber.from(_price), _qty, _active, {
+                _name, _image, _description, _price, _qty, _active, {
                 from: _address
             });
+            console.log({ signed });
+
             const signedResponse = await Connector.signTransaction({
                 ...signed,
                 gasLimit: 1500000
             });
+            console.log({ signedResponse });
             const res = await Connector.sendTransaction(signed);
+            console.log({ res });
         } catch (e) {
             console.error(e);
             return false;
