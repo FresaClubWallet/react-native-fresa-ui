@@ -27,7 +27,7 @@ export const AppProvider = ({ children }) => {
             disConnectWallet();
         } else {
           setAddress(connector.accounts[0])
-          const none = await provider.getBalance(CHAIN_DATA.cUSD_ADDRESS)
+          const none = await provider.getBalance(address)
           let q = await ethers.utils.formatEther(none)
           setBalance((+q).toFixed(2))
         }
